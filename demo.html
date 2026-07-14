@@ -1,0 +1,1677 @@
+<title>Demo Preview — HarborTech AI</title>
+<style>
+/* ─── Tokens ──────────────────────────────────────────────────── */
+:root {
+  --navy:    #0D1F3C;
+  --copper:  #C8752A;
+  --cream:   #F7F3ED;
+  --slate:   #6B8299;
+  --text:    #1A1A1A;
+  --muted:   #9A9086;
+  --border:  #DDD8D0;
+  --surface: #FFFFFF;
+  --ground:  #F7F3ED;
+  --shadow:  rgba(13,31,60,0.10);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground:  #0F1319;
+    --surface: #19222E;
+    --text:    #E8E4DF;
+    --muted:   #7A7268;
+    --border:  #2A3848;
+    --copper:  #D4883C;
+    --slate:   #7A9CB8;
+    --shadow:  rgba(0,0,0,0.35);
+  }
+}
+:root[data-theme="light"] {
+  --ground:#F7F3ED; --surface:#FFF; --text:#1A1A1A;
+  --muted:#9A9086; --border:#DDD8D0; --copper:#C8752A; --slate:#6B8299; --shadow:rgba(13,31,60,0.10);
+}
+:root[data-theme="dark"] {
+  --ground:#0F1319; --surface:#19222E; --text:#E8E4DF;
+  --muted:#7A7268; --border:#2A3848; --copper:#D4883C; --slate:#7A9CB8; --shadow:rgba(0,0,0,0.35);
+}
+
+/* ─── Reset ───────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--ground);color:var(--text);line-height:1.65;transition:background .25s,color .25s}
+img{max-width:100%}
+a{color:var(--copper);text-decoration:none}
+button{cursor:pointer;border:none;font:inherit}
+
+/* ─── Toolbar ─────────────────────────────────────────────────── */
+#toolbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: #0D1F3C;
+  border-bottom: 3px solid var(--copper);
+  padding: 10px 16px;
+  transition: transform .3s;
+}
+#toolbar.hidden { transform: translateY(-110%); }
+.tb-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.tb-logo {
+  font-size: 13px; font-weight: 700; letter-spacing: .08em;
+  color: var(--copper); text-transform: uppercase; white-space: nowrap;
+  margin-right: 8px;
+}
+.tb-logo span { color: #fff; font-weight: 400; }
+.tb-fields {
+  display: flex; gap: 10px; flex: 1; flex-wrap: wrap; align-items: flex-end;
+}
+.tb-field { display: flex; flex-direction: column; gap: 3px; min-width: 130px; }
+.tb-field label {
+  font-size: 9px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: #7A9CB8;
+}
+.tb-field input, .tb-field select {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 4px; color: #fff; padding: 5px 8px; font-size: 13px;
+  outline: none; width: 100%;
+}
+.tb-field input:focus, .tb-field select:focus { border-color: var(--copper); }
+.tb-field select option { background: #0D1F3C; color: #fff; }
+.tb-actions { display: flex; gap: 8px; align-items: flex-end; }
+.btn-pricing {
+  background: rgba(255,255,255,0.1); color: #fff; padding: 6px 14px;
+  border-radius: 4px; font-size: 12px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase; white-space: nowrap;
+  transition: background .2s; border: 1px solid rgba(255,255,255,.2);
+}
+.btn-pricing:hover { background: rgba(255,255,255,.18); }
+.btn-present {
+  background: var(--copper); color: #fff; padding: 6px 14px;
+  border-radius: 4px; font-size: 12px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase; white-space: nowrap;
+  transition: opacity .2s;
+}
+.btn-present:hover { opacity: .85; }
+
+/* ─── Existing site toggle ────────────────────────────────────── */
+.pm-existing-row {
+  display: flex; align-items: center; gap: 9px;
+  background: rgba(107,130,153,.07); border: 1px solid var(--border);
+  border-radius: 3px; padding: 10px 14px; margin-bottom: 14px; cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.pm-existing-row.active { background: rgba(107,130,153,.15); border-color: var(--slate); }
+.pm-existing-row input { accent-color: var(--slate); cursor: pointer; flex-shrink: 0; }
+.pm-existing-row label { font-size: 13px; color: var(--text); cursor: pointer; line-height: 1.4; }
+.pm-existing-row label span { color: var(--muted); font-size: 12px; }
+.pm-build-section { transition: opacity .2s; }
+.pm-build-section.dimmed { opacity: .3; pointer-events: none; }
+
+/* ─── Pricing modal interactive cards ────────────────────────── */
+.pm-card { cursor: pointer; transition: border-color .15s, background .15s; }
+.pm-card.pm-sel { border-color: var(--copper) !important; background: rgba(200,117,42,.08) !important; }
+.pm-price-bar {
+  background: var(--navy); border-radius: 3px; padding: 16px 22px;
+  margin-top: 20px; display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.pm-bar-left { display: flex; flex-direction: column; gap: 3px; }
+.pm-bar-label { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.3); }
+.pm-bar-build { font-family: Georgia,'Times New Roman',serif; font-size: 26px; font-weight: bold; color: var(--copper); line-height: 1; }
+.pm-bar-mo { font-size: 14px; color: rgba(255,255,255,.6); margin-top: 2px; }
+.pm-bar-right { text-align: right; }
+.pm-bar-12 { font-size: 13px; color: rgba(255,255,255,.4); }
+.pm-bar-24 { font-size: 15px; font-weight: 700; color: rgba(255,255,255,.7); margin-top: 2px; }
+.pm-bundle-dynamic {
+  display: flex; align-items: flex-start; gap: 8px;
+  background: rgba(200,117,42,.07); border: 1px solid rgba(200,117,42,.22);
+  border-radius: 3px; padding: 11px 14px; margin-top: 10px; cursor: pointer;
+}
+.pm-bundle-dynamic.hidden { display: none; }
+.pm-bundle-dynamic input { accent-color: var(--copper); margin-top: 2px; flex-shrink: 0; }
+.pm-bundle-dynamic label { font-size: 13px; color: var(--text); cursor: pointer; line-height: 1.45; }
+.pm-bundle-dynamic label strong { color: var(--copper); }
+
+/* ─── Pricing Modal ───────────────────────────────────────────── */
+.pricing-overlay {
+  display: none; position: fixed; inset: 0; z-index: 3000;
+  background: rgba(7,17,30,.88); backdrop-filter: blur(4px);
+  overflow-y: auto; padding: 40px 20px;
+}
+.pricing-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+.pricing-modal {
+  background: var(--surface); border-radius: 4px;
+  max-width: 940px; width: 100%; padding: 48px;
+  position: relative; margin: auto;
+}
+.pm-close {
+  position: absolute; top: 16px; right: 20px;
+  background: none; color: var(--muted); font-size: 22px;
+  line-height: 1; padding: 4px 8px; border-radius: 4px;
+  transition: color .2s;
+}
+.pm-close:hover { color: var(--text); }
+.pm-header { margin-bottom: 36px; text-align: center; }
+.pm-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--copper); margin-bottom: 10px;
+}
+.pm-title {
+  font-family: Georgia,'Times New Roman',serif;
+  font-size: 30px; font-weight: bold; color: var(--text); margin-bottom: 8px;
+}
+.pm-sub { font-size: 15px; color: var(--muted); }
+.pm-section-label {
+  font-size: 12px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--slate);
+  border-bottom: 1px solid var(--border); padding-bottom: 10px;
+  margin: 32px 0 20px;
+}
+.pm-cards {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+}
+.pm-card {
+  border: 1.5px solid var(--border); border-radius: 4px;
+  padding: 24px 20px; display: flex; flex-direction: column; gap: 10px;
+}
+.pm-card.featured { border-color: var(--copper); }
+.pm-card-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--copper);
+}
+.pm-card-name { font-weight: 700; font-size: 17px; color: var(--text); }
+.pm-price {
+  font-family: Georgia,'Times New Roman',serif;
+  font-size: 34px; font-weight: bold; color: var(--text); line-height: 1.1;
+}
+.pm-price sup { font-size: 18px; vertical-align: super; }
+.pm-price .pm-mo { font-size: 14px; font-weight: 400; color: var(--muted); }
+.pm-items { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-top: 4px; }
+.pm-items li { font-size: 13px; color: var(--muted); padding-left: 18px; position: relative; line-height: 1.4; }
+.pm-items li::before { content: '✓'; position: absolute; left: 0; color: var(--copper); font-weight: 700; }
+.pm-bundle {
+  background: rgba(200,117,42,.08); border: 1px solid rgba(200,117,42,.25);
+  border-radius: 4px; padding: 14px 18px; margin-top: 16px;
+  font-size: 14px; color: var(--text); line-height: 1.6;
+}
+.pm-bundle strong { color: var(--copper); }
+.pm-note {
+  font-size: 12px; color: var(--muted); font-style: italic; margin-top: 14px; text-align: center;
+}
+@media (max-width: 660px) {
+  .pm-cards { grid-template-columns: 1fr; }
+  .pricing-modal { padding: 28px 20px; }
+}
+.btn-exit-present {
+  position: fixed; bottom: 20px; right: 20px; z-index: 2000;
+  background: var(--copper); color: #fff; padding: 10px 18px;
+  border-radius: 6px; font-size: 13px; font-weight: 700;
+  box-shadow: 0 4px 16px rgba(0,0,0,.3); display: none;
+}
+
+/* ─── Toolbar row 2 ───────────────────────────────────────────── */
+.tb-row2 {
+  width: 100%; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding-top: 9px; border-top: 1px solid rgba(255,255,255,.07); margin-top: 4px;
+}
+.tb-row2-label {
+  font-size: 9px; font-weight: 700; letter-spacing: .14em;
+  color: rgba(255,255,255,.3); text-transform: uppercase; margin-bottom: 4px;
+}
+.tb-row2-group { display: flex; flex-direction: column; }
+.tb-sep { width: 1px; height: 28px; background: rgba(255,255,255,.1); flex-shrink: 0; }
+.tb-tier-group, .tb-mo-group { display: flex; gap: 3px; }
+.tb-tier-btn, .tb-mo-btn {
+  background: rgba(255,255,255,.07); color: rgba(255,255,255,.5);
+  border: 1px solid rgba(255,255,255,.1); border-radius: 3px;
+  padding: 4px 11px; font-size: 11px; font-weight: 700; letter-spacing: .04em;
+  text-transform: uppercase; cursor: pointer; transition: all .15s; white-space: nowrap;
+}
+.tb-tier-btn.active { background: var(--copper); color: #fff; border-color: var(--copper); }
+.tb-mo-btn.active { background: rgba(200,117,42,.3); color: #fff; border-color: rgba(200,117,42,.6); }
+.tb-tier-btn:hover:not(.active), .tb-mo-btn:hover:not(.active) { background: rgba(255,255,255,.14); color: #fff; }
+.tb-bundle-wrap {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(200,117,42,.1); border: 1px solid rgba(200,117,42,.25);
+  border-radius: 3px; padding: 4px 10px; cursor: pointer;
+}
+.tb-bundle-wrap label { font-size: 11px; color: rgba(255,255,255,.7); cursor: pointer; white-space: nowrap; }
+.tb-bundle-wrap input { accent-color: var(--copper); cursor: pointer; }
+.tb-bundle-wrap.hidden { display: none; }
+.tb-price-badge {
+  margin-left: auto; background: rgba(200,117,42,.12);
+  border: 1px solid rgba(200,117,42,.3); border-radius: 3px;
+  padding: 4px 14px; font-size: 12px; font-weight: 700; color: var(--copper);
+  font-family: Georgia,'Times New Roman',serif; white-space: nowrap; letter-spacing: .02em;
+}
+
+/* ─── Site wrapper ────────────────────────────────────────────── */
+#site { padding-top: 140px; transition: padding-top .3s; }
+#site.present-mode { padding-top: 0; }
+
+/* ─── Nav ─────────────────────────────────────────────────────── */
+.site-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: transparent;
+  transition: background .25s, box-shadow .25s;
+  padding: 0 24px;
+}
+.site-nav.scrolled {
+  background: var(--navy);
+  box-shadow: 0 2px 16px var(--shadow);
+}
+.present-mode .site-nav { top: 0; }
+.nav-inner {
+  max-width: 1140px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.nav-logo {
+  font-family: Georgia,'Times New Roman',serif;
+  font-size: 20px; font-weight: bold; font-style: italic;
+  color: #fff; letter-spacing: -.02em;
+}
+.nav-links {
+  display: flex; gap: 28px; list-style: none;
+}
+.nav-links a {
+  color: rgba(255,255,255,.75); font-size: 14px; font-weight: 500;
+  transition: color .2s;
+}
+.nav-links a:hover { color: #fff; }
+.nav-cta {
+  background: var(--copper); color: #fff;
+  padding: 9px 20px; border-radius: 4px;
+  font-size: 14px; font-weight: 700; white-space: nowrap;
+  transition: opacity .2s;
+}
+.nav-cta:hover { opacity: .85; color: #fff; }
+
+/* ─── Hero ────────────────────────────────────────────────────── */
+#hero {
+  position: relative; overflow: hidden;
+  min-height: 92vh; display: flex; align-items: center;
+  background: var(--navy);
+  margin-top: -64px; padding-top: 64px;
+}
+#hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    -48deg,
+    transparent, transparent 60px,
+    rgba(255,255,255,.018) 60px, rgba(255,255,255,.018) 120px
+  );
+}
+#hero::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 4px; background: var(--copper);
+}
+.hero-content {
+  position: relative; z-index: 1;
+  max-width: 1140px; margin: 0 auto; padding: 80px 24px 100px;
+  max-width: 680px; margin-left: max(24px, calc(50% - 570px));
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--copper);
+  margin-bottom: 20px;
+}
+.hero-eyebrow::before {
+  content: ''; display: block;
+  width: 28px; height: 2px; background: var(--copper);
+}
+.hero-title {
+  font-family: Georgia,'Times New Roman',serif;
+  font-size: clamp(38px, 6vw, 72px);
+  font-weight: bold; font-style: italic;
+  line-height: 1.1; color: #fff;
+  text-wrap: balance;
+  margin-bottom: 22px;
+}
+.hero-title strong {
+  font-style: normal; color: var(--copper);
+}
+.hero-sub {
+  font-size: 17px; color: rgba(255,255,255,.7);
+  margin-bottom: 36px; max-width: 480px; text-wrap: balance;
+}
+.hero-stars {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 36px;
+}
+.stars { color: #F5B944; font-size: 18px; letter-spacing: 2px; }
+.review-text { color: rgba(255,255,255,.7); font-size: 14px; }
+.review-text strong { color: #fff; }
+.hero-btns {
+  display: flex; gap: 14px; flex-wrap: wrap;
+}
+.btn-primary {
+  background: var(--copper); color: #fff;
+  padding: 14px 28px; border-radius: 4px;
+  font-size: 16px; font-weight: 700;
+  transition: opacity .2s; display: inline-block;
+}
+.btn-primary:hover { opacity: .85; color: #fff; }
+.btn-secondary {
+  background: transparent; color: #fff;
+  padding: 14px 28px; border-radius: 4px;
+  font-size: 16px; font-weight: 600;
+  border: 1.5px solid rgba(255,255,255,.35);
+  transition: border-color .2s, color .2s; display: inline-block;
+}
+.btn-secondary:hover { border-color: #fff; color: #fff; }
+
+/* ─── Trust strip ─────────────────────────────────────────────── */
+#trust {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+.trust-inner {
+  max-width: 1140px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: stretch;
+}
+.trust-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 20px 32px; white-space: nowrap;
+  border-right: 1px solid var(--border);
+  font-size: 14px; font-weight: 600; color: var(--text);
+}
+.trust-item:last-child { border-right: none; }
+.trust-icon {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(200,117,42,.12); color: var(--copper);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.trust-icon svg { width: 18px; height: 18px; stroke: var(--copper); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.trust-label { font-size: 11px; font-weight: 400; color: var(--muted); display: block; margin-top: 1px; }
+
+/* ─── Section base ────────────────────────────────────────────── */
+.section { padding: 88px 24px; }
+.section-inner { max-width: 1140px; margin: 0 auto; }
+.section-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--copper);
+  margin-bottom: 12px; display: block;
+}
+.section-title {
+  font-family: Georgia,'Times New Roman',serif;
+  font-size: clamp(28px, 4vw, 44px); font-weight: bold;
+  line-height: 1.18; text-wrap: balance; margin-bottom: 16px;
+}
+.section-sub {
+  font-size: 17px; color: var(--muted);
+  max-width: 520px; margin-bottom: 52px; text-wrap: balance;
+}
+
+/* ─── Services ────────────────────────────────────────────────── */
+#services { background: var(--ground); }
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+}
+.service-card {
+  background: var(--surface); padding: 32px 28px;
+  display: flex; flex-direction: column; gap: 12px;
+  transition: background .2s;
+}
+.service-card:hover { background: var(--ground); }
+.svc-icon {
+  width: 44px; height: 44px; border-radius: 8px;
+  background: rgba(200,117,42,.12);
+  display: flex; align-items: center; justify-content: center;
+}
+.svc-icon svg { width: 22px; height: 22px; stroke: var(--copper); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.svc-name { font-family: Georgia,'Times New Roman',serif; font-size: 19px; font-weight: bold; }
+.svc-desc { font-size: 14px; color: var(--muted); line-height: 1.55; }
+
+/* ─── Why Us ──────────────────────────────────────────────────── */
+#why-us { background: var(--navy); }
+#why-us .section-title,
+#why-us .section-eyebrow { color: inherit; }
+#why-us .section-title { color: #fff; }
+#why-us .section-eyebrow { color: var(--copper); }
+#why-us .section-sub { color: rgba(255,255,255,.6); }
+.why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 40px; }
+.why-point {}
+.why-number {
+  font-family: Georgia,'Times New Roman',serif;
+  font-size: 56px; font-weight: bold; font-style: italic;
+  color: rgba(200,117,42,.3); line-height: 1;
+  margin-bottom: 12px;
+}
+.why-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.why-desc { font-size: 14px; color: rgba(255,255,255,.55); line-height: 1.65; }
+
+/* ─── Testimonials ────────────────────────────────────────────── */
+#testimonials { background: var(--ground); }
+.testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.testi-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 2px; padding: 28px 24px; display: flex; flex-direction: column; gap: 16px;
+}
+.testi-stars { color: #F5B944; font-size: 14px; letter-spacing: 2px; }
+.testi-text { font-size: 15px; line-height: 1.7; color: var(--text); flex: 1; }
+.testi-text::before { content: '\201C'; }
+.testi-text::after  { content: '\201D'; }
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.testi-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--copper); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 16px; flex-shrink: 0;
+}
+.testi-name { font-weight: 700; font-size: 14px; }
+.testi-loc { font-size: 12px; color: var(--muted); }
+
+/* ─── Gallery ─────────────────────────────────────────────────── */
+#gallery { background: var(--surface); }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+}
+@media (max-width: 640px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+.gallery-item {
+  aspect-ratio: 4/3; overflow: hidden; position: relative;
+  background: var(--ground);
+}
+.gallery-item canvas { width: 100%; height: 100%; display: block; }
+.gallery-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,.65));
+  color: #fff; font-size: 12px; font-weight: 600;
+  padding: 20px 12px 10px; opacity: 0;
+  transition: opacity .2s;
+}
+.gallery-item:hover .gallery-label { opacity: 1; }
+
+/* ─── Service Areas ────────────────────────────────────────────── */
+#service-areas { background: var(--ground); }
+.areas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+.area-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 2px; padding: 18px 20px;
+  display: flex; align-items: center; gap: 12px;
+  transition: border-color .2s;
+}
+.area-card:hover { border-color: var(--copper); }
+.area-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--copper); flex-shrink: 0;
+}
+.area-name { font-size: 15px; font-weight: 600; color: var(--text); }
+.area-dist { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* ─── Emergency CTA ───────────────────────────────────────────── */
+#emergency {
+  background: var(--copper);
+  padding: 60px 24px; text-align: center;
+}
+.emg-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .18em;
+  text-transform: uppercase; color: rgba(255,255,255,.7);
+  margin-bottom: 16px; display: block;
+}
+.emg-headline {
+  font-family: Georgia,'Times New Roman',serif;
+  font-size: clamp(26px, 4vw, 42px); font-weight: bold;
+  color: #fff; margin-bottom: 10px; text-wrap: balance;
+}
+.emg-sub { font-size: 17px; color: rgba(255,255,255,.8); margin-bottom: 32px; }
+.btn-white {
+  background: #fff; color: var(--copper);
+  padding: 14px 32px; border-radius: 4px;
+  font-size: 16px; font-weight: 800;
+  transition: opacity .2s; display: inline-block;
+}
+.btn-white:hover { opacity: .9; color: var(--copper); }
+
+/* ─── Contact ─────────────────────────────────────────────────── */
+#contact { background: var(--surface); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+@media (max-width: 700px) { .contact-grid { grid-template-columns: 1fr; gap: 40px; } }
+.contact-info { display: flex; flex-direction: column; gap: 28px; }
+.contact-item { display: flex; gap: 14px; align-items: flex-start; }
+.ci-icon {
+  width: 40px; height: 40px; border-radius: 8px;
+  background: rgba(200,117,42,.10); color: var(--copper);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.ci-icon svg { width: 20px; height: 20px; stroke: var(--copper); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ci-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.ci-value { font-size: 16px; font-weight: 600; color: var(--text); }
+.contact-form { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-field label { font-size: 12px; font-weight: 600; color: var(--muted); }
+.form-field input, .form-field textarea, .form-field select {
+  background: var(--ground); border: 1.5px solid var(--border);
+  border-radius: 4px; padding: 11px 14px; font-size: 15px;
+  color: var(--text); font-family: inherit; outline: none;
+  transition: border-color .2s;
+}
+.form-field input:focus, .form-field textarea:focus, .form-field select:focus {
+  border-color: var(--copper);
+}
+.form-field textarea { resize: vertical; min-height: 100px; }
+
+/* ─── Footer ──────────────────────────────────────────────────── */
+footer {
+  background: #07111E;
+  padding: 48px 24px 32px; color: rgba(255,255,255,.5);
+  font-size: 13px;
+}
+.footer-inner { max-width: 1140px; margin: 0 auto; }
+.footer-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 32px; flex-wrap: wrap; margin-bottom: 36px;
+  padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.footer-brand { display: flex; flex-direction: column; gap: 8px; }
+.footer-name {
+  font-family: Georgia,'Times New Roman',serif;
+  font-size: 22px; font-weight: bold; font-style: italic; color: #fff;
+}
+.footer-tagline { font-size: 13px; color: rgba(255,255,255,.4); }
+.footer-links { display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
+.footer-links a { color: rgba(255,255,255,.5); transition: color .2s; }
+.footer-links a:hover { color: #fff; }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-license { font-size: 12px; color: rgba(255,255,255,.3); }
+.footer-credit { font-size: 12px; }
+.footer-credit a { color: var(--copper); }
+
+/* ─── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .trust-inner { min-width: max-content; }
+  .trust-item { padding: 16px 20px; }
+  .why-number { font-size: 40px; }
+  .tb-fields { gap: 8px; }
+  .tb-field { min-width: 110px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+</style>
+
+<!-- Hidden SVG sprite -->
+<svg style="display:none" aria-hidden="true">
+  <defs>
+    <symbol id="ic-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+    <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="ic-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="ic-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+    <symbol id="ic-map" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="ic-mail" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></symbol>
+    <symbol id="ic-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+    <symbol id="ic-drop" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></symbol>
+    <symbol id="ic-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+    <symbol id="ic-leaf" viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 19.82A1 1 0 0 0 5 21C5.39 21 9.52 19 11 18.2 11.94 17.62 14 16 14 13a2 2 0 0 0-4 0c0 1.5.5 2 1 3"/><path d="M6 20.5s-1-3 2-7c1.5-2 4-3.5 4-3.5"/></symbol>
+    <symbol id="ic-truck" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></symbol>
+    <symbol id="ic-tool" viewBox="0 0 24 24"><path d="M3 3h7l2 4H3V3z"/><path d="M14 7h7v14H3V11h11V7z"/><line x1="7" y1="11" x2="7" y2="21"/><line x1="11" y1="11" x2="11" y2="21"/><line x1="15" y1="11" x2="15" y2="21"/></symbol>
+  </defs>
+</svg>
+
+<!-- ─── TOOLBAR ────────────────────────────────────────────────── -->
+<div id="toolbar">
+  <div class="tb-inner">
+    <div class="tb-logo">HarborTech <span>AI</span> &nbsp;·&nbsp; <span style="color:rgba(255,255,255,.4);font-weight:400;font-size:11px">LIVE DEMO PREVIEW</span></div>
+    <div class="tb-fields">
+      <div class="tb-field">
+        <label>Business Name</label>
+        <input type="text" id="tb-name" value="Caden &amp; Sons Plumbing" placeholder="Business name">
+      </div>
+      <div class="tb-field">
+        <label>Trade / Service</label>
+        <select id="tb-cat">
+          <option value="Plumbing">Plumbing</option>
+          <option value="HVAC">HVAC / AC Repair</option>
+          <option value="Auto Repair">Auto Repair</option>
+          <option value="Landscaping">Landscaping</option>
+          <option value="Pool Service">Pool Service</option>
+          <option value="Towing">Towing</option>
+          <option value="Electrical">Electrical</option>
+          <option value="Pressure Washing">Pressure Washing</option>
+          <option value="Window Tinting">Window Tinting</option>
+          <option value="Roofing">Roofing</option>
+        </select>
+      </div>
+      <div class="tb-field">
+        <label>Phone</label>
+        <input type="text" id="tb-phone" value="(813) 592-4394" placeholder="(813) 555-0000">
+      </div>
+      <div class="tb-field" style="min-width:80px">
+        <label>Reviews</label>
+        <input type="number" id="tb-reviews" value="102" min="1">
+      </div>
+      <div class="tb-field" style="min-width:70px">
+        <label>Rating</label>
+        <input type="number" id="tb-rating" value="4.8" step="0.1" min="1" max="5">
+      </div>
+      <div class="tb-field" style="min-width:110px">
+        <label>City</label>
+        <input type="text" id="tb-city" value="Tampa" placeholder="City">
+      </div>
+    </div>
+    <div class="tb-actions">
+      <button class="btn-pricing" onclick="showPricing()">&#36; Pricing</button>
+      <button class="btn-present" onclick="enterPresent()">&#9654; Present</button>
+    </div>
+    <!-- Row 2: tier + monthly + bundle + price -->
+    <div class="tb-row2">
+      <div class="tb-row2-group">
+        <div class="tb-row2-label">Site Tier</div>
+        <div class="tb-tier-group">
+          <button class="tb-tier-btn" data-tier="Existing" onclick="setDemoTier('Existing')">Existing Site</button>
+          <button class="tb-tier-btn" data-tier="Get Found" onclick="setDemoTier('Get Found')">Get Found</button>
+          <button class="tb-tier-btn active" data-tier="Get Found in More Cities" onclick="setDemoTier('Get Found in More Cities')">More Cities</button>
+          <button class="tb-tier-btn" data-tier="Every City, Every Service" onclick="setDemoTier('Every City, Every Service')">Every City</button>
+        </div>
+      </div>
+      <div class="tb-sep"></div>
+      <div class="tb-row2-group">
+        <div class="tb-row2-label">Monthly Plan</div>
+        <div class="tb-mo-group">
+          <button class="tb-mo-btn" data-mo="0" onclick="setMonthlyQ(0)">None</button>
+          <button class="tb-mo-btn" data-mo="149" onclick="setMonthlyQ(149)">Maintenance</button>
+          <button class="tb-mo-btn active" data-mo="249" onclick="setMonthlyQ(249)">Service Call</button>
+          <button class="tb-mo-btn" data-mo="449" onclick="setMonthlyQ(449)">Full Crew</button>
+        </div>
+      </div>
+      <div class="tb-bundle-wrap" id="tb-bundle-wrap">
+        <input type="checkbox" id="tb-bundle-chk" onchange="toggleBundle('tb-bundle-chk')">
+        <label for="tb-bundle-chk" id="tb-bundle-label">Bundle −$1,000</label>
+      </div>
+      <div class="tb-price-badge" id="tb-price-badge">$4,500 + $249/mo</div>
+    </div>
+  </div>
+</div>
+<button class="btn-exit-present" id="exitBtn" onclick="exitPresent()">✕ Exit Presentation</button>
+
+<!-- ─── PRICING MODAL ─────────────────────────────────────────── -->
+<div class="pricing-overlay" id="pricingOverlay" onclick="overlayClose(event)">
+  <div class="pricing-modal">
+    <button class="pm-close" onclick="hidePricing()">✕</button>
+    <div class="pm-header">
+      <div class="pm-eyebrow">FloridaTradeSites — Professional Websites for Florida Trades</div>
+      <div class="pm-title">Transparent Pricing. No Surprises.</div>
+      <div class="pm-sub">Professional websites + monthly management. No contracts — cancel anytime.</div>
+    </div>
+
+    <div class="pm-section-label">Website Build — One-Time Fee <span style="font-size:10px;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(click to select)</span></div>
+    <div class="pm-existing-row" id="pm-existing-row" onclick="document.getElementById('pm-existing-chk').click()">
+      <input type="checkbox" id="pm-existing-chk" onclick="event.stopPropagation()" onchange="toggleExistingSite()">
+      <label>Client already has a website — monthly management only <span>(no build fee)</span></label>
+    </div>
+    <div class="pm-build-section" id="pm-build-section">
+    <div class="pm-cards">
+      <div class="pm-card pm-build-card" data-val="2500" onclick="selectBuild(2500)">
+        <div class="pm-card-name">Get Found</div>
+        <div class="pm-price"><sup>$</sup>2,500</div>
+        <ul class="pm-items">
+          <li>5-page professional site</li>
+          <li>Mobile-first design</li>
+          <li>Click-to-call button</li>
+          <li>Google Business Profile connected</li>
+          <li>Contact form &amp; map embed</li>
+        </ul>
+      </div>
+      <div class="pm-card pm-build-card pm-sel" data-val="4500" onclick="selectBuild(4500)">
+        <div class="pm-card-tag">Most Popular</div>
+        <div class="pm-card-name">Get Found in More Cities</div>
+        <div class="pm-price"><sup>$</sup>4,500</div>
+        <ul class="pm-items">
+          <li>Everything in Get Found</li>
+          <li>Service area pages (Brandon, Riverview…)</li>
+          <li>Photo gallery &amp; before/after</li>
+          <li>Reviews showcase section</li>
+          <li>Seasonal content updates</li>
+        </ul>
+      </div>
+      <div class="pm-card pm-build-card" data-val="6500" onclick="selectBuild(6500)">
+        <div class="pm-card-name">Every City, Every Service</div>
+        <div class="pm-price"><sup>$</sup>6,500</div>
+        <ul class="pm-items">
+          <li>Everything in Get Found in More Cities</li>
+          <li>Every service page + every city</li>
+          <li>Careers &amp; financing pages</li>
+          <li>Full local SEO foundation</li>
+          <li>Priority build turnaround</li>
+        </ul>
+      </div>
+    </div>
+    </div><!-- /#pm-build-section -->
+
+    <div class="pm-section-label">Monthly Management Plans <span style="font-size:10px;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(click to select)</span></div>
+    <div class="pm-cards">
+      <div class="pm-card pm-mo-card" data-val="149" onclick="selectMonthlyQ(149)">
+        <div class="pm-card-name">Maintenance</div>
+        <div class="pm-price"><sup>$</sup>149<span class="pm-mo">/mo</span></div>
+        <ul class="pm-items">
+          <li>Hosting, SSL &amp; security</li>
+          <li>Unlimited small edits (48hr)</li>
+          <li>Google Business Profile monitoring</li>
+          <li>Monthly performance report</li>
+          <li>Speed &amp; uptime monitoring</li>
+        </ul>
+      </div>
+      <div class="pm-card pm-mo-card pm-sel" data-val="249" onclick="selectMonthlyQ(249)">
+        <div class="pm-card-tag">Best Value</div>
+        <div class="pm-card-name">Service Call</div>
+        <div class="pm-price"><sup>$</sup>249<span class="pm-mo">/mo</span></div>
+        <ul class="pm-items">
+          <li>Everything in Maintenance</li>
+          <li>Missed-call text-back (instant SMS)</li>
+          <li>Post-job review request automation</li>
+          <li>AI review responses within 24hrs</li>
+          <li>Call tracking + monthly log</li>
+          <li>1 new ranking page/month</li>
+        </ul>
+      </div>
+      <div class="pm-card pm-mo-card" data-val="449" onclick="selectMonthlyQ(449)">
+        <div class="pm-card-name">Full Crew</div>
+        <div class="pm-price"><sup>$</sup>449<span class="pm-mo">/mo</span></div>
+        <ul class="pm-items">
+          <li>Everything in Service Call</li>
+          <li>AI chat widget (24/7 lead capture)</li>
+          <li>2 new ranking pages/month</li>
+          <li>Full Google Business Profile mgmt</li>
+          <li>Quarterly competitor snapshot</li>
+          <li>Same-day edits &amp; direct text line</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pm-bundle-dynamic hidden" id="pm-bundle-row">
+      <input type="checkbox" id="pm-bundle-chk" onchange="toggleBundle('pm-bundle-chk')">
+      <label for="pm-bundle-chk" id="pm-bundle-label">Pair with a 12-month plan — <strong>$1,000 off</strong> the build fee. Month-to-month plans always cancel-anytime.</label>
+    </div>
+
+    <div class="pm-price-bar">
+      <div class="pm-bar-left">
+        <div class="pm-bar-label">Selected Package</div>
+        <div class="pm-bar-build" id="pm-bar-build">$4,500</div>
+        <div class="pm-bar-mo" id="pm-bar-mo">+ $249/mo</div>
+      </div>
+      <div class="pm-bar-right">
+        <div class="pm-bar-12" id="pm-bar-12">$7,488 over 12 months</div>
+        <div class="pm-bar-24" id="pm-bar-24">$10,476 over 24 months</div>
+      </div>
+    </div>
+    <div class="pm-note">No contracts. Cancel anytime. All ranking pages are published on your domain — yours to keep forever.</div>
+  </div>
+</div>
+
+<!-- ─── WEBSITE ────────────────────────────────────────────────── -->
+<div id="site">
+
+  <!-- Nav -->
+  <nav class="site-nav" id="sitenav">
+    <div class="nav-inner">
+      <div class="nav-logo js-name">Caden &amp; Sons Plumbing</div>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#service-areas">Areas</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="#" class="nav-cta js-phone">Call (813) 592-4394</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow js-city-label">Serving Tampa Bay</div>
+      <h1 class="hero-title">
+        <span id="hero-tagline">Tampa Bay's Most Trusted Plumber</span> —
+        <strong class="js-name">Caden &amp; Sons Plumbing</strong>
+      </h1>
+      <p class="hero-sub" id="hero-sub">Licensed &bull; Insured &bull; 24/7 Emergency Service</p>
+      <div class="hero-stars">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="review-text"><strong class="js-rating">4.8</strong> stars &nbsp;&middot;&nbsp; <strong class="js-reviews">102</strong> Google Reviews</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-primary">Get a Free Estimate</a>
+        <a href="#" class="btn-secondary js-phone-btn">Call (813) 592-4394</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust strip -->
+  <div id="trust">
+    <div class="trust-inner">
+      <div class="trust-item">
+        <div class="trust-icon"><svg><use href="#ic-star"/></svg></div>
+        <div>
+          <strong><span class="js-rating">4.8</span>★ Rating</strong>
+          <span class="trust-label"><span class="js-reviews">102</span> Google Reviews</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><svg><use href="#ic-shield"/></svg></div>
+        <div>
+          <strong>Licensed &amp; Insured</strong>
+          <span class="trust-label" id="trust-license">FL Lic. #CFC1234567</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><svg><use href="#ic-clock"/></svg></div>
+        <div>
+          <strong>24/7 Emergency</strong>
+          <span class="trust-label">We pick up every call</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><svg><use href="#ic-check"/></svg></div>
+        <div>
+          <strong>Satisfaction Guaranteed</strong>
+          <span class="trust-label">We make it right, period</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><svg><use href="#ic-map"/></svg></div>
+        <div>
+          <strong>Serving <span class="js-city">Tampa</span> Bay</strong>
+          <span class="trust-label">Brandon · Riverview · Wesley Chapel</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Services -->
+  <section class="section" id="services">
+    <div class="section-inner">
+      <span class="section-eyebrow">What We Do</span>
+      <h2 class="section-title">Services You Can Count On</h2>
+      <p class="section-sub" id="services-sub">Fast, honest work from technicians who live and work in <span class="js-city">Tampa</span> Bay.</p>
+      <div class="services-grid" id="services-grid">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Us -->
+  <section class="section" id="why-us">
+    <div class="section-inner">
+      <span class="section-eyebrow">Why <span class="js-name">Caden &amp; Sons Plumbing</span></span>
+      <h2 class="section-title" style="color:#fff">Built on Reputation, Not Advertising</h2>
+      <p class="section-sub" id="why-sub">With <span class="js-reviews">102</span> five-star reviews, we let our work do the talking.</p>
+      <div class="why-grid">
+        <div class="why-point">
+          <div class="why-number">1.</div>
+          <div class="why-title">We Answer the Phone</div>
+          <div class="why-desc">Day, night, weekend. Real people, not voicemail. When something goes wrong, you reach us immediately.</div>
+        </div>
+        <div class="why-point">
+          <div class="why-number">2.</div>
+          <div class="why-title">Upfront Pricing, Always</div>
+          <div class="why-desc">You get a clear price before any work begins. No surprise charges, no inflated quotes after the fact.</div>
+        </div>
+        <div class="why-point">
+          <div class="why-number">3.</div>
+          <div class="why-title">We Stand Behind Our Work</div>
+          <div class="why-desc">Everything we do is warranted. If it's not right, we come back and fix it — no hassle, no excuses.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section" id="testimonials">
+    <div class="section-inner">
+      <span class="section-eyebrow">Customer Reviews</span>
+      <h2 class="section-title">What Tampa Bay Is Saying</h2>
+      <p class="section-sub"><span class="js-reviews">102</span> reviews. <span class="js-rating">4.8</span> stars. Here's why.</p>
+      <div class="testi-grid" id="testi-grid">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="section" id="gallery">
+    <div class="section-inner">
+      <span class="section-eyebrow">Our Work</span>
+      <h2 class="section-title" id="gallery-title">Before &amp; After</h2>
+      <p class="section-sub" id="gallery-sub">Real jobs. Real results. See what we do for customers across Tampa Bay.</p>
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Areas -->
+  <section class="section" id="service-areas">
+    <div class="section-inner">
+      <span class="section-eyebrow">Where We Work</span>
+      <h2 class="section-title">Serving All of Tampa Bay</h2>
+      <p class="section-sub">Local crews, fast response. We cover the entire metro — no extra charge for travel.</p>
+      <div class="areas-grid" id="areas-grid">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Emergency CTA -->
+  <section id="emergency">
+    <span class="emg-label">Emergency Service</span>
+    <div class="emg-headline" id="emg-headline">Pipe burst? We're on our way.</div>
+    <div class="emg-sub"><span class="js-name">Caden &amp; Sons Plumbing</span> responds 24/7 across <span class="js-city">Tampa</span> Bay.</div>
+    <a href="#" class="btn-white js-phone-btn">Call Now — <span class="js-phone-num">(813) 592-4394</span></a>
+  </section>
+
+  <!-- Contact -->
+  <section class="section" id="contact">
+    <div class="section-inner">
+      <span class="section-eyebrow">Get In Touch</span>
+      <h2 class="section-title">Request a Free Estimate</h2>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="ci-icon"><svg><use href="#ic-phone"/></svg></div>
+            <div>
+              <div class="ci-label">Phone</div>
+              <div class="ci-value js-phone-num">(813) 592-4394</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon"><svg><use href="#ic-map"/></svg></div>
+            <div>
+              <div class="ci-label">Service Area</div>
+              <div class="ci-value"><span class="js-city">Tampa</span>, Brandon, Riverview, Wesley Chapel &amp; surrounding areas</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon"><svg><use href="#ic-clock"/></svg></div>
+            <div>
+              <div class="ci-label">Hours</div>
+              <div class="ci-value">Mon–Sat 7am–7pm &nbsp;&middot;&nbsp; 24/7 Emergency</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon"><svg><use href="#ic-mail"/></svg></div>
+            <div>
+              <div class="ci-label">Email</div>
+              <div class="ci-value" id="contact-email">info@<span class="js-email-slug">cadenandsonsp</span>.com</div>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form" onsubmit="return false">
+          <div class="form-row">
+            <div class="form-field"><label>First Name</label><input type="text" placeholder="Mike"></div>
+            <div class="form-field"><label>Last Name</label><input type="text" placeholder="Johnson"></div>
+          </div>
+          <div class="form-field"><label>Phone</label><input type="tel" placeholder="(813) 555-0000"></div>
+          <div class="form-field"><label>Service Needed</label>
+            <select><option>-- Select a service --</option><option>Emergency Repair</option><option>Inspection / Estimate</option><option>Routine Maintenance</option><option>Other</option></select>
+          </div>
+          <div class="form-field"><label>Message (optional)</label><textarea placeholder="Briefly describe the issue..."></textarea></div>
+          <button type="submit" class="btn-primary" style="align-self:flex-start;padding:12px 28px">Send Request</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-name js-name">Caden &amp; Sons Plumbing</div>
+          <div class="footer-tagline" id="footer-tagline">Licensed Plumber · Tampa Bay, FL</div>
+        </div>
+        <div class="footer-links">
+          <a href="#services">Services</a>
+          <a href="#why-us">About</a>
+          <a href="#testimonials">Reviews</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-license" id="footer-license">© 2025 <span class="js-name">Caden &amp; Sons Plumbing</span> · FL Lic. #CFC1234567 · <span class="js-city">Tampa</span>, FL</div>
+        <div class="footer-credit">Website by <a href="#">HarborTech AI</a></div>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /#site -->
+
+<script>
+const DATA = {
+  "Plumbing": {
+    tagline: "Tampa Bay's Most Trusted Plumber",
+    sub: "Licensed &bull; Insured &bull; 24/7 Emergency Service",
+    emergency: "Pipe burst? We're on our way.",
+    license: "FL Lic. #CFC1234567",
+    footerTag: "Licensed Plumber",
+    services: [
+      { icon: "ic-drop",    name: "Leak Detection & Repair",   desc: "Fast, accurate — we find it and fix it right the first time." },
+      { icon: "ic-wrench",  name: "Drain Cleaning",            desc: "Completely cleared in 60 minutes, guaranteed or we come back." },
+      { icon: "ic-zap",     name: "Water Heater Service",      desc: "Tank and tankless — install, repair, and flush." },
+      { icon: "ic-tool",    name: "Repiping",                  desc: "Full copper and PEX repiping with a lifetime workmanship warranty." },
+      { icon: "ic-check",   name: "Fixture Installation",      desc: "Faucets, toilets, showers — done right and leak-free." },
+      { icon: "ic-phone",   name: "24/7 Emergency Service",    desc: "Day or night, we pick up. No voicemail, no exceptions." }
+    ],
+    testimonials: [
+      { init:"R", name:"Robert M.", loc:"Brandon, FL",       stars:5, text:"Called at 9pm with a burst pipe. They were at my house by 9:45. Fixed it same night. Saved my floors." },
+      { init:"S", name:"Sandra L.", loc:"Wesley Chapel, FL", stars:5, text:"Third plumber I tried — the first two never called back. These guys showed up on time, gave me a fair price, and did excellent work." },
+      { init:"J", name:"James T.",  loc:"Riverview, FL",     stars:5, text:"Water heater died on a Sunday. Got a new one installed by Monday afternoon. Professional, clean, reasonable price." }
+    ]
+  },
+  "HVAC": {
+    tagline: "Tampa Bay's Most Trusted HVAC Company",
+    sub: "Florida's Heat Doesn't Stop — Neither Do We",
+    emergency: "AC down in the Tampa heat? We're 20 minutes away.",
+    license: "FL Lic. #CAC1234567",
+    footerTag: "Licensed HVAC Contractor",
+    services: [
+      { icon: "ic-zap",    name: "AC Repair & Diagnostics",   desc: "We fix it right the first time — fast, honest diagnosis." },
+      { icon: "ic-tool",   name: "System Installation",        desc: "Energy-efficient systems sized specifically for Florida homes." },
+      { icon: "ic-check",  name: "Maintenance Plans",          desc: "Twice-yearly tune-ups that extend equipment life by years." },
+      { icon: "ic-leaf",   name: "Duct Cleaning & Sealing",    desc: "Better air quality, lower energy bills, every time." },
+      { icon: "ic-wrench", name: "Heat Pump Service",          desc: "Installation and repair for all major brands." },
+      { icon: "ic-phone",  name: "24/7 Emergency Service",     desc: "AC down at 2am? We're already dispatching." }
+    ],
+    testimonials: [
+      { init:"D", name:"Diana R.", loc:"New Tampa, FL",      stars:5, text:"AC died on a 95-degree Saturday. They came within 2 hours and had us cool again before dinner. Incredible service." },
+      { init:"M", name:"Marcus W.", loc:"Town N Country, FL",stars:5, text:"Installed a whole new system last year. Very clean, explained everything, and the energy bill dropped $80 a month." },
+      { init:"A", name:"Ana G.",  loc:"Tampa Palms, FL",     stars:5, text:"Best HVAC company I've dealt with in 10 years in Tampa. Honest, on time, and they actually care about doing it right." }
+    ]
+  },
+  "Auto Repair": {
+    tagline: "Tampa Bay's Most Trusted Auto Shop",
+    sub: "Honest Repairs &bull; Fair Prices &bull; We Come to You",
+    emergency: "Breakdown? We'll come to you — call now.",
+    license: "FL Reg. #MV98765",
+    footerTag: "Licensed Auto Repair",
+    services: [
+      { icon: "ic-tool",   name: "Oil Change & Maintenance",   desc: "Quick, honest, no upsells. In and out in under 30 minutes." },
+      { icon: "ic-check",  name: "Brakes & Suspension",        desc: "Your safety is not negotiable. We get it right." },
+      { icon: "ic-wrench", name: "Engine Diagnostics",         desc: "We read the codes and tell you the truth — no invented repairs." },
+      { icon: "ic-zap",    name: "Tires & Alignment",          desc: "All major brands, competitive pricing, same-day service." },
+      { icon: "ic-truck",  name: "Transmission Repair",        desc: "Rebuilds and replacements done in-house — no middlemen." },
+      { icon: "ic-phone",  name: "Mobile Mechanic",            desc: "We come to your home or office. No tow truck needed." }
+    ],
+    testimonials: [
+      { init:"C", name:"Carlos M.", loc:"Brandon, FL",        stars:5, text:"Came to my work parking lot and fixed my car while I was in meetings. Unreal service. Fair price too." },
+      { init:"T", name:"Tina B.",   loc:"Valrico, FL",        stars:5, text:"Every mechanic I went to wanted to charge me $2,000. These guys found the real problem for $350. Honest people." },
+      { init:"F", name:"Frank D.",  loc:"Riverview, FL",      stars:5, text:"They've been my shop for 3 years. Never once felt like I was being taken advantage of. That's rare." }
+    ]
+  },
+  "Landscaping": {
+    tagline: "Tampa Bay's Most Trusted Landscaper",
+    sub: "Your Yard, Done Right — Every Single Week",
+    emergency: "Post-storm cleanup? We're available today.",
+    license: "FL Cert. #LCO12345",
+    footerTag: "Licensed Landscaping Contractor",
+    services: [
+      { icon: "ic-leaf",   name: "Lawn Mowing & Edging",       desc: "Reliable weekly or bi-weekly service, rain or shine." },
+      { icon: "ic-tool",   name: "Tree Trimming & Removal",     desc: "Licensed arborists, fully insured for your protection." },
+      { icon: "ic-check",  name: "Sod & Seed Installation",     desc: "St. Augustine, Zoysia, Bermuda — installed and guaranteed." },
+      { icon: "ic-drop",   name: "Irrigation Systems",          desc: "Install, repair, and seasonal adjustment — saves water bills." },
+      { icon: "ic-leaf",   name: "Landscape Design",            desc: "Native plants, Florida-smart water management, low maintenance." },
+      { icon: "ic-truck",  name: "Storm Cleanup",               desc: "Post-hurricane debris removal — we respond fast." }
+    ],
+    testimonials: [
+      { init:"P", name:"Patricia H.", loc:"Valrico, FL",      stars:5, text:"My yard looked terrible. After two visits it's the best on the street. They actually care about the results." },
+      { init:"N", name:"Nick S.",     loc:"Wesley Chapel, FL",stars:5, text:"Been using them for 2 years. Never miss a week, always clean, never have to remind them of anything." },
+      { init:"L", name:"Laura M.",    loc:"Lithia, FL",       stars:5, text:"After the hurricane they were here in 2 days. Had 3 huge oaks down. Professional and fair — highly recommend." }
+    ]
+  },
+  "Pool Service": {
+    tagline: "Tampa Bay's Most Trusted Pool Company",
+    sub: "Crystal Clear Water — Every Week, Guaranteed",
+    emergency: "Green pool? We'll clear it in 48 hours.",
+    license: "FL Cert. #PoolSrv12345",
+    footerTag: "Licensed Pool Service",
+    services: [
+      { icon: "ic-drop",  name: "Weekly Pool Cleaning",        desc: "Brush, skim, vacuum — every single week without fail." },
+      { icon: "ic-check", name: "Chemical Balancing",          desc: "Safe water, right chemistry, documented every visit." },
+      { icon: "ic-wrench",name: "Equipment Repair",            desc: "Pumps, filters, heaters — we fix all makes and models." },
+      { icon: "ic-leaf",  name: "Algae Treatment",             desc: "Green to sparkling clean in 48 hours — guaranteed." },
+      { icon: "ic-tool",  name: "Pool Opening & Closing",      desc: "Full-service seasonal pool prep — done right." },
+      { icon: "ic-shield",name: "Pool Inspection",             desc: "Buying a home? Get a certified pre-purchase pool inspection." }
+    ],
+    testimonials: [
+      { init:"H", name:"Helen T.", loc:"Apollo Beach, FL",    stars:5, text:"Used 3 pool companies before these guys. Night and day difference. Pool is always clear and they actually show up." },
+      { init:"B", name:"Brian K.", loc:"Riverview, FL",       stars:5, text:"Pool turned green in a week when my old guy stopped showing up. These guys fixed it in 2 days and have been reliable ever since." },
+      { init:"G", name:"Gina R.",  loc:"Tampa, FL",           stars:5, text:"Switched to them 18 months ago and haven't thought about my pool since. That's exactly what I wanted." }
+    ]
+  },
+  "Towing": {
+    tagline: "Tampa Bay's Fastest Towing Service",
+    sub: "Dispatching Now &bull; ETA Under 30 Minutes",
+    emergency: "Stranded? We're dispatching a truck right now.",
+    license: "FL Lic. #Tow98765",
+    footerTag: "Licensed & Insured Towing",
+    services: [
+      { icon: "ic-truck",  name: "24/7 Towing",               desc: "Light to heavy duty — cars, trucks, SUVs, motorcycles." },
+      { icon: "ic-wrench", name: "Roadside Assistance",        desc: "Battery, tire, fuel — we come to wherever you are." },
+      { icon: "ic-zap",    name: "Battery Jump Start",         desc: "On-site jump or tow to the shop — your call." },
+      { icon: "ic-check",  name: "Flatbed Transport",          desc: "Exotic, classic, or inoperable vehicles — handled with care." },
+      { icon: "ic-shield", name: "Accident Recovery",          desc: "Gentle, professional handling. Insurance-approved." },
+      { icon: "ic-tool",   name: "Winch-Out Service",          desc: "Stuck in mud, a ditch, or sand — we'll get you out." }
+    ],
+    testimonials: [
+      { init:"K", name:"Kevin M.", loc:"Plant City, FL",      stars:5, text:"Stranded on I-4 at 11pm. Called and they were there in 22 minutes. Professional, careful with my car. Exactly what you need in that situation." },
+      { init:"R", name:"Rosa E.",  loc:"Tampa, FL",           stars:5, text:"Got a flat on Hillsborough Ave during rush hour. They came fast, changed it on the spot, and didn't overcharge me. Five stars." },
+      { init:"W", name:"Wayne B.", loc:"Dover, FL",           stars:5, text:"Needed my classic car transported carefully. They used a proper flatbed, strapped it right, no drama. Will use again." }
+    ]
+  },
+  "Painting": {
+    tagline: "Tampa Bay's Most Trusted Painting Contractor",
+    sub: "Interior &bull; Exterior &bull; Commercial",
+    emergency: "Need a quick quote? We respond same day.",
+    license: "FL Cert. #PC1234567",
+    footerTag: "Licensed Painting Contractor",
+    services: [
+      { icon: "ic-tool",  name: "Interior Painting",          desc: "Walls, ceilings, trim — flawless finish every time." },
+      { icon: "ic-leaf",  name: "Exterior Painting",          desc: "Pressure wash, prime, paint. Built for Florida weather." },
+      { icon: "ic-check", name: "Cabinet Refinishing",        desc: "Transform your kitchen without the cost of replacement." },
+      { icon: "ic-wrench",name: "Drywall Repair",             desc: "Patch, texture match, prime, paint — invisible results." },
+      { icon: "ic-drop",  name: "Epoxy Floor Coatings",       desc: "Garage and commercial floors that last for decades." },
+      { icon: "ic-zap",   name: "Commercial Painting",        desc: "Office, retail, warehouse — minimal disruption." }
+    ],
+    testimonials: [
+      { init:"S", name:"Susan W.", loc:"Riverview, FL",       stars:5, text:"Painted the whole exterior in two days. Clean, professional, and the color matching was perfect. Neighbors keep asking who we used." },
+      { init:"T", name:"Tom A.",   loc:"Brandon, FL",         stars:5, text:"Interior repaint before selling our house. They finished on time, on budget, and the staging photos looked incredible." },
+      { init:"M", name:"Maria C.", loc:"Wimauma, FL",         stars:5, text:"Cabinet refinishing transformed our whole kitchen. Cost a fraction of new cabinets and looks better than new." }
+    ]
+  },
+  "Electrical": {
+    tagline: "Tampa Bay's Most Trusted Electrician",
+    sub: "Licensed &bull; Insured &bull; Code Compliant",
+    emergency: "Electrical emergency? We respond within the hour.",
+    license: "FL Lic. #EC1234567",
+    footerTag: "Licensed Electrical Contractor",
+    services: [
+      { icon: "ic-zap",    name: "Panel Upgrades",            desc: "100A to 400A upgrades — safe, permitted, inspected." },
+      { icon: "ic-wrench", name: "Electrical Repairs",        desc: "Outlets, switches, breakers — diagnosed and fixed right." },
+      { icon: "ic-check",  name: "Generator Installation",    desc: "Whole-home standby and portable generator hookup." },
+      { icon: "ic-tool",   name: "EV Charger Installation",   desc: "Level 2 home chargers installed in under 3 hours." },
+      { icon: "ic-leaf",   name: "Lighting & Ceiling Fans",   desc: "Recessed lighting, smart switches, fan installation." },
+      { icon: "ic-shield", name: "Code Compliance",           desc: "Pre-sale inspections and code corrections for permitting." }
+    ],
+    testimonials: [
+      { init:"F", name:"Frank L.", loc:"Temple Terrace, FL",  stars:5, text:"Upgraded my panel and added a generator hookup. Passed inspection first try. Very knowledgeable and professional." },
+      { init:"E", name:"Elena G.", loc:"Odessa, FL",          stars:5, text:"Had a flickering lights issue that two other electricians couldn't solve. These guys found a loose neutral in the panel in 20 minutes." },
+      { init:"D", name:"Derek P.", loc:"Wimauma, FL",         stars:5, text:"Installed an EV charger and three new outdoor circuits. Clean work, proper permits, showed up exactly when they said." }
+    ]
+  },
+  "Pressure Washing": {
+    tagline: "Tampa Bay's Most Trusted Pressure Washing Service",
+    sub: "Driveways &bull; Roofs &bull; Pool Decks &bull; Commercial",
+    emergency: "Need a quote today? We're available now.",
+    license: "FL Cert. #PW98765",
+    footerTag: "Licensed Pressure Washing",
+    services: [
+      { icon: "ic-drop",   name: "Driveway & Sidewalk",       desc: "Oil stains, mildew, years of grime — gone in hours." },
+      { icon: "ic-leaf",   name: "Soft Wash Roof Cleaning",    desc: "Algae and mildew removed safely — no damage guarantee." },
+      { icon: "ic-check",  name: "House Exterior Wash",        desc: "Siding, stucco, brick — prep for paint or just clean." },
+      { icon: "ic-tool",   name: "Pool Deck Cleaning",         desc: "Slippery algae removed — safe for kids and pets." },
+      { icon: "ic-wrench", name: "Fence & Deck Washing",       desc: "Prep for staining or just restore the original look." },
+      { icon: "ic-truck",  name: "Commercial Properties",      desc: "Parking lots, storefronts, warehouse exteriors." }
+    ],
+    testimonials: [
+      { init:"J", name:"Janet B.", loc:"Riverview, FL",       stars:5, text:"My driveway looked new again. They were fast, thorough, and didn't damage my landscaping. Great price too." },
+      { init:"P", name:"Paul W.",  loc:"Brandon, FL",         stars:5, text:"Did our whole property including the roof. Difference was dramatic. Came back the same week for a follow-up issue — no charge." },
+      { init:"A", name:"Anna T.",  loc:"Tampa, FL",           stars:5, text:"Pool deck was dangerously slippery. One treatment and it's completely safe. Professional all the way through." }
+    ]
+  },
+  "Window Tinting": {
+    tagline: "Tampa Bay's Most Trusted Window Tint Shop",
+    sub: "Automotive &bull; Residential &bull; Commercial",
+    emergency: "Same-day appointments available — call now.",
+    license: "FL Reg. #WT98765",
+    footerTag: "Licensed Window Tint Shop",
+    services: [
+      { icon: "ic-zap",    name: "Automotive Tinting",        desc: "All vehicles, all tint levels, lifetime warranty on film." },
+      { icon: "ic-leaf",   name: "Ceramic Tint",              desc: "Maximum heat rejection — the best technology available." },
+      { icon: "ic-check",  name: "Residential Window Film",   desc: "Reduce heat and glare in your home, UV protection included." },
+      { icon: "ic-tool",   name: "Commercial Tinting",        desc: "Offices, storefronts, high-rises — we handle large projects." },
+      { icon: "ic-wrench", name: "Paint Protection Film",     desc: "Clear bra on bumpers, hoods, full-wrap capability." },
+      { icon: "ic-shield", name: "Security Film",             desc: "Shatter-resistant film for homes and businesses." }
+    ],
+    testimonials: [
+      { init:"A", name:"Alex R.", loc:"Tampa, FL",            stars:5, text:"Best tint job I've ever had. Edges are perfect, no bubbles, done in 2 hours. My car is noticeably cooler inside." },
+      { init:"V", name:"Vanessa P.", loc:"Plant City, FL",    stars:5, text:"Did our whole house — 14 windows. Took one day and the difference in heat is remarkable. Already noticed it on the electric bill." },
+      { init:"M", name:"Marco E.", loc:"Wimauma, FL",         stars:5, text:"Ceramic tint on my truck. It's been 18 months and it still looks perfect. Lifetime warranty actually means something here." }
+    ]
+  },
+  "Roofing": {
+    tagline: "Florida's Most Trusted Roofing Contractor",
+    sub: "Licensed &bull; Insured &bull; Free Inspections",
+    emergency: "Storm damage? We'll inspect today.",
+    license: "FL Lic. #CCC1234567",
+    footerTag: "Licensed Roofing Contractor",
+    services: [
+      { icon: "ic-shield", name: "Roof Replacement",          desc: "Full tear-off and reroof — asphalt, tile, metal, and flat." },
+      { icon: "ic-drop",   name: "Roof Repair",               desc: "Leaks, missing shingles, and storm damage fixed fast." },
+      { icon: "ic-check",  name: "Free Roof Inspection",      desc: "Honest assessment — we'll tell you if you need us or not." },
+      { icon: "ic-tool",   name: "Insurance Claims",          desc: "We work directly with your adjuster to get you paid fairly." },
+      { icon: "ic-leaf",   name: "Gutter Installation",       desc: "Seamless gutters and covers to protect your fascia and foundation." },
+      { icon: "ic-wrench", name: "Flat & Commercial Roofing", desc: "TPO, EPDM, and modified bitumen for commercial properties." }
+    ],
+    testimonials: [
+      { init:"B", name:"Brian K.", loc:"Wesley Chapel, FL",   stars:5, text:"They found damage from Ian that my original roofer missed. Got a full replacement covered by insurance. Couldn't recommend more." },
+      { init:"T", name:"Tammy R.", loc:"Lakeland, FL",        stars:5, text:"Got 4 quotes. These guys were honest — said I only needed a repair, not a full replacement. Saved me $8,000." },
+      { init:"J", name:"Joe M.",   loc:"Sarasota, FL",        stars:5, text:"Entire roof done in one day. Clean crew, quality shingles, passed inspection. Very professional." }
+    ]
+  }
+};
+
+// ── Helpers ────────────────────────────────────────────────────
+function val(id) { return document.getElementById(id)?.value?.trim() || ''; }
+
+function slugify(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,16);
+}
+
+function starsHTML(n) {
+  return '&#9733;'.repeat(n) + '&#9734;'.repeat(5-n);
+}
+
+// ── Gallery palettes per category ─────────────────────────────
+const GALLERY = {
+  "Plumbing":         { title:"Plumbing Work — Before & After", items:["Burst Pipe Repair","Drain Clearing","Water Heater Install","Repipe Project","Fixture Replacement","Emergency Repair"] },
+  "HVAC":             { title:"AC & HVAC Work — Before & After", items:["AC Unit Replacement","Duct Cleaning","Coil Cleaning","Thermostat Upgrade","Mini-Split Install","Tune-Up Service"] },
+  "Auto Repair":      { title:"Auto Repair — Before & After",    items:["Brake Job","Engine Work","Suspension Repair","Oil Change","Tire Swap","Body Work"] },
+  "Landscaping":      { title:"Landscaping Work — Before & After",items:["Lawn Makeover","Tree Trimming","Sod Install","Irrigation Setup","Landscape Design","Storm Cleanup"] },
+  "Pool Service":     { title:"Pool Work — Before & After",      items:["Green Pool Fix","Equipment Repair","Resurfacing","Chemical Balance","Filter Cleaning","Weekly Service"] },
+  "Towing":           { title:"Towing & Roadside — In Action",   items:["Flatbed Transport","Battery Jump","Tire Change","Accident Recovery","Winch-Out","Roadside Assist"] },
+  "Electrical":       { title:"Electrical Work — Before & After",items:["Panel Upgrade","EV Charger Install","Generator Hookup","Lighting Install","Outlet Replacement","Code Fix"] },
+  "Pressure Washing": { title:"Pressure Washing — Before & After",items:["Driveway Clean","Roof Wash","House Exterior","Pool Deck","Fence Restore","Commercial Lot"] },
+  "Window Tinting":   { title:"Tint Work — Before & After",     items:["Ceramic Auto Tint","Residential Film","Commercial Tint","Paint Protection","Security Film","Truck Tint"] },
+  "Roofing":          { title:"Roofing Work — Before & After",   items:["Roof Replacement","Storm Repair","Shingle Repair","Gutter Install","Flat Roof","Insurance Job"] }
+};
+
+const AREA_COLORS = ['#1A4A7A','#C8752A','#2E6B4F','#7A3B6E','#3D6B8A','#8A4A1A'];
+
+// ── Render gallery ─────────────────────────────────────────────
+function renderGallery(cat) {
+  const g = GALLERY[cat] || GALLERY['Plumbing'];
+  document.getElementById('gallery-title').innerHTML = g.title;
+  const colors = [
+    ['#1A3A6A','#2A5A9A'], ['#C8752A','#E8952A'], ['#1A4A3A','#2A6A4A'],
+    ['#4A2A6A','#6A3A8A'], ['#2A4A6A','#3A6A8A'], ['#6A3A1A','#8A4A2A']
+  ];
+  document.getElementById('gallery-grid').innerHTML = g.items.map((label, i) => {
+    const [c1, c2] = colors[i % colors.length];
+    return `<div class="gallery-item">
+      <canvas width="400" height="300" data-c1="${c1}" data-c2="${c2}" data-label="${label}" class="gallery-canvas"></canvas>
+      <div class="gallery-label">${label}</div>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('.gallery-canvas').forEach(drawGalleryCanvas);
+}
+
+function drawGalleryCanvas(canvas) {
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  const c1 = canvas.dataset.c1, c2 = canvas.dataset.c2;
+  const label = canvas.dataset.label;
+  const grad = ctx.createLinearGradient(0, 0, w, h);
+  grad.addColorStop(0, c1); grad.addColorStop(1, c2);
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
+  // Subtle grid texture
+  ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1;
+  for (let x = 0; x < w; x += 40) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+  for (let y = 0; y < h; y += 40) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+  // Center icon placeholder
+  ctx.fillStyle = 'rgba(255,255,255,0.12)';
+  ctx.beginPath(); ctx.arc(w/2, h/2 - 10, 28, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,0.06)';
+  ctx.beginPath(); ctx.arc(w/2, h/2 - 10, 44, 0, Math.PI*2); ctx.fill();
+  // Label
+  ctx.fillStyle = 'rgba(255,255,255,0.55)';
+  ctx.font = `600 13px system-ui,sans-serif`;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(label, w/2, h/2 + 32);
+}
+
+// ── Render service areas ───────────────────────────────────────
+const AREAS = [
+  { name:'Tampa',          dist:'Core service area' },
+  { name:'Brandon',        dist:'15 min from Tampa' },
+  { name:'Riverview',      dist:'20 min from Tampa' },
+  { name:'Wesley Chapel',  dist:'25 min from Tampa' },
+  { name:'Plant City',     dist:'30 min from Tampa' },
+  { name:'Valrico',        dist:'20 min from Tampa' },
+  { name:'Seffner',        dist:'18 min from Tampa' },
+  { name:'Gibsonton',      dist:'22 min from Tampa' },
+];
+function renderAreas() {
+  document.getElementById('areas-grid').innerHTML = AREAS.map(a => `
+    <div class="area-card">
+      <div class="area-dot"></div>
+      <div>
+        <div class="area-name">${a.name}</div>
+        <div class="area-dist">${a.dist}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── Render services grid ───────────────────────────────────────
+function renderServices(cat) {
+  const d = DATA[cat];
+  if (!d) return;
+  const grid = document.getElementById('services-grid');
+  grid.innerHTML = d.services.map(s => `
+    <div class="service-card">
+      <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#${s.icon}"/></svg></div>
+      <div class="svc-name">${s.name}</div>
+      <div class="svc-desc">${s.desc}</div>
+    </div>
+  `).join('');
+}
+
+// ── Render testimonials ────────────────────────────────────────
+function renderTestimonials(cat) {
+  const d = DATA[cat];
+  if (!d) return;
+  document.getElementById('testi-grid').innerHTML = d.testimonials.map(t => `
+    <div class="testi-card">
+      <div class="testi-stars">${starsHTML(t.stars)}</div>
+      <div class="testi-text">${t.text}</div>
+      <div class="testi-author">
+        <div class="testi-avatar">${t.init}</div>
+        <div><div class="testi-name">${t.name}</div><div class="testi-loc">${t.loc}</div></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── Main update function ───────────────────────────────────────
+function updateSite() {
+  const name    = val('tb-name')    || 'Your Business';
+  const cat     = val('tb-cat')     || 'Plumbing';
+  const phone   = val('tb-phone')   || '(813) 555-0000';
+  const reviews = val('tb-reviews') || '87';
+  const rating  = val('tb-rating')  || '4.9';
+  const city    = val('tb-city')    || 'Tampa';
+  const d       = DATA[cat] || DATA['Plumbing'];
+
+  // Text nodes
+  document.querySelectorAll('.js-name').forEach(el => el.textContent = name);
+  document.querySelectorAll('.js-reviews').forEach(el => el.textContent = reviews);
+  document.querySelectorAll('.js-rating').forEach(el => el.textContent = rating);
+  document.querySelectorAll('.js-city').forEach(el => el.textContent = city);
+  document.querySelectorAll('.js-city-label').forEach(el => el.textContent = `Serving ${city} Bay Area`);
+  document.querySelectorAll('.js-phone-num').forEach(el => el.textContent = phone);
+  document.querySelectorAll('.js-phone').forEach(el => el.textContent = `Call ${phone}`);
+  document.querySelectorAll('.js-phone-btn').forEach(el => el.setAttribute('href', `tel:${phone.replace(/\D/g,'')}`));
+
+  // Email slug
+  const slug = slugify(name);
+  document.querySelectorAll('.js-email-slug').forEach(el => el.textContent = slug);
+
+  // Category-specific
+  document.getElementById('hero-tagline').textContent = d.tagline;
+  document.getElementById('hero-sub').innerHTML = d.sub;
+  document.getElementById('emg-headline').textContent = d.emergency;
+  document.getElementById('trust-license').textContent = d.license;
+  document.getElementById('footer-tagline').textContent = `${d.footerTag} · ${city} Bay, FL`;
+
+  // Page title
+  document.title = `${name} — ${city} ${cat}`;
+
+  renderServices(cat);
+  renderTestimonials(cat);
+  renderGallery(cat);
+  renderAreas();
+}
+
+// ── Pricing modal ──────────────────────────────────────────────
+function showPricing() {
+  document.getElementById('pricingOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function hidePricing() {
+  document.getElementById('pricingOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function overlayClose(e) {
+  if (e.target === document.getElementById('pricingOverlay')) hidePricing();
+}
+
+// ── Quote state (shared toolbar ↔ modal) ──────────────────────
+const Q = { build: 4500, monthly: 249, bundle: false, existing: false };
+const TIER_BUILDS = { 'Get Found': 2500, 'Get Found in More Cities': 4500, 'Every City, Every Service': 6500, Existing: 0 };
+const TIER_HIDE   = { 'Get Found': ['gallery','service-areas'], 'Get Found in More Cities': [], 'Every City, Every Service': [], Existing: [] };
+
+function getDiscountQ() {
+  if (Q.build === 4500 && Q.monthly === 249) return 1000;
+  if (Q.build === 4500 && Q.monthly === 449) return 1500;
+  if (Q.build === 6500 && Q.monthly === 249) return 1000;
+  if (Q.build === 6500 && Q.monthly === 449) return 2000;
+  return 0;
+}
+
+// ── Demo tier toggle ───────────────────────────────────────────
+function setDemoTier(tier) {
+  Q.build = TIER_BUILDS[tier] !== undefined ? TIER_BUILDS[tier] : 4500;
+  Q.existing = tier === 'Existing';
+  // Toolbar buttons
+  document.querySelectorAll('.tb-tier-btn').forEach(b => b.classList.toggle('active', b.dataset.tier === tier));
+  // Show/hide sections
+  ['gallery','service-areas'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = (TIER_HIDE[tier]||[]).includes(id) ? 'none' : '';
+  });
+  // Sync existing toggle in modal
+  const existChk = document.getElementById('pm-existing-chk');
+  const existRow = document.getElementById('pm-existing-row');
+  const buildSec = document.getElementById('pm-build-section');
+  if (existChk) existChk.checked = Q.existing;
+  if (existRow) existRow.classList.toggle('active', Q.existing);
+  if (buildSec) buildSec.classList.toggle('dimmed', Q.existing);
+  Q.bundle = false;
+  syncModalBuild();
+  syncBundleUI();
+  calcDealPrice();
+}
+
+// ── Existing site toggle (from modal checkbox) ─────────────────
+function toggleExistingSite() {
+  Q.existing = document.getElementById('pm-existing-chk').checked;
+  Q.build = Q.existing ? 0 : 4500;
+  const existRow = document.getElementById('pm-existing-row');
+  const buildSec = document.getElementById('pm-build-section');
+  if (existRow) existRow.classList.toggle('active', Q.existing);
+  if (buildSec) buildSec.classList.toggle('dimmed', Q.existing);
+  // Sync toolbar tier buttons
+  document.querySelectorAll('.tb-tier-btn').forEach(b =>
+    b.classList.toggle('active', Q.existing ? b.dataset.tier === 'Existing' : b.dataset.tier === 'Get Found in More Cities'));
+  Q.bundle = false;
+  if (!Q.existing) syncModalBuild();
+  syncBundleUI();
+  calcDealPrice();
+}
+
+// ── Monthly plan selector ──────────────────────────────────────
+function setMonthlyQ(mo) {
+  Q.monthly = mo;
+  document.querySelectorAll('.tb-mo-btn').forEach(b => b.classList.toggle('active', parseInt(b.dataset.mo) === mo));
+  Q.bundle = false;
+  syncModalMonthly();
+  syncBundleUI();
+  calcDealPrice();
+}
+
+// ── Build card selection (from modal) ─────────────────────────
+function selectBuild(val) {
+  Q.build = val;
+  Q.existing = false;
+  const tier = val === 2500 ? 'Get Found' : val === 4500 ? 'Get Found in More Cities' : 'Every City, Every Service';
+  document.querySelectorAll('.tb-tier-btn').forEach(b => b.classList.toggle('active', b.dataset.tier === tier));
+  ['gallery','service-areas'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = (TIER_HIDE[tier]||[]).includes(id) ? 'none' : '';
+  });
+  // Clear existing toggle
+  const existChk = document.getElementById('pm-existing-chk');
+  const existRow = document.getElementById('pm-existing-row');
+  const buildSec = document.getElementById('pm-build-section');
+  if (existChk) existChk.checked = false;
+  if (existRow) existRow.classList.remove('active');
+  if (buildSec) buildSec.classList.remove('dimmed');
+  Q.bundle = false;
+  syncModalBuild();
+  syncBundleUI();
+  calcDealPrice();
+}
+
+// ── Monthly card selection (from modal) ───────────────────────
+function selectMonthlyQ(val) {
+  Q.monthly = val;
+  document.querySelectorAll('.tb-mo-btn').forEach(b => b.classList.toggle('active', parseInt(b.dataset.mo) === val));
+  Q.bundle = false;
+  syncModalMonthly();
+  syncBundleUI();
+  calcDealPrice();
+}
+
+// ── Bundle toggle (syncs both checkboxes) ─────────────────────
+function toggleBundle(srcId) {
+  Q.bundle = document.getElementById(srcId).checked;
+  const tbChk = document.getElementById('tb-bundle-chk');
+  const pmChk = document.getElementById('pm-bundle-chk');
+  if (tbChk) tbChk.checked = Q.bundle;
+  if (pmChk) pmChk.checked = Q.bundle;
+  calcDealPrice();
+}
+
+// ── Sync helpers ──────────────────────────────────────────────
+function syncModalBuild() {
+  document.querySelectorAll('.pm-build-card').forEach(c =>
+    c.classList.toggle('pm-sel', parseInt(c.dataset.val) === Q.build));
+}
+function syncModalMonthly() {
+  document.querySelectorAll('.pm-mo-card').forEach(c =>
+    c.classList.toggle('pm-sel', parseInt(c.dataset.val) === Q.monthly));
+}
+function syncBundleUI() {
+  const disc = getDiscountQ();
+  const eligible = disc > 0;
+  const tbWrap = document.getElementById('tb-bundle-wrap');
+  const pmRow  = document.getElementById('pm-bundle-row');
+  if (tbWrap) tbWrap.classList.toggle('hidden', !eligible);
+  if (pmRow)  pmRow.classList.toggle('hidden', !eligible);
+  const tbChk = document.getElementById('tb-bundle-chk');
+  const pmChk = document.getElementById('pm-bundle-chk');
+  if (!eligible) { if (tbChk) tbChk.checked = false; if (pmChk) pmChk.checked = false; Q.bundle = false; }
+  if (eligible) {
+    const plan = Q.monthly === 449 ? 'Full Crew' : 'Service Call';
+    const txt  = `Apply 12-month ${plan} commitment — <strong>$${disc.toLocaleString()} off</strong> the build. Cancel before 12 months: full discount added back to final invoice.`;
+    const tbLbl = document.getElementById('tb-bundle-label');
+    const pmLbl = document.getElementById('pm-bundle-label');
+    if (tbLbl) tbLbl.innerHTML = `Bundle −$${disc.toLocaleString()}`;
+    if (pmLbl) pmLbl.innerHTML = txt;
+  }
+}
+function calcDealPrice() {
+  const disc  = getDiscountQ();
+  const build = Q.bundle ? Math.max(0, Q.build - disc) : Q.build;
+  const mo    = Q.monthly;
+  const t12   = build + mo * 12;
+  const t24   = build + mo * 24;
+  // Toolbar badge
+  const badge = document.getElementById('tb-price-badge');
+  if (badge) {
+    if (Q.existing && mo > 0)       badge.textContent = '$' + mo + '/mo (mgmt only)';
+    else if (Q.existing)            badge.textContent = 'Monthly Only';
+    else if (build > 0 && mo > 0)   badge.textContent = '$' + build.toLocaleString() + ' + $' + mo + '/mo';
+    else if (build > 0)             badge.textContent = '$' + build.toLocaleString() + ' build only';
+    else if (mo > 0)                badge.textContent = '$' + mo + '/mo';
+    else                            badge.textContent = 'No plan selected';
+  }
+  // Modal price bar
+  const barBuild = document.getElementById('pm-bar-build');
+  const barMo    = document.getElementById('pm-bar-mo');
+  const bar12    = document.getElementById('pm-bar-12');
+  const bar24    = document.getElementById('pm-bar-24');
+  if (barBuild) barBuild.textContent = Q.existing ? 'Existing site' : (build > 0 ? '$' + build.toLocaleString() : '—');
+  if (barMo)    barMo.textContent    = mo > 0 ? '+ $' + mo + '/mo' : 'No monthly plan';
+  if (bar12)    bar12.textContent    = '$' + (Q.existing ? mo*12 : t12).toLocaleString() + ' over 12 months';
+  if (bar24)    bar24.textContent    = '$' + (Q.existing ? mo*24 : t24).toLocaleString() + ' over 24 months';
+}
+
+// ── Present mode ───────────────────────────────────────────────
+function enterPresent() {
+  document.getElementById('toolbar').classList.add('hidden');
+  document.getElementById('site').classList.add('present-mode');
+  document.getElementById('exitBtn').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function exitPresent() {
+  document.getElementById('toolbar').classList.remove('hidden');
+  document.getElementById('site').classList.remove('present-mode');
+  document.getElementById('exitBtn').style.display = 'none';
+}
+
+// ── Nav scroll handler ─────────────────────────────────────────
+const nav = document.getElementById('sitenav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+// ── Wire inputs ────────────────────────────────────────────────
+['tb-name','tb-cat','tb-phone','tb-reviews','tb-rating','tb-city'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', updateSite);
+});
+
+// ── Embed mode (hide toolbar when loaded inside floridatradesites.com iframe) ──
+(function() {
+  const params = new URLSearchParams(location.search);
+  if (params.get('mode') === 'embed') {
+    const tb = document.getElementById('toolbar');
+    const site = document.getElementById('site');
+    if (tb) tb.style.display = 'none';
+    if (site) site.style.paddingTop = '0';
+    const exitBtn = document.getElementById('exitBtn');
+    if (exitBtn) exitBtn.style.display = 'none';
+  }
+})();
+
+// ── postMessage listener (receive updates from floridatradesites.com) ──
+window.addEventListener('message', function(e) {
+  if (!e.data || e.data.type !== 'fts-update') return;
+  const {name, cat, city, reviews} = e.data;
+  const n = document.getElementById('tb-name');
+  const c = document.getElementById('tb-cat');
+  const ci = document.getElementById('tb-city');
+  const r = document.getElementById('tb-reviews');
+  if (name  !== undefined && n)  { n.value  = name; }
+  if (cat   !== undefined && c)  { c.value  = cat;  }
+  if (city  !== undefined && ci) { ci.value = city; }
+  if (reviews !== undefined && r){ r.value  = reviews; }
+  updateSite();
+});
+
+// ── Init ───────────────────────────────────────────────────────
+updateSite();
+setDemoTier('Get Found in More Cities');
+syncModalBuild();
+syncModalMonthly();
+syncBundleUI();
+calcDealPrice();
+</script>

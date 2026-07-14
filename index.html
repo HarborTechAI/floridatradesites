@@ -200,7 +200,7 @@
               </div>
               <div class="flex-1 bg-white/10 rounded px-3 py-1 text-xs text-white/40 font-mono" id="preview-url">www.yourbusiness.com</div>
             </div>
-            <iframe id="preview-frame" class="w-full h-[560px] block border-none" title="Website Preview" sandbox="allow-same-origin"></iframe>
+            <iframe id="preview-frame" src="demo.html?mode=embed" class="w-full h-[560px] block border-none" title="Website Preview" sandbox="allow-scripts allow-same-origin"></iframe>
             <div class="bg-navy px-5 py-4 text-center">
               <p class="text-slate-300 text-sm mb-3">Want the real version — with your actual Google reviews and photos?</p>
               <a href="sms:+18135550198?body=Hi%2C%20I%27d%20like%20a%20website%20preview%20for%20my%20business"
@@ -434,20 +434,17 @@
       document.getElementById('mobile-menu').classList.toggle('hidden');
     });
 
-    const TRADE_DATA = {
-      'Plumbing':         { headline:'Reliable Plumbing in {city} — Available 24/7', tagline:"Drains, leaks, water heaters — we fix it right the first time.", services:['Drain Cleaning','Water Heater Install','Emergency Leak Repair','Pipe Replacement','Toilet & Fixture Repair','Sewer Line Service'], color:'#1a5f8a', accent:'#2a7fc0' },
-      'HVAC':             { headline:'AC Repair & Install in {city} — Licensed & Insured', tagline:"Fast, honest HVAC service. We'll keep you cool all year.", services:['AC Repair & Maintenance','New System Installation','Air Handler Service','Duct Cleaning','Heat Pump Repair','Emergency AC Service'], color:'#1a7a52', accent:'#22a870' },
-      'Auto Repair':      { headline:"{city}'s Trusted Auto Repair Shop", tagline:'Honest mechanics. Fair prices. No BS.', services:['Oil Change & Lube','Brake Service & Repair','Engine Diagnostics','Transmission Service','Tire Rotation & Balancing','A/C Recharge'], color:'#7a3a1a', accent:'#c05a20' },
-      'Landscaping':      { headline:'Professional Lawn Care in {city}', tagline:'Reliable crews, consistent results.', services:['Weekly Lawn Mowing','Hedge Trimming','Mulch & Rock Install','Irrigation Repair','Tree Service','Sod Installation'], color:'#2a6a2a', accent:'#3a9a3a' },
-      'Pool Service':     { headline:'Pool Service & Repair in {city}', tagline:'Crystal clear water, every week.', services:['Weekly Pool Cleaning','Chemical Balancing','Pool Equipment Repair','Filter Cleaning','Algae Treatment','Pool Resurfacing'], color:'#1a6a8a', accent:'#2090c0' },
-      'Towing':           { headline:'Fast Towing & Roadside in {city}', tagline:'30-minute response. Available 24/7.', services:['Emergency Towing','Roadside Assistance','Jump Start','Flat Tire Change','Fuel Delivery','Lockout Service'], color:'#4a3a1a', accent:'#8a6a2a' },
-      'Electrical':       { headline:'Licensed Electrician in {city}', tagline:'Safe, code-compliant work.', services:['Panel Upgrades','Outlet & Switch Install','Ceiling Fan Install','EV Charger Install','Generator Hookup','Emergency Electrical'], color:'#3a3a1a', accent:'#8a8a20' },
-      'Window Tinting':   { headline:'Professional Window Tinting in {city}', tagline:'Auto, home, and commercial. Lifetime warranty.', services:['Auto Window Tinting','Residential Window Film','Commercial Tinting','Paint Protection Film','Ceramic Coating','Windshield Protection'], color:'#2a2a4a', accent:'#4a4a9a' },
-      'Roofing':          { headline:'Trusted Roofing Contractor in {city}', tagline:'Free inspections. Honest quotes.', services:['Roof Replacement','Storm Damage Repair','Roof Inspection','Shingle Repair','Flat Roof Install','Gutter Service'], color:'#5a2a1a', accent:'#9a3a20' },
-      'Pressure Washing': { headline:'Pressure Washing & Soft Wash in {city}', tagline:'We make it look new again.', services:['Driveway Cleaning','House Washing','Roof Soft Wash','Deck & Fence Cleaning','Commercial Washing','Patio & Pool Deck'], color:'#1a4a6a', accent:'#2a7aaa' }
-    };
-
     let debounceTimer;
+    let iframeReady = false;
+    let pendingUpdate = null;
+
+    document.getElementById('preview-frame').addEventListener('load', function() {
+      iframeReady = true;
+      if (pendingUpdate) {
+        sendToFrame(pendingUpdate);
+        pendingUpdate = null;
+      }
+    });
 
     function debouncedUpdate() {
       clearTimeout(debounceTimer);
@@ -456,11 +453,18 @@
 
     function slugify(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, '').slice(0, 22); }
 
+    function sendToFrame(data) {
+      const frame = document.getElementById('preview-frame');
+      if (frame && frame.contentWindow) {
+        frame.contentWindow.postMessage({ type: 'fts-update', ...data }, '*');
+      }
+    }
+
     function renderPreview() {
-      const name = document.getElementById('d-name').value.trim();
-      const trade = document.getElementById('d-trade').value;
-      const city = document.getElementById('d-city').value;
-      const reviews = parseInt(document.getElementById('d-reviews').value) || 63;
+      const name    = document.getElementById('d-name').value.trim();
+      const trade   = document.getElementById('d-trade').value;
+      const city    = document.getElementById('d-city').value;
+      const reviews = document.getElementById('d-reviews').value || '63';
 
       if (!name || !trade) {
         document.getElementById('preview-placeholder').style.display = 'flex';
@@ -468,22 +472,16 @@
         return;
       }
 
-      const d = TRADE_DATA[trade] || TRADE_DATA['Plumbing'];
       document.getElementById('preview-url').textContent = 'www.' + slugify(name) + '.com';
       document.getElementById('preview-placeholder').style.display = 'none';
       document.getElementById('site-preview').classList.remove('hidden');
 
-      const rating = (4.7 + Math.min(reviews / 600, 0.25)).toFixed(1);
-      const svcRows = d.services.map(s =>
-        `<div style="padding:9px 12px;border-bottom:1px solid #eee;font-size:13px;display:flex;align-items:center;gap:8px"><span style="color:${d.accent};font-weight:700">✓</span><span>${s}</span></div>`
-      ).join('');
-
-      const revSection = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">${
-        ['Same day. Very professional.','Fair pricing and great work.','Cleaned up after. Will use again.','Honest and reliable.']
-        .map(t => `<div style="background:#fff;border:1px solid #e0e0e0;border-radius:5px;padding:10px"><div style="color:#F59E0B;font-size:12px;margin-bottom:3px">★★★★★</div><div style="font-size:11px;color:#555;line-height:1.4">"${t}"</div></div>`).join('')
-      }</div>`;
-
-      document.getElementById('preview-frame').srcdoc = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,sans-serif;font-size:14px;color:#1a1a1a;background:#fff}</style></head><body><div style="background:${d.color};padding:10px 16px;display:flex;align-items:center;justify-content:space-between"><div style="font-size:14px;font-weight:800;color:#fff">${name}</div><span style="background:#fff;color:${d.color};padding:5px 12px;border-radius:4px;font-size:11px;font-weight:700">Call Now</span></div><div style="background:linear-gradient(135deg,${d.color} 0%,${d.accent} 100%);padding:24px 16px 20px;color:#fff"><div style="font-size:15px;font-weight:800;line-height:1.25;margin-bottom:7px">${d.headline.replace(/\{city\}/g, city)}</div><div style="font-size:12px;opacity:.8;margin-bottom:13px;line-height:1.4">${d.tagline}</div><div style="display:flex;gap:8px"><div style="background:#fff;color:${d.color};padding:7px 14px;border-radius:4px;font-size:12px;font-weight:700">Get a Free Quote</div><div style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);padding:7px 12px;border-radius:4px;font-size:12px">📞 Call</div></div></div><div style="background:#fff;border-bottom:1px solid #eee;padding:9px 16px;display:flex;align-items:center;gap:10px"><span style="color:#F59E0B;font-size:14px">★★★★★</span><span style="font-weight:700;font-size:14px">${rating}</span><span style="font-size:12px;color:#666">Based on <strong>${reviews} Google reviews</strong></span><span style="margin-left:auto;font-size:11px;color:${d.accent};font-weight:700">⭐ ${city}'s Top Rated</span></div><div style="padding:14px 16px"><div style="font-size:11px;font-weight:700;color:#666;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Our Services</div><div style="border:1px solid #eee;border-radius:5px;overflow:hidden">${svcRows}</div></div><div style="padding:0 16px 14px"><div style="font-size:11px;font-weight:700;color:#666;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">What Customers Say</div>${revSection}</div><div style="background:#f5f5f5;padding:12px 16px"><div style="font-size:11px;font-weight:700;color:#666;margin-bottom:5px">SERVING ${city.toUpperCase()} & SURROUNDING AREAS</div><div style="display:flex;flex-wrap:wrap;gap:5px">${['Tampa','Orlando','Jacksonville','Lakeland','Brandon','Clearwater'].map(c => `<span style="background:#fff;border:1px solid #ddd;border-radius:12px;padding:2px 9px;font-size:11px;color:#555">${c}</span>`).join('')}</div></div><div style="background:${d.color};padding:10px 16px;text-align:center"><div style="font-size:11px;color:rgba(255,255,255,.7)">${name} · ${city}, FL · Licensed &amp; Insured</div></div></body></html>`;
+      const payload = { name, cat: trade, city, reviews };
+      if (iframeReady) {
+        sendToFrame(payload);
+      } else {
+        pendingUpdate = payload;
+      }
     }
   </script>
 
