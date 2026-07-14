@@ -42,6 +42,61 @@ img{max-width:100%}
 a{color:var(--copper);text-decoration:none}
 button{cursor:pointer;border:none;font:inherit}
 
+/* ─── Prospect banner ─────────────────────────────────────────── */
+#prospect-banner {
+  display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 2000;
+  background: #0a0a1a; border-bottom: 2px solid var(--copper);
+  padding: 10px 20px;
+  flex-direction: row; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+#prospect-banner.show { display: flex; }
+.banner-left { font-size: 13px; color: rgba(255,255,255,.85); }
+.banner-left strong { color: #fff; }
+.banner-right { display: flex; align-items: center; gap: 10px; }
+.banner-cta {
+  background: var(--copper); color: #fff; font-size: 12px; font-weight: 700;
+  padding: 6px 14px; border-radius: 4px; text-decoration: none; white-space: nowrap;
+}
+.banner-dismiss {
+  background: none; color: rgba(255,255,255,.4); font-size: 16px;
+  padding: 2px 6px; border-radius: 3px; transition: color .2s;
+}
+.banner-dismiss:hover { color: #fff; }
+
+/* ─── Mobile sticky CTA ────────────────────────────────────────── */
+#mobile-sticky {
+  display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 1500;
+  background: var(--navy); border-top: 2px solid var(--copper);
+  padding: 12px 20px; align-items: center; justify-content: space-between; gap: 10px;
+}
+@media (max-width: 768px) { #mobile-sticky { display: flex; } }
+.sticky-text { font-size: 13px; color: rgba(255,255,255,.7); }
+.sticky-text strong { color: #fff; display: block; font-size: 14px; }
+.sticky-cta {
+  background: var(--copper); color: #fff; font-weight: 700; font-size: 13px;
+  padding: 10px 18px; border-radius: 6px; text-decoration: none; white-space: nowrap; flex-shrink: 0;
+}
+
+/* ─── Builder footer card ──────────────────────────────────────── */
+#builder-card {
+  background: rgba(0,0,0,.25); border-top: 1px solid rgba(255,255,255,.08);
+  padding: 20px 24px; display: flex; align-items: center;
+  justify-content: center; gap: 14px; flex-wrap: wrap;
+}
+.builder-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,.1); display: flex; align-items: center;
+  justify-content: center; font-size: 20px; flex-shrink: 0;
+}
+.builder-info { font-size: 12px; }
+.builder-name { color: #fff; font-weight: 700; font-size: 13px; }
+.builder-sub { color: rgba(255,255,255,.45); margin-top: 1px; }
+.builder-cta {
+  background: var(--copper); color: #fff; font-size: 12px; font-weight: 700;
+  padding: 7px 14px; border-radius: 4px; text-decoration: none; white-space: nowrap;
+}
+
 /* ─── Toolbar ─────────────────────────────────────────────────── */
 #toolbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
@@ -627,6 +682,21 @@ footer {
 </svg>
 
 <!-- ─── TOOLBAR ────────────────────────────────────────────────── -->
+<!-- Prospect banner (shown in presentation mode) -->
+<div id="prospect-banner">
+  <div class="banner-left">&#x1F44B; Built this preview for <strong id="banner-biz">your business</strong> &mdash; <span style="color:rgba(255,255,255,.5)">Yusuf Hakim &middot; Tampa, FL &middot; FloridaTradeSites</span></div>
+  <div class="banner-right">
+    <a id="banner-sms" href="sms:+18135550198?body=Hi%20Yusuf%2C%20I%20saw%20the%20preview%20for%20my%20business" class="banner-cta">&#x1F4AC; Text Me &rarr;</a>
+    <button class="banner-dismiss" onclick="document.getElementById('prospect-banner').style.display='none'">&#x2715;</button>
+  </div>
+</div>
+
+<!-- Mobile sticky bottom CTA -->
+<div id="mobile-sticky">
+  <div class="sticky-text"><strong>Want this site live?</strong>Text Yusuf &mdash; Tampa, FL</div>
+  <a id="sticky-sms" href="sms:+18135550198?body=Hi%20Yusuf%2C%20I%20saw%20the%20preview%20for%20my%20business" class="sticky-cta">&#x1F4AC; Text Me &rarr;</a>
+</div>
+
 <div id="toolbar">
   <div class="tb-inner">
     <div class="tb-logo">HarborTech <span>AI</span> &nbsp;·&nbsp; <span style="color:rgba(255,255,255,.4);font-weight:400;font-size:11px">LIVE DEMO PREVIEW</span></div>
@@ -1052,10 +1122,20 @@ footer {
       </div>
       <div class="footer-bottom">
         <div class="footer-license" id="footer-license">© 2025 <span class="js-name">Caden &amp; Sons Plumbing</span> · FL Lic. #CFC1234567 · <span class="js-city">Tampa</span>, FL</div>
-        <div class="footer-credit">Website by <a href="#">HarborTech AI</a></div>
+        <div class="footer-credit">Website by <a href="https://floridatradesites.com">FloridaTradeSites</a></div>
       </div>
     </div>
   </footer>
+
+<!-- Builder card -->
+<div id="builder-card">
+  <div class="builder-avatar">&#x1F468;</div>
+  <div class="builder-info">
+    <div class="builder-name">Yusuf Hakim &mdash; FloridaTradeSites</div>
+    <div class="builder-sub">Tampa, FL &middot; (813) 555-0198 &middot; floridatradesites.com</div>
+  </div>
+  <a id="builder-sms" href="sms:+18135550198?body=Hi%20Yusuf%2C%20I%20saw%20the%20preview%20for%20my%20business" class="builder-cta">&#x1F4AC; Text Me to Get Started</a>
+</div>
 
 </div><!-- /#site -->
 
@@ -1469,7 +1549,9 @@ const AREAS = [
   { name:'Gibsonton',      dist:'22 min from Tampa' },
 ];
 function renderAreas() {
-  document.getElementById('areas-grid').innerHTML = AREAS.map(a => `
+  const city = val('tb-city') || 'Tampa';
+  const areas = CITY_NEIGHBORS[city] || AREAS;
+  document.getElementById('areas-grid').innerHTML = areas.map(a => `
     <div class="area-card">
       <div class="area-dot"></div>
       <div>
@@ -1498,8 +1580,12 @@ function renderServices(cat) {
 function renderTestimonials(cat) {
   const d = DATA[cat];
   if (!d) return;
-  document.getElementById('testi-grid').innerHTML = d.testimonials.map(t => `
-    <div class="testi-card">
+  // Prepend real reviews from URL params (they come first, most prominent)
+  const paramRevs = (window.PARAM_REVIEWS || []).map(t => ({...t, real: true}));
+  const all = [...paramRevs, ...d.testimonials].slice(0, 6);
+  document.getElementById('testi-grid').innerHTML = all.map(t => `
+    <div class="testi-card${t.real ? ' testi-real' : ''}">
+      ${t.real ? '<div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--copper);margin-bottom:6px">&#x2713; Your Google Review</div>' : ''}
       <div class="testi-stars">${starsHTML(t.stars)}</div>
       <div class="testi-text">${t.text}</div>
       <div class="testi-author">
@@ -1782,6 +1868,73 @@ window.addEventListener('scroll', () => {
   const el = document.getElementById(id);
   if (el) el.addEventListener('input', updateSite);
 });
+
+// ── City neighbors map ─────────────────────────────────────────
+const CITY_NEIGHBORS = {
+  'Tampa':           [{name:'Brandon',dist:'15 min'},{name:'Riverview',dist:'20 min'},{name:'Wesley Chapel',dist:'25 min'},{name:'Lutz',dist:'20 min'},{name:'Plant City',dist:'30 min'},{name:'Valrico',dist:'22 min'},{name:'Gibsonton',dist:'22 min'},{name:'Seffner',dist:'18 min'}],
+  'Orlando':         [{name:'Kissimmee',dist:'18 min'},{name:'Sanford',dist:'25 min'},{name:'Apopka',dist:'22 min'},{name:'Oviedo',dist:'20 min'},{name:'Altamonte Springs',dist:'15 min'},{name:'Winter Park',dist:'12 min'},{name:'Clermont',dist:'30 min'},{name:'Windermere',dist:'20 min'}],
+  'Jacksonville':    [{name:'Orange Park',dist:'20 min'},{name:'Fleming Island',dist:'25 min'},{name:'Ponte Vedra',dist:'30 min'},{name:'Middleburg',dist:'35 min'},{name:'St. Augustine',dist:'40 min'},{name:'Fernandina Beach',dist:'35 min'},{name:'Yulee',dist:'30 min'},{name:'Callahan',dist:'30 min'}],
+  'Miami':           [{name:'Hialeah',dist:'15 min'},{name:'Miami Gardens',dist:'18 min'},{name:'Homestead',dist:'35 min'},{name:'Doral',dist:'20 min'},{name:'Coral Gables',dist:'15 min'},{name:'Kendall',dist:'20 min'},{name:'Cutler Bay',dist:'25 min'},{name:'Aventura',dist:'25 min'}],
+  'Fort Lauderdale': [{name:'Hollywood',dist:'15 min'},{name:'Pompano Beach',dist:'15 min'},{name:'Deerfield Beach',dist:'20 min'},{name:'Davie',dist:'15 min'},{name:'Miramar',dist:'20 min'},{name:'Weston',dist:'25 min'},{name:'Coral Springs',dist:'20 min'},{name:'Plantation',dist:'15 min'}],
+  'St. Petersburg':  [{name:'Clearwater',dist:'20 min'},{name:'Pinellas Park',dist:'12 min'},{name:'Largo',dist:'15 min'},{name:'Seminole',dist:'18 min'},{name:'Dunedin',dist:'25 min'},{name:'Safety Harbor',dist:'20 min'},{name:'Gulfport',dist:'8 min'},{name:'Kenneth City',dist:'10 min'}],
+  'Clearwater':      [{name:'St. Petersburg',dist:'20 min'},{name:'Largo',dist:'10 min'},{name:'Dunedin',dist:'10 min'},{name:'Palm Harbor',dist:'15 min'},{name:'Safety Harbor',dist:'12 min'},{name:'Oldsmar',dist:'18 min'},{name:'Tarpon Springs',dist:'20 min'},{name:'Pinellas Park',dist:'18 min'}],
+  'Sarasota':        [{name:'Bradenton',dist:'20 min'},{name:'Venice',dist:'25 min'},{name:'North Port',dist:'35 min'},{name:'Osprey',dist:'15 min'},{name:'Nokomis',dist:'15 min'},{name:'Englewood',dist:'40 min'},{name:'Palmetto',dist:'30 min'},{name:'Ellenton',dist:'28 min'}],
+  'Cape Coral':      [{name:'Fort Myers',dist:'20 min'},{name:'Lehigh Acres',dist:'25 min'},{name:'North Fort Myers',dist:'15 min'},{name:'Bonita Springs',dist:'35 min'},{name:'Estero',dist:'40 min'},{name:'Marco Island',dist:'55 min'},{name:'Punta Gorda',dist:'40 min'},{name:'Port Charlotte',dist:'45 min'}],
+  'Lakeland':        [{name:'Plant City',dist:'20 min'},{name:'Winter Haven',dist:'20 min'},{name:'Bartow',dist:'15 min'},{name:'Haines City',dist:'25 min'},{name:'Auburndale',dist:'12 min'},{name:'Polk City',dist:'18 min'},{name:'Mulberry',dist:'18 min'},{name:'Eagle Lake',dist:'12 min'}],
+  'Gainesville':     [{name:'Alachua',dist:'15 min'},{name:'Newberry',dist:'20 min'},{name:'Archer',dist:'18 min'},{name:'Hawthorne',dist:'25 min'},{name:'Waldo',dist:'15 min'},{name:'Micanopy',dist:'12 min'},{name:'High Springs',dist:'25 min'},{name:'Cross Creek',dist:'20 min'}],
+  'Brandon':         [{name:'Tampa',dist:'15 min'},{name:'Riverview',dist:'12 min'},{name:'Valrico',dist:'8 min'},{name:'Seffner',dist:'10 min'},{name:'Lithia',dist:'20 min'},{name:'Gibsonton',dist:'15 min'},{name:'Plant City',dist:'20 min'},{name:'Wesley Chapel',dist:'25 min'}],
+  'Riverview':       [{name:'Tampa',dist:'20 min'},{name:'Brandon',dist:'12 min'},{name:'Gibsonton',dist:'10 min'},{name:'Apollo Beach',dist:'12 min'},{name:'Wimauma',dist:'20 min'},{name:'Ruskin',dist:'15 min'},{name:'Sun City',dist:'18 min'},{name:'Valrico',dist:'15 min'}],
+  'Wesley Chapel':   [{name:'Tampa',dist:'25 min'},{name:'Zephyrhills',dist:'15 min'},{name:'Land O Lakes',dist:'10 min'},{name:'Lutz',dist:'12 min'},{name:'New Tampa',dist:'10 min'},{name:'Dade City',dist:'20 min'},{name:'San Antonio',dist:'18 min'},{name:'Odessa',dist:'15 min'}],
+  'Lakeland':        [{name:'Plant City',dist:'20 min'},{name:'Winter Haven',dist:'20 min'},{name:'Bartow',dist:'15 min'},{name:'Haines City',dist:'25 min'},{name:'Auburndale',dist:'12 min'},{name:'Mulberry',dist:'18 min'},{name:'Polk City',dist:'18 min'},{name:'Lake Wales',dist:'25 min'}],
+};
+
+// ── URL param parsing + presentation mode ─────────────────────
+(function initFromParams() {
+  const P = new URLSearchParams(location.search);
+  const presentMode = P.get('p') === '1';
+
+  // Auto-fill inputs
+  const setVal = (id, key) => { const v = P.get(key); if (v && document.getElementById(id)) document.getElementById(id).value = decodeURIComponent(v); };
+  setVal('tb-name',    'name');
+  setVal('tb-cat',     'cat');
+  setVal('tb-city',    'city');
+  setVal('tb-phone',   'phone');
+  setVal('tb-reviews', 'reviews');
+  setVal('tb-rating',  'rating');
+
+  // Store real reviews from params for renderTestimonials
+  window.PARAM_REVIEWS = [];
+  ['1','2','3'].forEach(n => {
+    const text = P.get('r' + n), name = P.get('r' + n + 'name');
+    if (text) window.PARAM_REVIEWS.push({ init: (name||'?')[0].toUpperCase(), name: name||'A customer', loc:'', stars:5, text: decodeURIComponent(text) });
+  });
+
+  // Presentation mode
+  if (presentMode) {
+    const tb = document.getElementById('toolbar');
+    const site = document.getElementById('site');
+    const exit = document.getElementById('exitBtn');
+    if (tb)   tb.style.display = 'none';
+    if (site) site.style.paddingTop = '40px';
+    if (exit) exit.style.display = 'none';
+
+    // Show banner
+    const banner = document.getElementById('prospect-banner');
+    if (banner) banner.classList.add('show');
+
+    // Update banner business name
+    const bizName = P.get('name') ? decodeURIComponent(P.get('name')) : 'your business';
+    const bannerBiz = document.getElementById('banner-biz');
+    if (bannerBiz) bannerBiz.textContent = bizName;
+
+    // Update SMS links with business name in body
+    const smsBody = encodeURIComponent(`Hi Yusuf, I saw the preview for ${bizName} — I'm interested`);
+    ['banner-sms','sticky-sms','builder-sms'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.href = `sms:+18135550198?body=${smsBody}`;
+    });
+  }
+})();
 
 // ── Embed mode (hide toolbar when loaded inside floridatradesites.com iframe) ──
 (function() {
