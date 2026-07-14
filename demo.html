@@ -638,16 +638,22 @@ footer {
       <div class="tb-field">
         <label>Trade / Service</label>
         <select id="tb-cat">
-          <option value="Plumbing">Plumbing</option>
-          <option value="HVAC">HVAC / AC Repair</option>
-          <option value="Auto Repair">Auto Repair</option>
-          <option value="Landscaping">Landscaping</option>
-          <option value="Pool Service">Pool Service</option>
-          <option value="Towing">Towing</option>
-          <option value="Electrical">Electrical</option>
-          <option value="Pressure Washing">Pressure Washing</option>
-          <option value="Window Tinting">Window Tinting</option>
           <option value="Roofing">Roofing</option>
+          <option value="Painting">Painting</option>
+          <option value="Electrical">Electrical / Electrician</option>
+          <option value="Locksmith">Locksmith</option>
+          <option value="HVAC">HVAC / AC Repair</option>
+          <option value="Towing">Towing</option>
+          <option value="Pest Control">Pest Control</option>
+          <option value="Pool Service">Pool Service</option>
+          <option value="Cleaning Services">Cleaning Services</option>
+          <option value="Landscaping">Landscaping</option>
+          <option value="Appliance Repair">Appliance Repair</option>
+          <option value="Pressure Washing">Pressure Washing</option>
+          <option value="Gutters">Gutters</option>
+          <option value="Plumbing">Plumbing</option>
+          <option value="Auto Repair">Auto Repair</option>
+          <option value="Window Tinting">Window Tinting</option>
         </select>
       </div>
       <div class="tb-field">
@@ -1274,6 +1280,106 @@ const DATA = {
       { init:"T", name:"Tammy R.", loc:"Lakeland, FL",        stars:5, text:"Got 4 quotes. These guys were honest — said I only needed a repair, not a full replacement. Saved me $8,000." },
       { init:"J", name:"Joe M.",   loc:"Sarasota, FL",        stars:5, text:"Entire roof done in one day. Clean crew, quality shingles, passed inspection. Very professional." }
     ]
+  },
+  "Locksmith": {
+    tagline: "Fast, Trusted Locksmith in {city} — We're On the Way",
+    sub: "Car Lockouts &bull; Home &bull; Business &bull; 24/7",
+    emergency: "Locked out? We'll be there in 30 minutes.",
+    license: "FL Lic. #LS12345",
+    footerTag: "Licensed Locksmith",
+    services: [
+      { icon: "ic-shield", name: "Car Lockout Service",       desc: "Slim-jim and long-reach — any make, any model, no damage." },
+      { icon: "ic-tool",   name: "Home Lockout",              desc: "Fast entry without damage. We rekey the lock after, your choice." },
+      { icon: "ic-wrench", name: "Lock Rekey & Replacement",  desc: "New keys, same locks — or upgrade to Schlage/Kwikset deadbolts." },
+      { icon: "ic-check",  name: "New Lock Installation",     desc: "Single, double-cylinder, smart locks — installed and tested." },
+      { icon: "ic-zap",    name: "Business Locksmith",        desc: "Master key systems, access control, commercial deadbolts." },
+      { icon: "ic-phone",  name: "24/7 Emergency Service",    desc: "We answer every call. No voicemail at 2am." }
+    ],
+    testimonials: [
+      { init:"R", name:"Ray V.",   loc:"Brandon, FL",         stars:5, text:"Locked my keys in my truck at a job site. Called, they were there in 22 minutes. Super professional and affordable." },
+      { init:"L", name:"Lisa M.", loc:"Clearwater, FL",       stars:5, text:"Needed to rekey my whole house after a breakup. They did all 4 doors in under an hour. Great price." },
+      { init:"C", name:"Carl B.", loc:"Lutz, FL",             stars:5, text:"These are the guys you want to save in your phone. Helped me at midnight when no one else picked up." }
+    ]
+  },
+  "Pest Control": {
+    tagline: "Pest-Free Guaranteed — Pest Control in {city}",
+    sub: "Roaches &bull; Termites &bull; Ants &bull; Rodents &bull; Mosquitoes",
+    emergency: "Seeing bugs? We can be out today.",
+    license: "FL Lic. #JB12345",
+    footerTag: "Licensed Pest Control",
+    services: [
+      { icon: "ic-shield", name: "General Pest Control",      desc: "Monthly and quarterly plans — roaches, ants, spiders, silverfish." },
+      { icon: "ic-check",  name: "Termite Inspection & Treatment", desc: "WDO inspections, Sentricon bait stations, liquid treatment." },
+      { icon: "ic-leaf",   name: "Mosquito Control",          desc: "Backyard spray programs — enjoy your yard again." },
+      { icon: "ic-wrench", name: "Rodent Exclusion",         desc: "We seal entry points and remove existing rodent activity." },
+      { icon: "ic-tool",   name: "Bed Bug Treatment",         desc: "Heat treatment and chemical options — results guaranteed." },
+      { icon: "ic-drop",   name: "Ant & Roach Treatment",     desc: "Targeted gel baiting and exterior perimeter — gone in days." }
+    ],
+    testimonials: [
+      { init:"M", name:"Maria C.", loc:"Riverview, FL",       stars:5, text:"Had a serious roach problem in a house I just bought. One treatment and they've been gone for 8 months. Worth every penny." },
+      { init:"D", name:"Dave R.", loc:"Valrico, FL",          stars:5, text:"Termite inspection before closing. Fast, thorough, no upsell. Will use them for quarterly service going forward." },
+      { init:"S", name:"Sue T.",  loc:"Land O Lakes, FL",     stars:5, text:"Mosquitoes were so bad we couldn't use our backyard. After the spray program our yard is livable again." }
+    ]
+  },
+  "Cleaning Services": {
+    tagline: "Spotless, Every Time — Cleaning Services in {city}",
+    sub: "Residential &bull; Move-Out &bull; Deep Clean &bull; Commercial",
+    emergency: "Need a same-day clean? Call us now.",
+    license: "FL Cert. #CS12345",
+    footerTag: "Professional Cleaning Services",
+    services: [
+      { icon: "ic-check",  name: "Standard House Cleaning",   desc: "Weekly, bi-weekly, or monthly — consistent crew every time." },
+      { icon: "ic-tool",   name: "Deep Cleaning",             desc: "Inside cabinets, behind appliances, baseboards — the full treatment." },
+      { icon: "ic-leaf",   name: "Move-Out / Move-In Clean",  desc: "Get your deposit back. We clean to property management standards." },
+      { icon: "ic-drop",   name: "Carpet Cleaning",           desc: "Hot water extraction — removes stains, pet odors, allergens." },
+      { icon: "ic-shield", name: "Window Cleaning",           desc: "Interior and exterior — streak-free, every pane." },
+      { icon: "ic-wrench", name: "Post-Construction Cleanup", desc: "Dust, debris, and residue — we make new builds move-in ready." }
+    ],
+    testimonials: [
+      { init:"A", name:"Amy G.",  loc:"Tampa, FL",            stars:5, text:"Same crew every other week for 6 months. They know my house better than I do at this point. Reliable and thorough." },
+      { init:"J", name:"James F.",loc:"Wesley Chapel, FL",    stars:5, text:"Move-out clean on a 2,400sqft house. Got my full deposit back. Worth every dollar." },
+      { init:"P", name:"Paula N.",loc:"St. Petersburg, FL",   stars:5, text:"Deep cleaned before we listed the house. Realtor said it was the cleanest she'd seen. Sold in 4 days." }
+    ]
+  },
+  "Appliance Repair": {
+    tagline: "Same-Day Appliance Repair in {city} — We Fix It Right",
+    sub: "Washer &bull; Dryer &bull; Refrigerator &bull; Dishwasher &bull; Oven",
+    emergency: "Fridge down? We have same-day slots.",
+    license: "FL Cert. #AR12345",
+    footerTag: "Certified Appliance Repair",
+    services: [
+      { icon: "ic-tool",   name: "Washer & Dryer Repair",     desc: "All brands — not spinning, won't drain, making noise — fixed." },
+      { icon: "ic-drop",   name: "Refrigerator Repair",       desc: "Not cooling, leaking, ice maker down — diagnosed and fixed same day." },
+      { icon: "ic-wrench", name: "Dishwasher Repair",         desc: "Not cleaning, leaking, won't start — most repairs in one visit." },
+      { icon: "ic-zap",    name: "Oven & Range Repair",       desc: "Gas and electric — burners, ignitors, control boards." },
+      { icon: "ic-check",  name: "Microwave Repair",          desc: "Over-the-range and countertop — most parts in stock." },
+      { icon: "ic-shield", name: "90-Day Parts & Labor Warranty", desc: "Every repair is backed — if it breaks again, we come back free." }
+    ],
+    testimonials: [
+      { init:"K", name:"Karen B.", loc:"Brandon, FL",         stars:5, text:"Fridge went out on a Saturday. They came Sunday morning and fixed it in 45 minutes. Had the part on the truck." },
+      { init:"T", name:"Tom L.",  loc:"Odessa, FL",           stars:5, text:"Washer was destroying my clothes. New bearings, balanced, works like new. Way cheaper than replacing it." },
+      { init:"N", name:"Nate H.", loc:"Lutz, FL",             stars:5, text:"Dishwasher wasn't cleaning anything. They diagnosed a broken wash arm in 10 minutes. Fixed same visit." }
+    ]
+  },
+  "Gutters": {
+    tagline: "Gutter Installation & Cleaning in {city} — Protect Your Home",
+    sub: "Seamless Gutters &bull; Cleaning &bull; Guards &bull; Repair",
+    emergency: "Overflowing gutters? Call before it damages your foundation.",
+    license: "FL Cert. #GC12345",
+    footerTag: "Licensed Gutter Contractor",
+    services: [
+      { icon: "ic-drop",   name: "Seamless Gutter Installation", desc: "Custom-cut aluminum gutters — no seams, no leaks, 20-year warranty." },
+      { icon: "ic-wrench", name: "Gutter Cleaning",            desc: "Cleared and flushed — we check every downspout and take photos." },
+      { icon: "ic-shield", name: "Gutter Guards",              desc: "Never clean gutters again — micro-mesh guards installed over existing." },
+      { icon: "ic-tool",   name: "Gutter Repair",              desc: "Sagging, pulling away, leaking seams — repaired same day." },
+      { icon: "ic-check",  name: "Downspout Extensions",       desc: "Direct water away from your foundation — prevent flooding." },
+      { icon: "ic-leaf",   name: "Fascia & Soffit Repair",     desc: "Rot and damage behind the gutters fixed before new install." }
+    ],
+    testimonials: [
+      { init:"B", name:"Bob C.",  loc:"Zephyrhills, FL",      stars:5, text:"New seamless gutters on a 2,600sqft house. Done in one day, cleaned up perfectly. Great price." },
+      { init:"H", name:"Helen R.",loc:"New Port Richey, FL",   stars:5, text:"Cleaned and installed guards. Haven't had to clean them since. Should've done it years ago." },
+      { init:"F", name:"Frank G.",loc:"Spring Hill, FL",       stars:5, text:"Gutters were pulling away from the fascia. Repaired and re-pitched everything. No more overflow." }
+    ]
   }
 };
 
@@ -1299,7 +1405,12 @@ const GALLERY = {
   "Electrical":       { title:"Electrical Work — Before & After",items:["Panel Upgrade","EV Charger Install","Generator Hookup","Lighting Install","Outlet Replacement","Code Fix"] },
   "Pressure Washing": { title:"Pressure Washing — Before & After",items:["Driveway Clean","Roof Wash","House Exterior","Pool Deck","Fence Restore","Commercial Lot"] },
   "Window Tinting":   { title:"Tint Work — Before & After",     items:["Ceramic Auto Tint","Residential Film","Commercial Tint","Paint Protection","Security Film","Truck Tint"] },
-  "Roofing":          { title:"Roofing Work — Before & After",   items:["Roof Replacement","Storm Repair","Shingle Repair","Gutter Install","Flat Roof","Insurance Job"] }
+  "Roofing":          { title:"Roofing Work — Before & After",   items:["Roof Replacement","Storm Repair","Shingle Repair","Gutter Install","Flat Roof","Insurance Job"] },
+  "Locksmith":        { title:"Locksmith Work — In Action",       items:["Car Lockout","Home Lockout","Lock Rekey","Deadbolt Install","Safe Opening","Business Locks"] },
+  "Pest Control":     { title:"Pest Control — Before & After",    items:["Roach Treatment","Termite Inspection","Ant Control","Rodent Exclusion","Mosquito Spray","Spider Treatment"] },
+  "Cleaning Services":{ title:"Cleaning Work — Before & After",   items:["Deep House Clean","Move-Out Clean","Carpet Cleaning","Window Cleaning","Pressure Wash","Post-Construction"] },
+  "Appliance Repair": { title:"Appliance Repairs — Before & After",items:["Washer Repair","Dryer Repair","Fridge Fix","Dishwasher","Stove Repair","AC Unit"] },
+  "Gutters":          { title:"Gutter Work — Before & After",     items:["Gutter Install","Gutter Cleaning","Downspout Fix","Gutter Guards","Fascia Repair","Leaf Filter"] }
 };
 
 const AREA_COLORS = ['#1A4A7A','#C8752A','#2E6B4F','#7A3B6E','#3D6B8A','#8A4A1A'];
@@ -1399,6 +1510,36 @@ function renderTestimonials(cat) {
   `).join('');
 }
 
+// ── Per-trade color themes ─────────────────────────────────────
+const THEMES = {
+  'Plumbing':         { navy: '#0F2A43', copper: '#2E86DE', cta: '#E67E22' },
+  'HVAC':             { navy: '#0E3A4A', copper: '#20B2AA', cta: '#F39C12' },
+  'HVAC / AC Repair': { navy: '#0E3A4A', copper: '#20B2AA', cta: '#F39C12' },
+  'Landscaping':      { navy: '#1E2D24', copper: '#4C8C4A', cta: '#D4A03C' },
+  'Pool Service':     { navy: '#0B3D4C', copper: '#2EC4B6', cta: '#FF9F43' },
+  'Auto Repair':      { navy: '#1C1C1E', copper: '#C0392B', cta: '#E74C3C' },
+  'Roofing':          { navy: '#2C3540', copper: '#5D7A96', cta: '#D35400' },
+  'Electrical':       { navy: '#1A1A2E', copper: '#E6B800', cta: '#E6B800' },
+  'Electrician':      { navy: '#1A1A2E', copper: '#E6B800', cta: '#E6B800' },
+  'Pressure Washing': { navy: '#0D304D', copper: '#1E90FF', cta: '#1E90FF' },
+  'Window Tinting':   { navy: '#0D0D12', copper: '#8E9AAF', cta: '#B08D57' },
+  'Towing':           { navy: '#141414', copper: '#E8590C', cta: '#E8590C' },
+  'Painting':         { navy: '#2A1F3D', copper: '#9B59B6', cta: '#E8590C' },
+  'Locksmith':        { navy: '#1A2635', copper: '#C0A060', cta: '#C0A060' },
+  'Pest Control':     { navy: '#1E2D1A', copper: '#5DBB63', cta: '#D4A03C' },
+  'Cleaning Services':{ navy: '#0D2A3F', copper: '#00BCD4', cta: '#00BCD4' },
+  'Appliance Repair': { navy: '#1C2535', copper: '#607D8B', cta: '#E67E22' },
+  'Gutters':          { navy: '#1A2A3A', copper: '#78909C', cta: '#D35400' },
+};
+const THEME_DEFAULT = { navy: '#0D1F3C', copper: '#C8752A', cta: '#C8752A' };
+
+function applyTheme(cat) {
+  const t = THEMES[cat] || THEME_DEFAULT;
+  const r = document.documentElement;
+  r.style.setProperty('--navy',   t.navy);
+  r.style.setProperty('--copper', t.copper);
+}
+
 // ── Main update function ───────────────────────────────────────
 function updateSite() {
   const name    = val('tb-name')    || 'Your Business';
@@ -1409,12 +1550,15 @@ function updateSite() {
   const city    = val('tb-city')    || 'Tampa';
   const d       = DATA[cat] || DATA['Plumbing'];
 
+  // Apply trade-specific color theme
+  applyTheme(cat);
+
   // Text nodes
   document.querySelectorAll('.js-name').forEach(el => el.textContent = name);
   document.querySelectorAll('.js-reviews').forEach(el => el.textContent = reviews);
   document.querySelectorAll('.js-rating').forEach(el => el.textContent = rating);
   document.querySelectorAll('.js-city').forEach(el => el.textContent = city);
-  document.querySelectorAll('.js-city-label').forEach(el => el.textContent = `Serving ${city} Bay Area`);
+  document.querySelectorAll('.js-city-label').forEach(el => el.textContent = `Serving ${city} Area`);
   document.querySelectorAll('.js-phone-num').forEach(el => el.textContent = phone);
   document.querySelectorAll('.js-phone').forEach(el => el.textContent = `Call ${phone}`);
   document.querySelectorAll('.js-phone-btn').forEach(el => el.setAttribute('href', `tel:${phone.replace(/\D/g,'')}`));
@@ -1428,7 +1572,7 @@ function updateSite() {
   document.getElementById('hero-sub').innerHTML = d.sub;
   document.getElementById('emg-headline').textContent = d.emergency;
   document.getElementById('trust-license').textContent = d.license;
-  document.getElementById('footer-tagline').textContent = `${d.footerTag} · ${city} Bay, FL`;
+  document.getElementById('footer-tagline').textContent = `${d.footerTag} · ${city}, FL`;
 
   // Page title
   document.title = `${name} — ${city} ${cat}`;
