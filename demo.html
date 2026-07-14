@@ -186,6 +186,35 @@ button{cursor:pointer;border:none;font:inherit}
 .pm-bundle-dynamic label { font-size: 13px; color: var(--text); cursor: pointer; line-height: 1.45; }
 .pm-bundle-dynamic label strong { color: var(--copper); }
 
+/* ─── Recommended Banner ─────────────────────────────────────── */
+.pm-rec {
+  background: linear-gradient(135deg, rgba(200,117,42,.12), rgba(200,117,42,.06));
+  border: 1.5px solid rgba(200,117,42,.4);
+  border-radius: 4px; padding: 20px 22px; margin-bottom: 22px;
+}
+.pm-rec-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--copper); margin-bottom: 10px;
+}
+.pm-rec-name { font-size: 17px; font-weight: 700; color: var(--text); }
+.pm-rec-price {
+  font-size: 22px; font-weight: 800; color: var(--copper); margin: 4px 0 2px;
+}
+.pm-rec-price span { font-size: 14px; font-weight: 600; color: var(--muted); margin: 0 4px; }
+.pm-rec-sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+.pm-rec-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.pm-rec-select {
+  background: var(--copper); color: #fff; border: none; cursor: pointer;
+  font-size: 13px; font-weight: 700; padding: 9px 20px; border-radius: 3px;
+  transition: opacity .15s;
+}
+.pm-rec-select:hover { opacity: .88; }
+.pm-rec-toggle {
+  background: none; border: none; cursor: pointer; font-size: 12px;
+  color: var(--muted); text-decoration: underline; padding: 0;
+}
+.pm-rec-toggle:hover { color: var(--text); }
+
 /* ─── Pricing Modal ───────────────────────────────────────────── */
 .pricing-overlay {
   display: none; position: fixed; inset: 0; z-index: 3000;
@@ -788,6 +817,20 @@ footer {
       <div class="pm-sub">Professional websites + monthly management. No contracts — cancel anytime.</div>
     </div>
 
+    <!-- RECOMMENDED BUNDLE -->
+    <div class="pm-rec" id="pm-rec">
+      <div class="pm-rec-eyebrow">⚡ What most <span id="pm-rec-trade">trade businesses</span> pick</div>
+      <div class="pm-rec-name">Get Found in More Cities + Service Call</div>
+      <div class="pm-rec-price">$4,500 <span>+</span> $249<span style="font-size:12px">/mo</span></div>
+      <div class="pm-rec-sub">Service area pages · Missed-call text-back · 1 new ranking page/month</div>
+      <div class="pm-rec-actions">
+        <button class="pm-rec-select" onclick="selectRecommended()">Select This Package</button>
+        <button class="pm-rec-toggle" id="pm-rec-toggle" onclick="toggleAllOptions()">See all options ↓</button>
+      </div>
+    </div>
+
+    <!-- ALL OPTIONS (collapsed by default) -->
+    <div id="pm-all-options" style="display:none">
     <div class="pm-section-label">Website Build — One-Time Fee <span style="font-size:10px;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(click to select)</span></div>
     <div class="pm-existing-row" id="pm-existing-row" onclick="document.getElementById('pm-existing-chk').click()">
       <input type="checkbox" id="pm-existing-chk" onclick="event.stopPropagation()" onchange="toggleExistingSite()">
@@ -876,6 +919,7 @@ footer {
       <input type="checkbox" id="pm-bundle-chk" onchange="toggleBundle('pm-bundle-chk')">
       <label for="pm-bundle-chk" id="pm-bundle-label">Pair with a 12-month plan — <strong>$1,000 off</strong> the build fee. Month-to-month plans always cancel-anytime.</label>
     </div>
+    </div><!-- /#pm-all-options -->
 
     <div class="pm-price-bar">
       <div class="pm-bar-left">
@@ -1671,8 +1715,32 @@ function updateSite() {
 
 // ── Pricing modal ──────────────────────────────────────────────
 function showPricing() {
+  const cat = document.getElementById('t-cat') ? document.getElementById('t-cat').value : '';
+  const tradeEl = document.getElementById('pm-rec-trade');
+  if (tradeEl && cat) tradeEl.textContent = cat.toLowerCase() + ' businesses';
+  // collapse back to recommended view each time modal opens
+  const allOpts = document.getElementById('pm-all-options');
+  const toggle = document.getElementById('pm-rec-toggle');
+  if (allOpts) allOpts.style.display = 'none';
+  if (toggle) toggle.textContent = 'See all options ↓';
   document.getElementById('pricingOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+function selectRecommended() {
+  selectBuild(4500);
+  selectMonthlyQ(249);
+  const allOpts = document.getElementById('pm-all-options');
+  const toggle = document.getElementById('pm-rec-toggle');
+  if (allOpts) allOpts.style.display = 'block';
+  if (toggle) toggle.textContent = 'Hide options ↑';
+}
+function toggleAllOptions() {
+  const allOpts = document.getElementById('pm-all-options');
+  const toggle = document.getElementById('pm-rec-toggle');
+  if (!allOpts) return;
+  const open = allOpts.style.display === 'block';
+  allOpts.style.display = open ? 'none' : 'block';
+  toggle.textContent = open ? 'See all options ↓' : 'Hide options ↑';
 }
 function hidePricing() {
   document.getElementById('pricingOverlay').classList.remove('open');
