@@ -736,7 +736,7 @@ footer {
 <!-- ─── TOOLBAR ────────────────────────────────────────────────── -->
 <!-- Prospect banner (shown in presentation mode) -->
 <div id="prospect-banner">
-  <div class="banner-left"><strong id="banner-biz">Your business</strong> &mdash; <span id="banner-sub">here&rsquo;s what your Google reviews look like with a website behind them.</span> <span style="color:rgba(255,255,255,.4);font-size:11px">Yusuf Hakim &middot; FloridaTradeSites</span></div>
+  <div class="banner-left"><strong id="banner-biz">Your business</strong> &mdash; <span id="banner-sub">here&rsquo;s what your Google reviews look like with a website behind them.</span> <span id="banner-expiry" style="color:rgba(255,255,255,.35);font-size:11px;margin-left:6px"></span> <span style="color:rgba(255,255,255,.4);font-size:11px">Yusuf Hakim &middot; FloridaTradeSites</span></div>
   <div class="banner-right">
     <a id="banner-sms" href="sms:+18137736865?body=Hi%20Yusuf%2C%20I%20saw%20the%20preview%20for%20my%20business" class="banner-cta">&#x1F4AC; Text Me &rarr;</a>
     <button class="banner-dismiss" onclick="document.getElementById('prospect-banner').style.display='none'">&#x2715;</button>
@@ -846,6 +846,9 @@ footer {
       <div class="pm-title">Transparent Pricing. No Surprises.</div>
       <div class="pm-sub">Professional websites + monthly management. No contracts — cancel anytime.</div>
     </div>
+
+    <!-- Review count flattery (shown in presentation mode) -->
+    <div id="pm-reviews-hook" style="display:none; background:rgba(200,117,42,.08); border:1px solid rgba(200,117,42,.25); border-radius:4px; padding:10px 14px; margin-bottom:14px; font-size:12px; color:rgba(255,255,255,.75); line-height:1.5;"></div>
 
     <!-- RECOMMENDED BUNDLE -->
     <div class="pm-rec" id="pm-rec">
@@ -1753,6 +1756,18 @@ function showPricing() {
   const toggle = document.getElementById('pm-rec-toggle');
   if (allOpts) allOpts.style.display = 'none';
   if (toggle) toggle.textContent = 'See all options ↓';
+  // Show review count flattery in presentation mode
+  const hook = document.getElementById('pm-reviews-hook');
+  if (hook && document.body.classList.contains('present-active')) {
+    const reviewsEl = document.getElementById('tb-reviews');
+    const reviews = reviewsEl ? parseInt(reviewsEl.value) : 0;
+    if (reviews > 0) {
+      hook.innerHTML = '&#x1F4AF; You already have <strong style="color:#c8752a">' + reviews + ' Google reviews</strong>. That&rsquo;s the hard part &mdash; most of my clients would kill for that. You&rsquo;re just invisible without a site behind them.';
+      hook.style.display = 'block';
+    }
+  } else if (hook) {
+    hook.style.display = 'none';
+  }
   document.getElementById('pricingOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -2044,6 +2059,18 @@ const CITY_NEIGHBORS = {
     if (bannerBiz) bannerBiz.textContent = bizName;
     if (bannerSub && reviews) {
       bannerSub.textContent = reviews + ' Google reviews. Here’s what they look like with a website behind them.';
+    }
+
+    // Expiry text (7 days from sent date, or 7 days from today)
+    const expiryEl = document.getElementById('banner-expiry');
+    if (expiryEl) {
+      const sentParam = P.get('sent');
+      const base = sentParam ? new Date(sentParam) : new Date();
+      if (!isNaN(base)) {
+        base.setDate(base.getDate() + 7);
+        const exp = base.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        expiryEl.textContent = '· Preview expires ' + exp;
+      }
     }
 
     // Update SMS links with business name in body
