@@ -317,7 +317,7 @@
         <div class="border-t border-white/10 pt-5 text-left">
           <div class="text-slate-400 text-xs mb-1">Booking just 1 missed call per month =</div>
           <div id="calc-result" class="text-gold text-4xl font-extrabold mb-2">$3,500</div>
-          <div id="calc-sub" class="text-slate-400 text-xs leading-relaxed">That&rsquo;s 12 missed calls a month. Our Lead Catcher plan is $399/mo &mdash; <strong class="text-white">you break even with one job.</strong></div>
+          <div id="calc-sub" class="text-slate-400 text-xs leading-relaxed">That&rsquo;s 12 missed calls a month. One job covers <strong class="text-white">8 months of Lead Catcher ($399/mo)</strong> or <strong class="text-white">3 months of Full Crew ($899/mo)</strong>.</div>
         </div>
       </div>
     </div>
@@ -815,13 +815,19 @@
     }
 
     function updateCalc() {
-      var job    = parseInt(document.getElementById('calc-job').value)    || 3500;
-      var missed = parseInt(document.getElementById('calc-missed').value) || 3;
+      var job      = parseInt(document.getElementById('calc-job').value)    || 3500;
+      var missed   = parseInt(document.getElementById('calc-missed').value) || 3;
       var perMonth = missed * 4;
+      var lcMonths = Math.floor(job / 399);
+      var fcMonths = Math.floor(job / 899);
       document.getElementById('calc-result').textContent = '$' + job.toLocaleString();
-      document.getElementById('calc-sub').innerHTML =
-        "That&rsquo;s " + perMonth + " missed calls a month. Our Lead Catcher plan is $399/mo &mdash; " +
-        "<strong class=\"text-white\">you break even with one job.</strong>";
+      var sub = "That&rsquo;s " + perMonth + " missed calls a month. One job covers " +
+        "<strong class=\"text-white\">" + lcMonths + " months of Lead Catcher ($399/mo)</strong>";
+      if (fcMonths >= 1) {
+        sub += " or <strong class=\"text-white\">" + fcMonths + " months of Full Crew ($899/mo)</strong>";
+      }
+      sub += ".";
+      document.getElementById('calc-sub').innerHTML = sub;
     }
 
     function toggleFaq(el) {
