@@ -1811,6 +1811,7 @@ const TIER_HIDE   = { 'Get Found': ['gallery','service-areas'], 'Get Found in Mo
 
 function getDiscountQ() {
   if (Q.build === 4000 && Q.monthly === 399) return 500;
+  if (Q.build === 7500 && Q.monthly === 399) return 1000;
   if (Q.build === 7500 && Q.monthly === 899) return 2000;
   return 0;
 }
@@ -1929,7 +1930,7 @@ function syncBundleUI() {
   if (!eligible) { if (tbChk) tbChk.checked = false; if (pmChk) pmChk.checked = false; Q.bundle = false; }
   if (eligible) {
     const plan = Q.monthly === 899 ? 'Full Crew' : 'Lead Catcher';
-    const months = Q.monthly === 899 ? 6 : 3;
+    const months = Q.build === 7500 ? 6 : 3;
     const txt  = `Apply ${months}-month ${plan} minimum — <strong>$${disc.toLocaleString()} off</strong> the build. Cancel before ${months} months: discount added back to final invoice.`;
     const tbLbl = document.getElementById('tb-bundle-label');
     const pmLbl = document.getElementById('pm-bundle-label');
