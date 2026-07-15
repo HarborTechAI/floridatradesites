@@ -136,73 +136,86 @@
 
       <div class="grid lg:grid-cols-[340px_1fr] gap-8 items-start">
         <!-- Form -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm sticky top-20">
-          <p class="font-bold text-navy text-base mb-5">Your Business Info</p>
+        <div id="demo-form-panel" class="bg-white border border-slate-200 rounded-2xl shadow-sm sticky top-20 overflow-hidden">
 
-          <div class="mb-4">
-            <label class="block text-xs font-bold tracking-widest uppercase text-slate-400 mb-1.5" for="d-name">Business Name</label>
-            <input id="d-name" type="text" placeholder="e.g. Mike's Plumbing" autocomplete="off"
-              class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-gold transition-colors"
-              oninput="debouncedUpdate()">
+          <!-- Collapsed bar — shown after preview loads -->
+          <div id="form-collapsed" class="hidden items-center justify-between px-5 py-4 cursor-pointer hover:bg-slate-50 transition-colors" onclick="expandDemoForm()">
+            <div>
+              <p class="font-bold text-navy text-sm" id="collapsed-name">Your business</p>
+              <p class="text-xs text-slate-400" id="collapsed-sub">Tap to change</p>
+            </div>
+            <span class="text-xs font-bold text-gold border border-gold/40 rounded-lg px-3 py-1.5">&#x270F;&#xFE0F; Edit</span>
           </div>
 
-          <div class="mb-4">
-            <label class="block text-xs font-bold tracking-widest uppercase text-slate-400 mb-1.5" for="d-trade">Trade / Industry</label>
-            <select id="d-trade" onchange="debouncedUpdate()"
-              class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-gold transition-colors bg-white">
-              <option value="">Select your trade&hellip;</option>
-              <option value="Plumbing">Plumbing</option>
-              <option value="HVAC">HVAC / Air Conditioning</option>
-              <option value="Auto Repair">Auto Repair</option>
-              <option value="Landscaping">Landscaping / Lawn Care</option>
-              <option value="Pool Service">Pool Service</option>
-              <option value="Towing">Towing</option>
-              <option value="Electrical">Electrical</option>
-              <option value="Window Tinting">Window Tinting</option>
-              <option value="Roofing">Roofing</option>
-              <option value="Pressure Washing">Pressure Washing</option>
-            </select>
-          </div>
+          <!-- Full form -->
+          <div id="form-full" class="p-7">
+            <p class="font-bold text-navy text-base mb-5">Your Business Info</p>
 
-          <div class="mb-4">
-            <label class="block text-xs font-bold tracking-widest uppercase text-slate-400 mb-1.5" for="d-city">City</label>
-            <select id="d-city" onchange="debouncedUpdate()"
-              class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-gold transition-colors bg-white">
-              <option value="Tampa">Tampa</option>
-              <option value="Orlando">Orlando</option>
-              <option value="Jacksonville">Jacksonville</option>
-              <option value="Miami">Miami</option>
-              <option value="Brandon">Brandon</option>
-              <option value="Riverview">Riverview</option>
-              <option value="Wesley Chapel">Wesley Chapel</option>
-              <option value="Clearwater">Clearwater</option>
-              <option value="St. Petersburg">St. Petersburg</option>
-              <option value="Lakeland">Lakeland</option>
-              <option value="Fort Lauderdale">Fort Lauderdale</option>
-              <option value="Sarasota">Sarasota</option>
-              <option value="Cape Coral">Cape Coral</option>
-              <option value="Gainesville">Gainesville</option>
-            </select>
-          </div>
+            <div class="mb-4">
+              <label class="block text-xs font-bold tracking-widest uppercase text-slate-400 mb-1.5" for="d-name">Business Name</label>
+              <input id="d-name" type="text" placeholder="e.g. Mike's Plumbing" autocomplete="off"
+                class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-gold transition-colors"
+                oninput="debouncedUpdate()">
+            </div>
 
-          <div class="mb-6">
-            <label class="block text-xs font-bold tracking-widest uppercase text-slate-400 mb-1.5" for="d-reviews">Google Reviews</label>
-            <select id="d-reviews" onchange="debouncedUpdate()"
-              class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-gold transition-colors bg-white">
-              <option value="47">47 reviews</option>
-              <option value="63" selected>63 reviews</option>
-              <option value="112">112 reviews</option>
-              <option value="184">184 reviews</option>
-              <option value="250">250+ reviews</option>
-            </select>
-          </div>
+            <div class="mb-4">
+              <label class="block text-xs font-bold tracking-widest uppercase text-slate-400 mb-1.5" for="d-trade">Trade / Industry</label>
+              <select id="d-trade" onchange="debouncedUpdate()"
+                class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-gold transition-colors bg-white">
+                <option value="">Select your trade&hellip;</option>
+                <option value="Plumbing">Plumbing</option>
+                <option value="HVAC">HVAC / Air Conditioning</option>
+                <option value="Auto Repair">Auto Repair</option>
+                <option value="Landscaping">Landscaping / Lawn Care</option>
+                <option value="Pool Service">Pool Service</option>
+                <option value="Towing">Towing</option>
+                <option value="Electrical">Electrical</option>
+                <option value="Window Tinting">Window Tinting</option>
+                <option value="Roofing">Roofing</option>
+                <option value="Pressure Washing">Pressure Washing</option>
+              </select>
+            </div>
 
-          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
-            <p class="text-xs text-slate-500 mb-3 leading-relaxed">Like what you see? Text us your business name and we'll build the real version with your actual Google reviews pulled in.</p>
-            <a href="sms:+18137736865?body=Hi%2C%20I%27d%20like%20a%20website%20preview%20for%20my%20business"
-               class="block w-full bg-gold hover:bg-gold-light text-navy font-bold py-2.5 rounded-lg text-sm transition-colors">
-              &#x1F4AC; Text Us to Get Started
-            </a>
+            <div class="mb-4">
+              <label class="block text-xs font-bold tracking-widest uppercase text-slate-400 mb-1.5" for="d-city">City</label>
+              <select id="d-city" onchange="debouncedUpdate()"
+                class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-gold transition-colors bg-white">
+                <option value="Tampa">Tampa</option>
+                <option value="Orlando">Orlando</option>
+                <option value="Jacksonville">Jacksonville</option>
+                <option value="Miami">Miami</option>
+                <option value="Brandon">Brandon</option>
+                <option value="Riverview">Riverview</option>
+                <option value="Wesley Chapel">Wesley Chapel</option>
+                <option value="Clearwater">Clearwater</option>
+                <option value="St. Petersburg">St. Petersburg</option>
+                <option value="Lakeland">Lakeland</option>
+                <option value="Fort Lauderdale">Fort Lauderdale</option>
+                <option value="Sarasota">Sarasota</option>
+                <option value="Cape Coral">Cape Coral</option>
+                <option value="Gainesville">Gainesville</option>
+              </select>
+            </div>
+
+            <div class="mb-6">
+              <label class="block text-xs font-bold tracking-widest uppercase text-slate-400 mb-1.5" for="d-reviews">Google Reviews</label>
+              <select id="d-reviews" onchange="debouncedUpdate()"
+                class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-gold transition-colors bg-white">
+                <option value="47">47 reviews</option>
+                <option value="63" selected>63 reviews</option>
+                <option value="112">112 reviews</option>
+                <option value="184">184 reviews</option>
+                <option value="250">250+ reviews</option>
+              </select>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
+              <p class="text-xs text-slate-500 mb-3 leading-relaxed">Like what you see? Text us your business name and we'll build the real version with your actual Google reviews pulled in.</p>
+              <a href="sms:+18137736865?body=Hi%2C%20I%27d%20like%20a%20website%20preview%20for%20my%20business"
+                 class="block w-full bg-gold hover:bg-gold-light text-navy font-bold py-2.5 rounded-lg text-sm transition-colors">
+                &#x1F4AC; Text Us to Get Started
+              </a>
+            </div>
           </div>
         </div>
 
@@ -658,6 +671,22 @@
       }
     }
 
+    function collapseDemoForm() {
+      const name  = document.getElementById('d-name').value.trim();
+      const trade = document.getElementById('d-trade').value;
+      const city  = document.getElementById('d-city').value;
+      document.getElementById('collapsed-name').textContent = name || 'Your business';
+      document.getElementById('collapsed-sub').textContent  = [trade, city].filter(Boolean).join(' · ') || 'Tap to change';
+      document.getElementById('form-full').style.display    = 'none';
+      document.getElementById('form-collapsed').style.display = 'flex';
+    }
+
+    function expandDemoForm() {
+      document.getElementById('form-full').style.display      = 'block';
+      document.getElementById('form-collapsed').style.display = 'none';
+      document.getElementById('d-name').focus();
+    }
+
     function renderPreview() {
       const name    = document.getElementById('d-name').value.trim();
       const trade   = document.getElementById('d-trade').value;
@@ -680,6 +709,9 @@
       } else {
         pendingUpdate = payload;
       }
+
+      // Collapse form so the preview fills the view
+      collapseDemoForm();
     }
 
     function preloadTrade(trade) {
