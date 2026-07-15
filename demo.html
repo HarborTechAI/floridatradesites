@@ -822,16 +822,16 @@ footer {
         <div class="tb-row2-label">Monthly Plan</div>
         <div class="tb-mo-group">
           <button class="tb-mo-btn" data-mo="0" onclick="setMonthlyQ(0)">None</button>
-          <button class="tb-mo-btn" data-mo="149" onclick="setMonthlyQ(149)">Maintenance</button>
-          <button class="tb-mo-btn active" data-mo="249" onclick="setMonthlyQ(249)">Service Call</button>
-          <button class="tb-mo-btn" data-mo="449" onclick="setMonthlyQ(449)">Full Crew</button>
+          <button class="tb-mo-btn" data-mo="199" onclick="setMonthlyQ(199)">Maintenance</button>
+          <button class="tb-mo-btn active" data-mo="399" onclick="setMonthlyQ(399)">Lead Catcher</button>
+          <button class="tb-mo-btn" data-mo="899" onclick="setMonthlyQ(899)">Full Crew</button>
         </div>
       </div>
       <div class="tb-bundle-wrap" id="tb-bundle-wrap">
         <input type="checkbox" id="tb-bundle-chk" onchange="toggleBundle('tb-bundle-chk')">
         <label for="tb-bundle-chk" id="tb-bundle-label">Bundle −$1,000</label>
       </div>
-      <div class="tb-price-badge" id="tb-price-badge">$4,500 + $249/mo</div>
+      <div class="tb-price-badge" id="tb-price-badge">$4,000 + $399/mo</div>
     </div>
   </div>
 </div>
@@ -853,9 +853,9 @@ footer {
     <!-- RECOMMENDED BUNDLE -->
     <div class="pm-rec" id="pm-rec">
       <div class="pm-rec-eyebrow">⚡ What most <span id="pm-rec-trade">trade businesses</span> pick</div>
-      <div class="pm-rec-name">Get Found in More Cities + Service Call</div>
-      <div class="pm-rec-price">$4,500 <span>+</span> $249<span style="font-size:12px">/mo</span></div>
-      <div class="pm-rec-sub">Service area pages · Missed-call text-back · 1 new ranking page/month</div>
+      <div class="pm-rec-name">Get Found in More Cities + Lead Catcher</div>
+      <div class="pm-rec-price">$4,000 <span>+</span> $399<span style="font-size:12px">/mo</span></div>
+      <div class="pm-rec-sub">Service area pages · Missed-call text-back · Chat widget · 4 new ranking pages/year</div>
       <div class="pm-rec-actions">
         <button class="pm-rec-select" onclick="selectRecommended()">Select This Package</button>
         <button class="pm-rec-toggle" id="pm-rec-toggle" onclick="toggleAllOptions()">See all options ↓</button>
@@ -882,10 +882,10 @@ footer {
           <li>Contact form &amp; map embed</li>
         </ul>
       </div>
-      <div class="pm-card pm-build-card pm-sel" data-val="4500" onclick="selectBuild(4500)">
+      <div class="pm-card pm-build-card pm-sel" data-val="4000" onclick="selectBuild(4000)">
         <div class="pm-card-tag">Most Popular</div>
         <div class="pm-card-name">Get Found in More Cities</div>
-        <div class="pm-price"><sup>$</sup>4,500</div>
+        <div class="pm-price"><sup>$</sup>4,000</div>
         <ul class="pm-items">
           <li>Everything in Get Found</li>
           <li>Service area pages (Brandon, Riverview…)</li>
@@ -894,9 +894,9 @@ footer {
           <li>Seasonal content updates</li>
         </ul>
       </div>
-      <div class="pm-card pm-build-card" data-val="6500" onclick="selectBuild(6500)">
+      <div class="pm-card pm-build-card" data-val="7500" onclick="selectBuild(7500)">
         <div class="pm-card-name">Every City, Every Service</div>
-        <div class="pm-price"><sup>$</sup>6,500</div>
+        <div class="pm-price"><sup>$</sup>7,500</div>
         <ul class="pm-items">
           <li>Everything in Get Found in More Cities</li>
           <li>Every service page + every city</li>
@@ -910,59 +910,61 @@ footer {
 
     <div class="pm-section-label">Monthly Management Plans <span style="font-size:10px;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(click to select)</span></div>
     <div class="pm-cards">
-      <div class="pm-card pm-mo-card" data-val="149" onclick="selectMonthlyQ(149)">
+      <div class="pm-card pm-mo-card" data-val="199" onclick="selectMonthlyQ(199)">
         <div class="pm-card-name">Maintenance</div>
-        <div class="pm-price"><sup>$</sup>149<span class="pm-mo">/mo</span></div>
+        <div class="pm-price"><sup>$</sup>199<span class="pm-mo">/mo</span></div>
         <ul class="pm-items">
-          <li>Hosting, SSL &amp; security</li>
-          <li>Unlimited small edits (48hr)</li>
-          <li>Google Business Profile monitoring</li>
-          <li>Monthly performance report</li>
-          <li>Speed &amp; uptime monitoring</li>
+          <li>Hosting, SSL &amp; uptime monitoring</li>
+          <li>Critical info updates (phone, hours, address)</li>
+          <li>GBP alerts — reviews, fake reviews, listing changes</li>
+          <li>Monthly site health report</li>
+          <li>Site down: immediate response, any day</li>
         </ul>
       </div>
-      <div class="pm-card pm-mo-card pm-sel" data-val="249" onclick="selectMonthlyQ(249)">
-        <div class="pm-card-tag">Best Value</div>
-        <div class="pm-card-name">Service Call</div>
-        <div class="pm-price"><sup>$</sup>249<span class="pm-mo">/mo</span></div>
+      <div class="pm-card pm-mo-card pm-sel" data-val="399" onclick="selectMonthlyQ(399)">
+        <div class="pm-card-tag">Most Popular</div>
+        <div class="pm-card-name">Lead Catcher</div>
+        <div class="pm-price"><sup>$</sup>399<span class="pm-mo">/mo</span></div>
         <ul class="pm-items">
           <li>Everything in Maintenance</li>
-          <li>Missed-call text-back (instant SMS)</li>
-          <li>Post-job review request automation</li>
-          <li>AI review responses within 24hrs</li>
-          <li>Call tracking + monthly log</li>
-          <li>1 new ranking page/month</li>
+          <li>Missed-call text-back (within minutes)</li>
+          <li>Review requests after every job + responses</li>
+          <li>Fake review dispute requests</li>
+          <li>Dedicated call tracking number + monthly log</li>
+          <li>24/7 chat widget on your site</li>
+          <li>1 new city/service page per quarter (4/year)</li>
+          <li>Content updates: 2-week turnaround</li>
         </ul>
       </div>
-      <div class="pm-card pm-mo-card" data-val="449" onclick="selectMonthlyQ(449)">
+      <div class="pm-card pm-mo-card" data-val="899" onclick="selectMonthlyQ(899)">
         <div class="pm-card-name">Full Crew</div>
-        <div class="pm-price"><sup>$</sup>449<span class="pm-mo">/mo</span></div>
+        <div class="pm-price"><sup>$</sup>899<span class="pm-mo">/mo</span></div>
         <ul class="pm-items">
-          <li>Everything in Service Call</li>
-          <li>AI chat widget (24/7 lead capture)</li>
-          <li>2 new ranking pages/month</li>
-          <li>Full Google Business Profile mgmt</li>
-          <li>Quarterly competitor snapshot</li>
-          <li>Same-day edits &amp; direct text line</li>
+          <li>Everything in Lead Catcher</li>
+          <li>Full GBP management: weekly posts, photos, updates</li>
+          <li>1 new city/service page per month (12/year)</li>
+          <li>Content updates: 1-week turnaround</li>
+          <li>Response guarantee: 3 business days</li>
+          <li>Quarterly strategy call (15 min)</li>
         </ul>
       </div>
     </div>
 
     <div class="pm-bundle-dynamic hidden" id="pm-bundle-row">
       <input type="checkbox" id="pm-bundle-chk" onchange="toggleBundle('pm-bundle-chk')">
-      <label for="pm-bundle-chk" id="pm-bundle-label">Pair with a 12-month plan — <strong>$1,000 off</strong> the build fee. Month-to-month plans always cancel-anytime.</label>
+      <label for="pm-bundle-chk" id="pm-bundle-label">Pair with a 3-month minimum — <strong>$500 off</strong> the build fee. After the minimum: month-to-month, cancel anytime.</label>
     </div>
     </div><!-- /#pm-all-options -->
 
     <div class="pm-price-bar">
       <div class="pm-bar-left">
         <div class="pm-bar-label">Selected Package</div>
-        <div class="pm-bar-build" id="pm-bar-build">$4,500</div>
-        <div class="pm-bar-mo" id="pm-bar-mo">+ $249/mo</div>
+        <div class="pm-bar-build" id="pm-bar-build">$4,000</div>
+        <div class="pm-bar-mo" id="pm-bar-mo">+ $399/mo</div>
       </div>
       <div class="pm-bar-right">
-        <div class="pm-bar-12" id="pm-bar-12">$7,488 over 12 months</div>
-        <div class="pm-bar-24" id="pm-bar-24">$10,476 over 24 months</div>
+        <div class="pm-bar-12" id="pm-bar-12">$8,788 over 12 months</div>
+        <div class="pm-bar-24" id="pm-bar-24">$13,576 over 24 months</div>
       </div>
     </div>
     <div class="pm-note">No contracts. Cancel anytime. All ranking pages are published on your domain — yours to keep forever.</div>
@@ -1772,8 +1774,8 @@ function showPricing() {
   document.body.style.overflow = 'hidden';
 }
 function selectRecommended() {
-  selectBuild(4500);
-  selectMonthlyQ(249);
+  selectBuild(4000);
+  selectMonthlyQ(399);
   const allOpts = document.getElementById('pm-all-options');
   const toggle = document.getElementById('pm-rec-toggle');
   if (allOpts) allOpts.style.display = 'block';
@@ -1803,21 +1805,19 @@ function overlayClose(e) {
 }
 
 // ── Quote state (shared toolbar ↔ modal) ──────────────────────
-const Q = { build: 4500, monthly: 249, bundle: false, existing: false };
-const TIER_BUILDS = { 'Get Found': 2500, 'Get Found in More Cities': 4500, 'Every City, Every Service': 6500, Existing: 0 };
+const Q = { build: 4000, monthly: 399, bundle: false, existing: false };
+const TIER_BUILDS = { 'Get Found': 2500, 'Get Found in More Cities': 4000, 'Every City, Every Service': 7500, Existing: 0 };
 const TIER_HIDE   = { 'Get Found': ['gallery','service-areas'], 'Get Found in More Cities': [], 'Every City, Every Service': [], Existing: [] };
 
 function getDiscountQ() {
-  if (Q.build === 4500 && Q.monthly === 249) return 1000;
-  if (Q.build === 4500 && Q.monthly === 449) return 1500;
-  if (Q.build === 6500 && Q.monthly === 249) return 1000;
-  if (Q.build === 6500 && Q.monthly === 449) return 2000;
+  if (Q.build === 4000 && Q.monthly === 399) return 500;
+  if (Q.build === 7500 && Q.monthly === 899) return 2000;
   return 0;
 }
 
 // ── Demo tier toggle ───────────────────────────────────────────
 function setDemoTier(tier) {
-  Q.build = TIER_BUILDS[tier] !== undefined ? TIER_BUILDS[tier] : 4500;
+  Q.build = TIER_BUILDS[tier] !== undefined ? TIER_BUILDS[tier] : 4000;
   Q.existing = tier === 'Existing';
   // Toolbar buttons
   document.querySelectorAll('.tb-tier-btn').forEach(b => b.classList.toggle('active', b.dataset.tier === tier));
@@ -1842,12 +1842,11 @@ function setDemoTier(tier) {
 // ── Existing site toggle (from modal checkbox) ─────────────────
 function toggleExistingSite() {
   Q.existing = document.getElementById('pm-existing-chk').checked;
-  Q.build = Q.existing ? 0 : 4500;
+  Q.build = Q.existing ? 0 : 4000;
   const existRow = document.getElementById('pm-existing-row');
   const buildSec = document.getElementById('pm-build-section');
   if (existRow) existRow.classList.toggle('active', Q.existing);
   if (buildSec) buildSec.classList.toggle('dimmed', Q.existing);
-  // Sync toolbar tier buttons
   document.querySelectorAll('.tb-tier-btn').forEach(b =>
     b.classList.toggle('active', Q.existing ? b.dataset.tier === 'Existing' : b.dataset.tier === 'Get Found in More Cities'));
   Q.bundle = false;
@@ -1870,7 +1869,7 @@ function setMonthlyQ(mo) {
 function selectBuild(val) {
   Q.build = val;
   Q.existing = false;
-  const tier = val === 2500 ? 'Get Found' : val === 4500 ? 'Get Found in More Cities' : 'Every City, Every Service';
+  const tier = val === 2500 ? 'Get Found' : val === 4000 ? 'Get Found in More Cities' : 'Every City, Every Service';
   document.querySelectorAll('.tb-tier-btn').forEach(b => b.classList.toggle('active', b.dataset.tier === tier));
   ['gallery','service-areas'].forEach(id => {
     const el = document.getElementById(id);
@@ -1929,8 +1928,9 @@ function syncBundleUI() {
   const pmChk = document.getElementById('pm-bundle-chk');
   if (!eligible) { if (tbChk) tbChk.checked = false; if (pmChk) pmChk.checked = false; Q.bundle = false; }
   if (eligible) {
-    const plan = Q.monthly === 449 ? 'Full Crew' : 'Service Call';
-    const txt  = `Apply 12-month ${plan} commitment — <strong>$${disc.toLocaleString()} off</strong> the build. Cancel before 12 months: full discount added back to final invoice.`;
+    const plan = Q.monthly === 899 ? 'Full Crew' : 'Lead Catcher';
+    const months = Q.monthly === 899 ? 6 : 3;
+    const txt  = `Apply ${months}-month ${plan} minimum — <strong>$${disc.toLocaleString()} off</strong> the build. Cancel before ${months} months: discount added back to final invoice.`;
     const tbLbl = document.getElementById('tb-bundle-label');
     const pmLbl = document.getElementById('pm-bundle-label');
     if (tbLbl) tbLbl.innerHTML = `Bundle −$${disc.toLocaleString()}`;
