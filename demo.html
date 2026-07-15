@@ -71,6 +71,21 @@ button{cursor:pointer;border:none;font:inherit}
   padding: 12px 20px; align-items: center; justify-content: space-between; gap: 10px;
 }
 @media (max-width: 768px) { #mobile-sticky { display: flex; } }
+/* In presentation mode, show sticky on ALL screen sizes */
+body.present-active #mobile-sticky { display: flex; }
+
+/* ─── Pricing modal follow-up bar ──────────────────────────────── */
+#modal-followup {
+  display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 1400;
+  background: var(--navy); border-top: 2px solid var(--copper);
+  padding: 12px 20px; align-items: center; justify-content: space-between; gap: 12px;
+  animation: slideUp .25s ease;
+}
+#modal-followup.show { display: flex; }
+.followup-text { font-size: 13px; color: rgba(255,255,255,.8); }
+.followup-text strong { color: #fff; }
+.followup-dismiss { background: none; color: rgba(255,255,255,.35); font-size: 18px; padding: 2px 6px; flex-shrink: 0; }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 .sticky-text { font-size: 13px; color: rgba(255,255,255,.7); }
 .sticky-text strong { color: #fff; display: block; font-size: 14px; }
 .sticky-cta {
@@ -732,6 +747,13 @@ footer {
 <div id="mobile-sticky">
   <div class="sticky-text"><strong>Want this site live?</strong>Text Yusuf &mdash; Tampa, FL</div>
   <a id="sticky-sms" href="sms:+18137736865?body=Hi%20Yusuf%2C%20I%20saw%20the%20preview%20for%20my%20business" class="sticky-cta">&#x1F4AC; Text Me &rarr;</a>
+</div>
+
+<!-- Pricing modal follow-up bar (appears after modal is closed without tapping) -->
+<div id="modal-followup">
+  <div class="followup-text"><strong>Want this exact site?</strong> Text me — I'll answer today.</div>
+  <a id="followup-sms" href="sms:+18137736865?body=Hi%20Yusuf%2C%20I%27m%20interested%20in%20the%20site" class="sticky-cta">&#x1F4AC; Text Me</a>
+  <button class="followup-dismiss" onclick="document.getElementById('modal-followup').classList.remove('show')">&#x2715;</button>
 </div>
 
 <div id="toolbar">
@@ -1750,9 +1772,16 @@ function toggleAllOptions() {
   allOpts.style.display = open ? 'none' : 'block';
   toggle.textContent = open ? 'See all options ↓' : 'Hide options ↑';
 }
-function hidePricing() {
+function hidePricing(fromSms) {
   document.getElementById('pricingOverlay').classList.remove('open');
   document.body.style.overflow = '';
+  if (!fromSms) {
+    // Show follow-up bar after a short delay
+    setTimeout(function() {
+      const bar = document.getElementById('modal-followup');
+      if (bar) bar.classList.add('show');
+    }, 600);
+  }
 }
 function overlayClose(e) {
   if (e.target === document.getElementById('pricingOverlay')) hidePricing();
@@ -1987,6 +2016,7 @@ const CITY_NEIGHBORS = {
 
   // Presentation mode
   if (presentMode) {
+    document.body.classList.add('present-active');
     const tb = document.getElementById('toolbar');
     const site = document.getElementById('site');
     const exit = document.getElementById('exitBtn');
@@ -2018,7 +2048,7 @@ const CITY_NEIGHBORS = {
 
     // Update SMS links with business name in body
     const smsBody = encodeURIComponent(`Hi Yusuf, I saw the preview for ${bizName} — I'm interested`);
-    ['banner-sms','sticky-sms','builder-sms'].forEach(id => {
+    ['banner-sms','sticky-sms','builder-sms','followup-sms'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.href = `sms:+18137736865?body=${smsBody}`;
     });
