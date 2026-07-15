@@ -28,6 +28,29 @@
     .gradient-hero { background: linear-gradient(135deg, #0a2240 0%, #163460 55%, #0a2240 100%); }
     .phone-big { font-size: clamp(2.2rem, 6vw, 4rem); }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Florida Trade Sites",
+    "description": "Professional websites for Florida trade businesses — plumbers, roofers, HVAC, electricians, and more. Includes missed-call text-back and review automation.",
+    "url": "https://www.floridatradesites.com",
+    "telephone": "+18137736865",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Tampa",
+      "addressRegion": "FL",
+      "addressCountry": "US"
+    },
+    "areaServed": {
+      "@type": "State",
+      "name": "Florida"
+    },
+    "priceRange": "$$",
+    "openingHours": "Mo-Fr 08:00-18:00"
+  }
+  </script>
+
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XW8JPKK9NV"></script>
   <script>
@@ -89,16 +112,16 @@
   <div class="bg-navy-mid border-b border-white/10 py-4 px-6">
     <div class="max-w-6xl mx-auto flex flex-wrap items-center gap-3 justify-center">
       <span class="text-xs font-bold tracking-widest uppercase text-slate-500">We build for</span>
-      <span class="text-sm text-slate-400 bg-white/5 border border-white/10 rounded-full px-3 py-1">&#x1F527; Plumbing</span>
-      <span class="text-sm text-slate-400 bg-white/5 border border-white/10 rounded-full px-3 py-1">&#x2744;&#xFE0F; HVAC</span>
-      <span class="text-sm text-slate-400 bg-white/5 border border-white/10 rounded-full px-3 py-1">&#x1F697; Auto Repair</span>
-      <span class="text-sm text-slate-400 bg-white/5 border border-white/10 rounded-full px-3 py-1">&#x1F33F; Landscaping</span>
-      <span class="text-sm text-slate-400 bg-white/5 border border-white/10 rounded-full px-3 py-1">&#x1F3CA; Pool Service</span>
-      <span class="text-sm text-slate-400 bg-white/5 border border-white/10 rounded-full px-3 py-1">&#x1F69B; Towing</span>
-      <span class="text-sm text-slate-400 bg-white/5 border border-white/10 rounded-full px-3 py-1">&#x1F50C; Electrical</span>
-      <span class="text-sm text-slate-400 bg-white/5 border border-white/10 rounded-full px-3 py-1">&#x1FA9F; Window Tinting</span>
-      <span class="text-sm text-slate-400 bg-white/5 border border-white/10 rounded-full px-3 py-1">&#x1F3E0; Roofing</span>
-      <span class="text-sm text-slate-400 bg-white/5 border border-white/10 rounded-full px-3 py-1">&#x1F4A7; Pressure Washing</span>
+      <button onclick="preloadTrade('Plumbing')"    class="text-sm text-slate-400 bg-white/5 hover:bg-white/10 hover:text-white border border-white/10 rounded-full px-3 py-1 transition-colors cursor-pointer">&#x1F527; Plumbing</button>
+      <button onclick="preloadTrade('HVAC')"        class="text-sm text-slate-400 bg-white/5 hover:bg-white/10 hover:text-white border border-white/10 rounded-full px-3 py-1 transition-colors cursor-pointer">&#x2744;&#xFE0F; HVAC</button>
+      <button onclick="preloadTrade('Auto Repair')" class="text-sm text-slate-400 bg-white/5 hover:bg-white/10 hover:text-white border border-white/10 rounded-full px-3 py-1 transition-colors cursor-pointer">&#x1F697; Auto Repair</button>
+      <button onclick="preloadTrade('Landscaping')" class="text-sm text-slate-400 bg-white/5 hover:bg-white/10 hover:text-white border border-white/10 rounded-full px-3 py-1 transition-colors cursor-pointer">&#x1F33F; Landscaping</button>
+      <button onclick="preloadTrade('Pool Service')" class="text-sm text-slate-400 bg-white/5 hover:bg-white/10 hover:text-white border border-white/10 rounded-full px-3 py-1 transition-colors cursor-pointer">&#x1F3CA; Pool Service</button>
+      <button onclick="preloadTrade('Towing')"      class="text-sm text-slate-400 bg-white/5 hover:bg-white/10 hover:text-white border border-white/10 rounded-full px-3 py-1 transition-colors cursor-pointer">&#x1F69B; Towing</button>
+      <button onclick="preloadTrade('Electrical')"  class="text-sm text-slate-400 bg-white/5 hover:bg-white/10 hover:text-white border border-white/10 rounded-full px-3 py-1 transition-colors cursor-pointer">&#x1F50C; Electrical</button>
+      <button onclick="preloadTrade('Window Tinting')" class="text-sm text-slate-400 bg-white/5 hover:bg-white/10 hover:text-white border border-white/10 rounded-full px-3 py-1 transition-colors cursor-pointer">&#x1FA9F; Window Tinting</button>
+      <button onclick="preloadTrade('Roofing')"     class="text-sm text-slate-400 bg-white/5 hover:bg-white/10 hover:text-white border border-white/10 rounded-full px-3 py-1 transition-colors cursor-pointer">&#x1F3E0; Roofing</button>
+      <button onclick="preloadTrade('Pressure Washing')" class="text-sm text-slate-400 bg-white/5 hover:bg-white/10 hover:text-white border border-white/10 rounded-full px-3 py-1 transition-colors cursor-pointer">&#x1F4A7; Pressure Washing</button>
     </div>
   </div>
 
@@ -257,6 +280,16 @@
     </div>
   </section>
 
+  <!-- FOUNDING CLIENT SLOT — swap this block for a case study once client #1 launches -->
+  <div id="founding-block" class="bg-gold/10 border-y border-gold/20 py-5 px-6">
+    <div class="max-w-3xl mx-auto flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+      <span class="text-2xl flex-shrink-0">&#x1F3AF;</span>
+      <p class="text-sm text-slate-700 leading-relaxed"><strong class="text-navy">Taking founding clients now.</strong> I&rsquo;m building my first Florida sites personally — no account managers, no handoffs. Founding clients get my direct number and pricing locked for life. I take 4 a month so I can do each one right.</p>
+      <a href="sms:+18137736865?body=Hi%20Yusuf%2C%20I%27m%20interested%20in%20being%20a%20founding%20client"
+         class="flex-shrink-0 bg-gold hover:bg-gold-light text-navy font-bold px-5 py-2.5 rounded-lg text-sm transition-colors whitespace-nowrap">&#x1F4AC; Claim a Spot</a>
+    </div>
+  </div>
+
   <!-- PROCESS TIMELINE -->
   <section class="py-20 px-6 bg-slate-50">
     <div class="max-w-4xl mx-auto">
@@ -345,7 +378,7 @@
       <div class="text-center mb-12">
         <div class="inline-flex items-center gap-2 bg-gold/15 text-gold text-xs font-semibold px-4 py-1.5 rounded-full mb-5 tracking-wide uppercase">Flat Pricing</div>
         <h2 class="text-3xl md:text-4xl font-extrabold text-navy mb-3">No quotes. No games. No surprises.</h2>
-        <p class="text-slate-500 max-w-md mx-auto">These are the real prices. We don&rsquo;t quote based on how nice your truck is.</p>
+        <p class="text-slate-500 max-w-lg mx-auto">These are the real prices. We don&rsquo;t quote based on how nice your truck is. Agencies charge $8&ndash;15k and lock you in for a year. The $500 guy gives you a template that never ranks. This is the middle that actually works.</p>
       </div>
 
       <!-- Build tiers -->
@@ -467,8 +500,11 @@
               <div class="text-sm text-slate-500">+ $249/mo &mdash; <span class="text-gold font-bold">saves $1,000</span></div>
             </div>
           </div>
-          <a href="sms:+18137736865?body=Hi%2C%20I%27m%20interested%20in%20the%20Get%20Found%20in%20More%20Cities%20%2B%20Service%20Call%20bundle"
-             class="mt-4 inline-block bg-gold hover:bg-gold-light text-navy font-bold px-6 py-2.5 rounded-lg text-sm transition-colors">&#x1F4AC; Text to Claim This Bundle</a>
+          <div class="mt-4 flex flex-wrap items-center gap-3">
+            <a href="sms:+18137736865?body=Hi%2C%20I%27m%20interested%20in%20the%20Get%20Found%20in%20More%20Cities%20%2B%20Service%20Call%20bundle"
+               class="inline-block bg-gold hover:bg-gold-light text-navy font-bold px-6 py-2.5 rounded-lg text-sm transition-colors">&#x1F4AC; Text to Claim This Bundle</a>
+            <span class="text-xs text-slate-500 border border-slate-200 rounded-lg px-3 py-2">&#x2705; 90-day guarantee included</span>
+          </div>
         </div>
         <p class="text-center text-xs text-slate-400">Cancel anytime. The website is yours &mdash; if you ever leave, we hand everything over. No hostage hosting.</p>
       </div>
@@ -530,6 +566,22 @@
             <div class="faq-icon text-gold text-xl font-bold flex-shrink-0 transition-transform">+</div>
           </div>
           <div class="faq-body hidden mt-3 text-slate-500 text-sm leading-relaxed">Two weeks from the day you approve the preview. We build fast because we don&rsquo;t stack up a backlog — I take 4 sites a month so each one gets the full attention it needs.</div>
+        </div>
+
+        <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex items-center justify-between gap-4">
+            <div class="font-bold text-navy">I already get plenty of work from word of mouth. Why do I need a website?</div>
+            <div class="faq-icon text-gold text-xl font-bold flex-shrink-0 transition-transform">+</div>
+          </div>
+          <div class="faq-body hidden mt-3 text-slate-500 text-sm leading-relaxed">Word of mouth is great — until someone asks a friend, gets your name, Googles you, and finds nothing. They call the next guy instead. You also can&rsquo;t answer every call when you&rsquo;re on a job. Word of mouth brings them to the door; the missed-call text-back and your website are what convert them when you&rsquo;re not available to answer.</div>
+        </div>
+
+        <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex items-center justify-between gap-4">
+            <div class="font-bold text-navy">Is this a contract? What am I signing?</div>
+            <div class="faq-icon text-gold text-xl font-bold flex-shrink-0 transition-transform">+</div>
+          </div>
+          <div class="faq-body hidden mt-3 text-slate-500 text-sm leading-relaxed">No contract. The build fee is one-time — that&rsquo;s yours. The monthly plan is month-to-month and you can cancel anytime by texting me. No 12-month agency lock-in, no cancellation fee, no fine print. The only thing you sign is a simple one-page service agreement so we both know what&rsquo;s included.</div>
         </div>
 
       </div>
@@ -628,6 +680,12 @@
       } else {
         pendingUpdate = payload;
       }
+    }
+
+    function preloadTrade(trade) {
+      const sel = document.getElementById('d-trade');
+      if (sel) { sel.value = trade; sel.dispatchEvent(new Event('change')); }
+      document.getElementById('demo').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function toggleFaq(el) {

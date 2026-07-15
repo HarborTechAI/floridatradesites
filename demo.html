@@ -37,7 +37,7 @@
 /* ─── Reset ───────────────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px}
-body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--ground);color:var(--text);line-height:1.65;transition:background .25s,color .25s}
+body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--ground);color:var(--text);line-height:1.65;transition:background .25s,color .25s;-webkit-overflow-scrolling:touch}
 img{max-width:100%}
 a{color:var(--copper);text-decoration:none}
 button{cursor:pointer;border:none;font:inherit}
@@ -329,7 +329,7 @@ button{cursor:pointer;border:none;font:inherit}
 }
 
 /* ─── Site wrapper ────────────────────────────────────────────── */
-#site { padding-top: 140px; transition: padding-top .3s; }
+#site { padding-top: var(--toolbar-h, 140px); transition: padding-top .3s; }
 #site.present-mode { padding-top: 0; }
 
 /* ─── Nav ─────────────────────────────────────────────────────── */
@@ -686,6 +686,14 @@ footer {
   .tb-fields { gap: 8px; }
   .tb-field { min-width: 110px; }
 }
+/* Compact toolbar on phones — hide Row 2 so it doesn't push content down */
+@media (max-width: 600px) {
+  .tb-row2 { display: none; }
+  .tb-logo { display: none; }
+  .tb-fields { gap: 6px; }
+  .tb-field { min-width: calc(50% - 6px); flex: 1 1 calc(50% - 6px); }
+  .tb-actions { flex-shrink: 0; }
+}
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
@@ -713,7 +721,7 @@ footer {
 <!-- ─── TOOLBAR ────────────────────────────────────────────────── -->
 <!-- Prospect banner (shown in presentation mode) -->
 <div id="prospect-banner">
-  <div class="banner-left">&#x1F44B; Built this preview for <strong id="banner-biz">your business</strong> &mdash; <span style="color:rgba(255,255,255,.5)">Yusuf Hakim &middot; Tampa, FL &middot; FloridaTradeSites</span></div>
+  <div class="banner-left"><strong id="banner-biz">Your business</strong> &mdash; <span id="banner-sub">here&rsquo;s what your Google reviews look like with a website behind them.</span> <span style="color:rgba(255,255,255,.4);font-size:11px">Yusuf Hakim &middot; FloridaTradeSites</span></div>
   <div class="banner-right">
     <a id="banner-sms" href="sms:+18137736865?body=Hi%20Yusuf%2C%20I%20saw%20the%20preview%20for%20my%20business" class="banner-cta">&#x1F4AC; Text Me &rarr;</a>
     <button class="banner-dismiss" onclick="document.getElementById('prospect-banner').style.display='none'">&#x2715;</button>
@@ -1983,17 +1991,30 @@ const CITY_NEIGHBORS = {
     const site = document.getElementById('site');
     const exit = document.getElementById('exitBtn');
     if (tb)   tb.style.display = 'none';
-    if (site) site.style.paddingTop = '40px';
     if (exit) exit.style.display = 'none';
 
     // Show banner
     const banner = document.getElementById('prospect-banner');
-    if (banner) banner.classList.add('show');
+    if (banner) {
+      banner.classList.add('show');
+      // Sync padding after banner renders (dynamic height for mobile wrap)
+      requestAnimationFrame(function() {
+        if (site) site.style.paddingTop = banner.offsetHeight + 'px';
+        window.addEventListener('resize', function() {
+          if (site) site.style.paddingTop = banner.offsetHeight + 'px';
+        }, { passive: true });
+      });
+    }
 
-    // Update banner business name
+    // Update banner business name + review count
     const bizName = P.get('name') ? decodeURIComponent(P.get('name')) : 'your business';
+    const reviews = P.get('reviews');
     const bannerBiz = document.getElementById('banner-biz');
+    const bannerSub = document.getElementById('banner-sub');
     if (bannerBiz) bannerBiz.textContent = bizName;
+    if (bannerSub && reviews) {
+      bannerSub.textContent = reviews + ' Google reviews. Here’s what they look like with a website behind them.';
+    }
 
     // Update SMS links with business name in body
     const smsBody = encodeURIComponent(`Hi Yusuf, I saw the preview for ${bizName} — I'm interested`);
@@ -2002,6 +2023,27 @@ const CITY_NEIGHBORS = {
       if (el) el.href = `sms:+18137736865?body=${smsBody}`;
     });
   }
+})();
+
+// ── Sync #site padding-top with actual toolbar height (fixes Android scroll) ──
+(function() {
+  const toolbar = document.getElementById('toolbar');
+  const site    = document.getElementById('site');
+  if (!toolbar || !site) return;
+
+  function syncPadding() {
+    // Don't override when toolbar is explicitly hidden (present/embed mode)
+    if (toolbar.style.display === 'none') return;
+    if (toolbar.classList.contains('hidden')) return;
+    document.documentElement.style.setProperty('--toolbar-h', toolbar.offsetHeight + 'px');
+  }
+
+  if (window.ResizeObserver) {
+    new ResizeObserver(syncPadding).observe(toolbar);
+  }
+  window.addEventListener('resize', syncPadding, { passive: true });
+  // Run after initial paint so toolbar has rendered
+  requestAnimationFrame(function() { setTimeout(syncPadding, 50); });
 })();
 
 // ── Embed mode (hide toolbar when loaded inside floridatradesites.com iframe) ──
