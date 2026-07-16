@@ -56,7 +56,7 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    gtag('consent', 'default', {'analytics_storage': 'granted'});
+    gtag('consent', 'default', {'analytics_storage': 'denied'});
     gtag('js', new Date());
     gtag('config', 'G-XW8JPKK9NV');
   </script>
@@ -310,9 +310,9 @@
           </div>
         </div>
         <div class="border-t border-white/10 pt-5 text-left">
-          <div class="text-slate-400 text-xs mb-1">Booking just 1 missed call per month =</div>
+          <div class="text-slate-400 text-xs mb-1">One recovered job =</div>
           <div id="calc-result" class="text-gold text-4xl font-extrabold mb-2">$3,500</div>
-          <div id="calc-sub" class="text-slate-400 text-xs leading-relaxed">That&rsquo;s 12 missed calls a month. One job covers <strong class="text-white">8 months of Lead Catcher ($399/mo)</strong> or <strong class="text-white">3 months of Full Crew ($899/mo)</strong>.</div>
+          <div id="calc-sub" class="text-slate-400 text-xs leading-relaxed">At 3 missed calls/week, that&rsquo;s 12 a month. One job covers <strong class="text-white">8 months of Lead Catcher ($399/mo)</strong> or <strong class="text-white">3 months of Full Crew ($899/mo)</strong>.</div>
         </div>
       </div>
     </div>
@@ -322,7 +322,7 @@
   <div id="founding-block" class="bg-gold/10 border-y border-gold/20 py-5 px-6">
     <div class="max-w-3xl mx-auto flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
       <span class="text-2xl flex-shrink-0">&#x1F3AF;</span>
-      <p class="text-sm text-slate-700 leading-relaxed"><strong class="text-navy">Taking founding clients now.</strong> I&rsquo;m building my first Florida sites personally — no account managers, no handoffs. Founding clients get my direct number and pricing locked for life. I take 4 a month so I can do each one right.</p>
+      <p class="text-sm text-slate-700 leading-relaxed"><strong class="text-navy">August spots are open.</strong> I&rsquo;m building my first Florida sites personally — no account managers, no handoffs. Founding clients get my direct number and pricing locked for life. I take 4 a month so I can do each one right.</p>
       <a href="sms:+18137736865?body=Hi%20Yusuf%2C%20I%27m%20interested%20in%20being%20a%20founding%20client"
          class="flex-shrink-0 bg-gold hover:bg-gold-light text-navy font-bold px-5 py-2.5 rounded-lg text-sm transition-colors whitespace-nowrap">&#x1F4AC; Claim a Spot</a>
     </div>
@@ -565,6 +565,7 @@
             <div>
               <div class="font-extrabold text-navy text-base">Every City, Every Service + Full Crew</div>
               <div class="text-slate-500 text-sm mt-1">Every service &amp; city page built out, full GBP management, 12 new ranking pages/year, 1-week content turnaround</div>
+              <div class="text-xs text-slate-400 mt-1 italic">Higher monthly = bigger build discount ($2,000 off vs $1,000)</div>
             </div>
             <div class="text-right flex-shrink-0">
               <div class="text-2xl font-extrabold text-navy"><sup class="text-base">$</sup>5,500 <span class="text-slate-400 font-normal text-sm">build</span></div>
@@ -661,7 +662,7 @@
             <div class="font-bold text-navy">Is this a contract? What am I signing?</div>
             <div class="faq-icon text-gold text-xl font-bold flex-shrink-0 transition-transform">+</div>
           </div>
-          <div class="faq-body hidden mt-3 text-slate-500 text-sm leading-relaxed">No contract. The build fee is one-time — that&rsquo;s yours. The monthly plan is month-to-month and you can cancel anytime by texting me. No 12-month agency lock-in, no cancellation fee, no fine print. The only thing you sign is a simple one-page service agreement so we both know what&rsquo;s included.</div>
+          <div class="faq-body hidden mt-3 text-slate-500 text-sm leading-relaxed">No contract. The build fee is one-time — that&rsquo;s yours. The monthly plan is month-to-month and you can cancel anytime by texting me. No 12-month agency lock-in, no cancellation fee. The only thing you sign is a simple one-page service agreement so we both know what&rsquo;s included. <em>Note: bundle packages (where the build is discounted) have a 3- or 6-month minimum — that&rsquo;s what locks the discount. After the minimum, it&rsquo;s month-to-month with no penalty.</em></div>
         </div>
 
         <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
@@ -810,7 +811,7 @@
       var lcMonths = Math.floor(job / 399);
       var fcMonths = Math.floor(job / 899);
       document.getElementById('calc-result').textContent = '$' + job.toLocaleString();
-      var sub = "That&rsquo;s " + perMonth + " missed calls a month. One job covers " +
+      var sub = "At " + missed + " missed calls/week, that&rsquo;s " + perMonth + " a month. One job covers " +
         "<strong class=\"text-white\">" + lcMonths + " months of Lead Catcher ($399/mo)</strong>";
       if (fcMonths >= 1) {
         sub += " or <strong class=\"text-white\">" + fcMonths + " months of Full Crew ($899/mo)</strong>";
@@ -858,6 +859,7 @@
       });
       document.getElementById('cookie-decline').addEventListener('click', function(){
         localStorage.setItem('cookie-consent', 'declined');
+        gtag('consent', 'update', {'analytics_storage': 'denied'});
         document.getElementById('cookie-banner').style.display = 'none';
       });
     })();
