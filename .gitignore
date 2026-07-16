@@ -1,0 +1,11 @@
+# Video files — large, not needed in repo (video is on YouTube)
+*.mp4
+*.mov
+*.avi
+
+# Frame extracts from video analysis
+frame_*.jpg
+new_frame_*.jpg
+
+# Netlify local config
+.netlify/
