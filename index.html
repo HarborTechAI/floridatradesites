@@ -27,15 +27,60 @@
     html { scroll-behavior: smooth; }
     .gradient-hero { background: linear-gradient(135deg, #0a2240 0%, #163460 55%, #0a2240 100%); }
     .phone-big { font-size: clamp(2.2rem, 6vw, 4rem); }
+    #calc-job, #calc-missed {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+      color: #fff;
+    }
+    /* ─── Custom trade dropdown (form) ─── */
+    .ftd-wrap { position: relative; }
+    .ftd-trigger {
+      width: 100%; border: 1px solid #e2e8f0; border-radius: 0.5rem;
+      padding: 0.625rem 2rem 0.625rem 0.75rem; font-size: 0.875rem;
+      background: #fff; color: #1e293b; cursor: pointer;
+      text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      transition: border-color .15s; display: block;
+    }
+    .ftd-trigger:focus, .ftd-trigger.open { outline: none; border-color: #C8752A; }
+    .ftd-trigger.placeholder { color: #94a3b8; }
+    .ftd-arrow {
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      pointer-events: none; color: #94a3b8; font-size: 9px; line-height: 1;
+    }
+    .ftd-list {
+      display: none; position: fixed; background: #fff;
+      border: 1px solid #e2e8f0; border-radius: 0.5rem; z-index: 99999;
+      max-height: 320px; overflow-y: scroll;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .ftd-list.open { display: block; }
+    .ftd-list::-webkit-scrollbar { width: 6px; }
+    .ftd-list::-webkit-scrollbar-track { background: #f8fafc; }
+    .ftd-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    .ftd-list::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .ftd-item {
+      padding: 9px 12px; font-size: 0.875rem; color: #334155;
+      cursor: pointer; transition: background .1s;
+    }
+    .ftd-item:hover { background: #f1f5f9; }
+    .ftd-item.selected { color: #C8752A; font-weight: 600; }
+    .ftd-placeholder-item { color: #94a3b8; }
   </style>
+  <link rel="canonical" href="https://floridatradesites.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://floridatradesites.com/" />
+  <meta property="og:title" content="Florida Trade Sites — Websites for Florida Trade Businesses" />
+  <meta property="og:description" content="Professional websites for Florida plumbers, HVAC, auto repair, landscaping, pool service, and more. Missed-call text-back and review automation included. Flat pricing." />
+  <meta property="og:image" content="https://floridatradesites.com/owner-headshot.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Florida Trade Sites",
     "description": "Professional websites for Florida trade businesses — plumbers, roofers, HVAC, electricians, and more. Includes missed-call text-back and review automation.",
-    "url": "https://www.floridatradesites.com",
-    "telephone": "+18137736865",
+    "url": "https://floridatradesites.com/",
+    "telephone": "+18135659710",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Tampa",
@@ -71,8 +116,9 @@
         <a href="#demo"    class="hover:text-white transition-colors">See a Preview</a>
         <a href="#why"     class="hover:text-white transition-colors">Why It Works</a>
         <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
+        <a href="get-started.html" class="hover:text-white transition-colors">Get Started</a>
       </div>
-      <a href="sms:+18137736865?body=Hi%2C%20I%27d%20like%20a%20free%20website%20preview%20for%20my%20business"
+      <a href="sms:+18135659710?body=Hi%2C%20I%27d%20like%20a%20free%20website%20preview%20for%20my%20business"
          class="hidden md:inline-flex items-center bg-gold hover:bg-gold-light text-navy font-bold text-sm px-5 py-2 rounded-lg transition-colors">
         &#x1F4AC; Text Us
       </a>
@@ -82,7 +128,8 @@
       <a href="#demo"    class="block py-2 hover:text-white">See a Preview</a>
       <a href="#why"     class="block py-2 hover:text-white">Why It Works</a>
       <a href="#pricing" class="block py-2 hover:text-white">Pricing</a>
-      <a href="sms:+18137736865?body=Hi%2C%20I%27d%20like%20a%20free%20website%20preview%20for%20my%20business"
+      <a href="get-started.html" class="block py-2 hover:text-white">Get Started</a>
+      <a href="sms:+18135659710?body=Hi%2C%20I%27d%20like%20a%20free%20website%20preview%20for%20my%20business"
          class="block bg-gold hover:bg-gold-light text-navy font-bold text-center py-3 px-4 rounded-lg mt-2 transition-colors">&#x1F4AC; Text Us</a>
     </div>
   </nav>
@@ -94,15 +141,15 @@
       <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-[1.08] mb-6 max-w-3xl">Every missed call is money your competitor just made.</h1>
       <p class="text-xl text-slate-300 max-w-2xl leading-relaxed mb-10">When you can&rsquo;t answer, we text the customer back in 2 minutes &mdash; before they call the next guy. Plus a professional website that actually shows up on Google. Flat prices posted below. Built in Tampa.</p>
       <div class="flex flex-wrap gap-4">
-        <a href="sms:+18137736865?body=Hi%2C%20I%27d%20like%20a%20free%20website%20preview%20for%20my%20business"
+        <a href="sms:+18135659710?body=Hi%2C%20I%27d%20like%20a%20free%20website%20preview%20for%20my%20business"
            class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-4 rounded-xl text-base transition-colors">&#x1F4AC; Text Us — Free Preview</a>
-        <a href="tel:+18137736865"
-           class="bg-white/10 hover:bg-white/18 text-white font-semibold px-7 py-4 rounded-xl text-base border border-white/20 transition-colors">&#x1F4DE; (813) 773-6865</a>
+        <a href="tel:+18135659710"
+           class="bg-white/10 hover:bg-white/18 text-white font-semibold px-7 py-4 rounded-xl text-base border border-white/20 transition-colors">&#x1F4DE; (813) 565-9710</a>
       </div>
 
       <div class="mt-16 pt-10 border-t border-white/10 grid grid-cols-3 gap-6">
         <div><div class="text-gold text-2xl font-extrabold">2 weeks</div><div class="text-xs text-slate-400 uppercase tracking-wide mt-1">Full site build &amp; launch</div></div>
-        <div><div class="text-gold text-2xl font-extrabold">60%</div><div class="text-xs text-slate-400 uppercase tracking-wide mt-1">Callers who skip voicemail (Invoca)</div></div>
+        <div><div class="text-gold text-2xl font-extrabold">60%</div><div class="text-xs text-slate-400 uppercase tracking-wide mt-1">Callers who skip voicemail &amp; call a competitor</div></div>
         <div><div class="text-gold text-2xl font-extrabold">90 days</div><div class="text-xs text-slate-400 uppercase tracking-wide mt-1">First inquiry or we refund a month — guaranteed</div></div>
       </div>
     </div>
@@ -159,21 +206,56 @@
             </div>
 
             <div class="mb-4">
-              <label class="block text-xs font-bold tracking-widest uppercase text-slate-400 mb-1.5" for="d-trade">Trade / Industry</label>
-              <select id="d-trade" onchange="debouncedUpdate()"
-                class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-gold transition-colors bg-white">
+              <label class="block text-xs font-bold tracking-widest uppercase text-slate-400 mb-1.5">Trade / Industry</label>
+              <select id="d-trade" style="display:none">
                 <option value="">Select your trade&hellip;</option>
                 <option value="Plumbing">Plumbing</option>
                 <option value="HVAC">HVAC / Air Conditioning</option>
+                <option value="Roofing">Roofing</option>
+                <option value="Electrical">Electrical</option>
                 <option value="Auto Repair">Auto Repair</option>
+                <option value="Painting">Painting</option>
                 <option value="Landscaping">Landscaping / Lawn Care</option>
                 <option value="Pool Service">Pool Service</option>
-                <option value="Towing">Towing</option>
-                <option value="Electrical">Electrical</option>
-                <option value="Window Tinting">Window Tinting</option>
-                <option value="Roofing">Roofing</option>
+                <option value="Pest Control">Pest Control</option>
+                <option value="Cleaning Services">Cleaning Services</option>
+                <option value="Appliance Repair">Appliance Repair</option>
                 <option value="Pressure Washing">Pressure Washing</option>
+                <option value="Locksmith">Locksmith</option>
+                <option value="Towing">Towing</option>
+                <option value="Gutters">Gutters</option>
+                <option value="Window Tinting">Window Tinting</option>
+                <option value="Mobile Mechanic">Mobile Mechanic</option>
+                <option value="Mobile Detailing">Mobile Detailing</option>
               </select>
+              <div class="ftd-wrap">
+                <div class="ftd-trigger ftd-placeholder placeholder" id="d-trade-trigger" tabindex="0"
+                     onclick="ftdToggle(event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();ftdToggle(event)}">
+                  Select your trade&hellip;
+                </div>
+                <span class="ftd-arrow">&#9660;</span>
+                <div class="ftd-list" id="d-trade-list" onclick="event.stopPropagation()">
+                  <div class="ftd-item ftd-placeholder-item" onclick="ftdPick('','Select your trade…','Select your trade…')">Select your trade&hellip;</div>
+                  <div class="ftd-item" onclick="ftdPick('Plumbing','Plumbing')">Plumbing</div>
+                  <div class="ftd-item" onclick="ftdPick('HVAC','HVAC / Air Conditioning')">HVAC / Air Conditioning</div>
+                  <div class="ftd-item" onclick="ftdPick('Roofing','Roofing')">Roofing</div>
+                  <div class="ftd-item" onclick="ftdPick('Electrical','Electrical')">Electrical</div>
+                  <div class="ftd-item" onclick="ftdPick('Auto Repair','Auto Repair')">Auto Repair</div>
+                  <div class="ftd-item" onclick="ftdPick('Painting','Painting')">Painting</div>
+                  <div class="ftd-item" onclick="ftdPick('Landscaping','Landscaping / Lawn Care')">Landscaping / Lawn Care</div>
+                  <div class="ftd-item" onclick="ftdPick('Pool Service','Pool Service')">Pool Service</div>
+                  <div class="ftd-item" onclick="ftdPick('Pest Control','Pest Control')">Pest Control</div>
+                  <div class="ftd-item" onclick="ftdPick('Cleaning Services','Cleaning Services')">Cleaning Services</div>
+                  <div class="ftd-item" onclick="ftdPick('Appliance Repair','Appliance Repair')">Appliance Repair</div>
+                  <div class="ftd-item" onclick="ftdPick('Pressure Washing','Pressure Washing')">Pressure Washing</div>
+                  <div class="ftd-item" onclick="ftdPick('Locksmith','Locksmith')">Locksmith</div>
+                  <div class="ftd-item" onclick="ftdPick('Towing','Towing')">Towing</div>
+                  <div class="ftd-item" onclick="ftdPick('Gutters','Gutters')">Gutters</div>
+                  <div class="ftd-item" onclick="ftdPick('Window Tinting','Window Tinting')">Window Tinting</div>
+                  <div class="ftd-item" onclick="ftdPick('Mobile Mechanic','Mobile Mechanic')">Mobile Mechanic</div>
+                  <div class="ftd-item" onclick="ftdPick('Mobile Detailing','Mobile Detailing')">Mobile Detailing</div>
+                </div>
+              </div>
             </div>
 
             <div class="mb-4">
@@ -197,16 +279,42 @@
               </select>
             </div>
 
-            <div class="mb-6">
-              <label class="block text-xs font-bold tracking-widest uppercase text-slate-400 mb-1.5" for="d-reviews">Your Google Review Count</label>
+            <div class="mb-4">
+              <label class="block text-xs font-bold tracking-widest uppercase text-slate-400 mb-1.5" for="d-reviews">Number of Google Reviews</label>
               <input type="number" id="d-reviews" min="0" max="9999" value="" onchange="debouncedUpdate()" oninput="debouncedUpdate()"
                 placeholder="e.g. 47"
                 class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-gold transition-colors bg-white" />
             </div>
 
+            <div class="mb-4">
+              <label class="block text-xs font-bold tracking-widest uppercase text-slate-400 mb-1.5" for="d-rating">Star Rating</label>
+              <input type="number" id="d-rating" min="1" max="5" step="0.1" value="" onchange="debouncedUpdate()" oninput="debouncedUpdate()"
+                placeholder="e.g. 4.8"
+                class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-gold transition-colors bg-white" />
+            </div>
+
+            <div class="mb-6">
+              <label class="block text-xs font-bold tracking-widest uppercase text-slate-400 mb-2">Website Tier</label>
+              <div class="grid grid-cols-3 gap-1.5" id="tier-btn-group">
+                <button type="button" onclick="selectTier('Get Found')" data-tier="Get Found"
+                  class="tier-pick-btn py-2.5 text-xs font-bold rounded-lg border border-slate-200 text-slate-500 hover:border-gold hover:text-gold transition-colors leading-tight">
+                  Get Found<br><span class="font-normal text-[10px] text-slate-400">$2,500</span>
+                </button>
+                <button type="button" onclick="selectTier('Get Found in More Cities')" data-tier="Get Found in More Cities"
+                  class="tier-pick-btn active-tier py-2.5 text-xs font-bold rounded-lg border border-gold bg-gold text-navy transition-colors leading-tight">
+                  More Cities<br><span class="font-normal text-[10px] opacity-70">$4,000</span>
+                </button>
+                <button type="button" onclick="selectTier('Every City, Every Service')" data-tier="Every City, Every Service"
+                  class="tier-pick-btn py-2.5 text-xs font-bold rounded-lg border border-slate-200 text-slate-500 hover:border-gold hover:text-gold transition-colors leading-tight">
+                  Every City<br><span class="font-normal text-[10px] text-slate-400">$7,500</span>
+                </button>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1.5 leading-snug" id="tier-pick-desc">Gallery, service area pages, 3 cities covered</p>
+            </div>
+
             <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
               <p class="text-xs text-slate-500 mb-3 leading-relaxed">Like what you see? Text us your business name and we'll build the real version with your actual Google reviews pulled in.</p>
-              <a href="sms:+18137736865?body=Hi%2C%20I%27d%20like%20a%20website%20preview%20for%20my%20business"
+              <a href="sms:+18135659710?body=Hi%2C%20I%27d%20like%20a%20website%20preview%20for%20my%20business"
                  class="block w-full bg-gold hover:bg-gold-light text-navy font-bold py-2.5 rounded-lg text-sm transition-colors">
                 &#x1F4AC; Text Us to Get Started
               </a>
@@ -230,11 +338,11 @@
               </div>
               <div class="flex-1 bg-white/10 rounded px-3 py-1 text-xs text-white/40 font-mono" id="preview-url">www.yourbusiness.com</div>
             </div>
-            <iframe id="preview-frame" src="demo.html?mode=embed" class="w-full h-[560px] block border-none" title="Website Preview" sandbox="allow-scripts allow-same-origin"></iframe>
+            <iframe id="preview-frame" src="demo.html?mode=embed" class="w-full h-[560px] block border-none" title="Website Preview" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
             <div class="bg-navy px-5 py-4 text-center">
               <p class="text-slate-300 text-sm mb-1">That took 60 seconds. Yours takes 2 weeks and it&rsquo;s real.</p>
               <p class="text-slate-500 text-xs mb-3">This preview uses placeholder photos. The real version gets your photos, your actual services, your real reviews, and pages built to rank in your cities.</p>
-              <a href="sms:+18137736865?body=Hi%2C%20I%27d%20like%20a%20website%20preview%20for%20my%20business"
+              <a href="sms:+18135659710?body=Hi%2C%20I%27d%20like%20a%20website%20preview%20for%20my%20business"
                  class="inline-block bg-gold hover:bg-gold-light text-navy font-bold px-6 py-2.5 rounded-lg text-sm transition-colors">
                 &#x1F4AC; Text Us Your Business Name &rarr;
               </a>
@@ -270,13 +378,13 @@
               <div class="flex justify-end"><div class="bg-[#0a84ff] text-white text-[11px] rounded-2xl rounded-br-sm px-3 py-2 max-w-[150px] leading-snug">Perfect, I can do Thursday at 10am. Does that work?</div></div>
             </div>
           </div>
-          <p class="text-gold text-xs font-bold">60% of callers who hit voicemail call a competitor next. (Invoca)</p>
+          <p class="text-gold text-xs font-bold">60% of callers who hit voicemail call a competitor next.</p>
         </div>
         <div class="bg-navy-mid px-8 py-9">
           <div class="text-3xl mb-5">&#x2B50;</div>
           <h3 class="text-white font-bold text-lg mb-3">Review Requests, Done for You</h3>
           <p class="text-slate-400 text-sm leading-relaxed">After every job, the customer gets a text with your Google review link. You don't have to remember to ask. New 5-star reviews get a response posted within 24 hours. Your rating climbs while you work.</p>
-          <p class="text-gold text-xs font-bold mt-4">Businesses in the Google 3-pack get 3&times; the calls of page-2 results &mdash; BrightLocal.</p>
+          <p class="text-gold text-xs font-bold mt-4">Businesses in the Google 3-pack get 3&times; the calls of page-2 results.</p>
         </div>
         <div class="bg-navy-mid px-8 py-9">
           <div class="text-3xl mb-5">&#x1F4C4;</div>
@@ -293,8 +401,8 @@
     <div class="max-w-2xl mx-auto text-center">
       <div class="text-gold text-xs font-bold uppercase tracking-widest mb-4">The Math</div>
       <h3 class="text-white font-extrabold text-xl md:text-2xl mb-2">How much is a missed call costing you?</h3>
-      <p class="text-slate-400 text-sm mb-8">One HVAC job is $3,000&ndash;$8,000. One plumbing call is $500&ndash;$2,000. We only need to recover one.</p>
-      <div class="bg-white/5 border border-white/10 rounded-xl p-6 max-w-md mx-auto">
+      <p id="calc-intro-text" class="text-slate-400 text-sm mb-8">A single missed call can be worth $500&ndash;$8,000 depending on your trade. Enter your numbers and see what you&rsquo;re leaving on the table.</p>
+      <div class="bg-white/5 border border-white/10 rounded-xl p-6 w-full">
         <div class="grid grid-cols-2 gap-4 mb-6">
           <div>
             <label class="block text-xs text-slate-400 mb-2">Your avg job value ($)</label>
@@ -309,10 +417,59 @@
                    oninput="updateCalc()">
           </div>
         </div>
-        <div class="border-t border-white/10 pt-5 text-left">
-          <div class="text-slate-400 text-xs mb-1">One recovered job =</div>
-          <div id="calc-result" class="text-gold text-4xl font-extrabold mb-2">$3,500</div>
-          <div id="calc-sub" class="text-slate-400 text-xs leading-relaxed">At 3 missed calls/week, that&rsquo;s 12 a month. One job covers <strong class="text-white">8 months of Lead Catcher ($399/mo)</strong> or <strong class="text-white">3 months of Full Crew ($899/mo)</strong>.</div>
+        <div class="border-t border-white/10 pt-5 space-y-5 text-left">
+
+          <!-- Headline: monthly + yearly loss -->
+          <div>
+            <div class="text-slate-400 text-xs mb-1">You&rsquo;re leaving on the table each month</div>
+            <div id="calc-monthly" class="text-gold text-4xl font-extrabold leading-none">$45,500</div>
+            <div class="text-white text-sm font-bold mt-1">That&rsquo;s <span id="calc-yearly-val">$546,000</span>/year going straight to whoever answers.</div>
+          </div>
+
+          <!-- Two cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+            <!-- Card A: 1 job recovered -->
+            <div class="bg-white/[0.05] rounded-lg p-4 border border-white/[0.08]">
+              <div class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-3">What 1 recovered job pays for</div>
+              <div id="calc-one-val" class="text-white font-extrabold text-xl mb-3">$3,500</div>
+              <div id="calc-one-lines" class="text-xs text-slate-400 leading-relaxed space-y-1.5">
+                <div>&#x2713; <strong class="text-white">8 months</strong> of Lead Catcher ($399/mo)</div>
+                <div>&#x2713; <strong class="text-white">3 months</strong> of Full Crew ($899/mo)</div>
+                <div class="text-gold font-semibold">&#x2713; Your entire website build &mdash; from one job.</div>
+              </div>
+              <div class="mt-3 text-[10px] text-slate-500 italic leading-relaxed">One call you didn&rsquo;t miss pays the bill. Everything after is profit.</div>
+            </div>
+
+            <!-- Card B: all missed calls at 25% close rate -->
+            <div class="bg-white/[0.05] rounded-lg p-4 border border-white/[0.08]">
+              <div class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-3">Book just 1 in 4 missed calls</div>
+              <div class="flex items-baseline gap-1.5 mb-1">
+                <span id="calc-rec-mo" class="text-green-400 font-extrabold text-xl">+$11,350</span>
+                <span class="text-slate-400 text-xs">/month back</span>
+              </div>
+              <div class="text-slate-400 text-xs mb-3">That&rsquo;s <span id="calc-rec-yr" class="text-white font-bold">$136,200</span>/year</div>
+              <div id="calc-all-lines" class="text-xs text-slate-400 leading-relaxed space-y-1.5">
+                <div>Lead Catcher pays itself <strong class="text-white">10x+</strong> over</div>
+                <div>Full Crew pays itself <strong class="text-white">10x+</strong> over</div>
+              </div>
+              <div class="mt-3 text-[10px] text-slate-500 italic leading-relaxed">Assumes 25% booked rate. Most trades close higher.</div>
+            </div>
+
+          </div>
+
+          <!-- Conditional footer: website payback (hidden when not compelling) -->
+          <div id="calc-payback-row" class="rounded-lg border border-gold/30 bg-gold/[0.08] px-4 py-3 text-sm text-white leading-relaxed">
+            <span id="calc-payback-text">Your $2,500 website build pays for itself in the first month &mdash; 4.5x over.</span>
+          </div>
+
+          <!-- Dynamic CTA -->
+          <a href="sms:+18135659710?body=Hi%2C%20I%27d%20like%20a%20free%20website%20preview%20for%20my%20business"
+             id="calc-cta"
+             class="block w-full bg-gold hover:bg-gold-light text-navy font-bold text-sm py-3 px-4 rounded-lg text-center transition-colors">
+            Stop Losing $45,500/Month &rarr;
+          </a>
+
         </div>
       </div>
     </div>
@@ -323,7 +480,7 @@
     <div class="max-w-3xl mx-auto flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
       <span class="text-2xl flex-shrink-0">&#x1F3AF;</span>
       <p class="text-sm text-slate-700 leading-relaxed"><strong class="text-navy">August spots are open.</strong> I&rsquo;m building my first Florida sites personally — no account managers, no handoffs. Founding clients get my direct number and pricing locked for life. I take 4 a month so I can do each one right.</p>
-      <a href="sms:+18137736865?body=Hi%20Yusuf%2C%20I%27m%20interested%20in%20being%20a%20founding%20client"
+      <a href="sms:+18135659710?body=Hi%20Yusuf%2C%20I%27m%20interested%20in%20being%20a%20founding%20client"
          class="flex-shrink-0 bg-gold hover:bg-gold-light text-navy font-bold px-5 py-2.5 rounded-lg text-sm transition-colors whitespace-nowrap">&#x1F4AC; Claim a Spot</a>
     </div>
   </div>
@@ -379,10 +536,10 @@
           <p class="text-slate-500 leading-relaxed mb-4">When you text us, I'm the one who answers. I started Florida Trade Sites because I kept seeing great trade businesses with 80, 100, 200 Google reviews and no website — losing jobs every day to guys with half the reputation and a decent website.</p>
           <p class="text-slate-500 leading-relaxed">We're not a national agency with an 800 number. We're a Florida company. When you have a question or need a change, you text me directly.</p>
           <div class="flex flex-wrap gap-3 mt-6">
-            <a href="sms:+18137736865?body=Hi%20Yusuf%2C%20I%27d%20like%20to%20talk%20about%20a%20website"
+            <a href="sms:+18135659710?body=Hi%20Yusuf%2C%20I%27d%20like%20to%20talk%20about%20a%20website"
                class="bg-gold hover:bg-gold-light text-navy font-bold px-5 py-2.5 rounded-lg text-sm transition-colors">&#x1F4AC; Text Yusuf Directly</a>
-            <a href="tel:+18137736865"
-               class="border border-slate-200 hover:border-gold text-navy hover:text-gold font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors">&#x1F4DE; (813) 773-6865</a>
+            <a href="tel:+18135659710"
+               class="border border-slate-200 hover:border-gold text-navy hover:text-gold font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors">&#x1F4DE; (813) 565-9710</a>
           </div>
         </div>
       </div>
@@ -400,7 +557,7 @@
           <iframe src="https://www.youtube.com/embed/LjYnTckmkPg" title="Why I Built Florida Trade Sites" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%"></iframe>
         </div>
       </div>
-      <p class="mt-6 text-slate-400 text-sm">Text Yusuf directly &mdash; <a href="sms:+18137736865" class="text-gold font-semibold hover:underline">(813) 773-6865</a></p>
+      <p class="mt-6 text-slate-400 text-sm">Text Yusuf directly &mdash; <a href="sms:+18135659710" class="text-gold font-semibold hover:underline">(813) 565-9710</a></p>
     </div>
   </section>
 
@@ -430,7 +587,7 @@
             <li class="flex gap-2"><span class="text-gold font-bold">✓</span>Google Business Profile connected</li>
             <li class="flex gap-2"><span class="text-gold font-bold">✓</span>Contact form + map embed</li>
           </ul>
-          <a href="sms:+18137736865?body=Hi%2C%20I%27m%20interested%20in%20the%20Get%20Found%20package"
+          <a href="sms:+18135659710?body=Hi%2C%20I%27m%20interested%20in%20the%20Get%20Found%20package"
              class="mt-6 block text-center border border-slate-200 hover:border-gold text-navy hover:text-gold font-bold py-2.5 rounded-xl text-sm transition-colors">&#x1F4AC; Text to Get Started</a>
         </div>
 
@@ -449,7 +606,7 @@
             <li class="flex gap-2"><span class="text-gold font-bold">✓</span>Coded so Google understands your services</li>
             <li class="flex gap-2"><span class="text-gold font-bold">✓</span>Up to 3 cities covered</li>
           </ul>
-          <a href="sms:+18137736865?body=Hi%2C%20I%27m%20interested%20in%20the%20Get%20Found%20in%20More%20Cities%20package"
+          <a href="sms:+18135659710?body=Hi%2C%20I%27m%20interested%20in%20the%20Get%20Found%20in%20More%20Cities%20package"
              class="mt-6 block text-center bg-gold hover:bg-gold-light text-navy font-bold py-2.5 rounded-xl text-sm transition-colors">&#x1F4AC; Text to Get Started</a>
         </div>
 
@@ -467,7 +624,7 @@
             <li class="flex gap-2"><span class="text-gold font-bold">✓</span>Careers / hiring page</li>
             <li class="flex gap-2"><span class="text-gold font-bold">✓</span>FAQ page (shows in Google search results)</li>
           </ul>
-          <a href="sms:+18137736865?body=Hi%2C%20I%27m%20interested%20in%20the%20Every%20City%20package"
+          <a href="sms:+18135659710?body=Hi%2C%20I%27m%20interested%20in%20the%20Every%20City%20package"
              class="mt-6 block text-center border border-slate-200 hover:border-gold text-navy hover:text-gold font-bold py-2.5 rounded-xl text-sm transition-colors">&#x1F4AC; Text to Get Started</a>
         </div>
       </div>
@@ -535,9 +692,28 @@
             </div>
           </div>
           <div class="mt-4 flex flex-wrap items-center gap-3">
-            <a href="sms:+18137736865?body=Hi%2C%20I%27m%20interested%20in%20the%20Get%20Found%20in%20More%20Cities%20%2B%20Lead%20Catcher%20bundle"
+            <a href="sms:+18135659710?body=Hi%2C%20I%27m%20interested%20in%20the%20Get%20Found%20in%20More%20Cities%20%2B%20Lead%20Catcher%20bundle"
                class="inline-block bg-gold hover:bg-gold-light text-navy font-bold px-6 py-2.5 rounded-lg text-sm transition-colors">&#x1F4AC; Text to Claim This Bundle</a>
             <span class="text-xs text-slate-500 border border-slate-200 rounded-lg px-3 py-2">&#x2705; 90-day guarantee included</span>
+          </div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-xl p-6">
+          <div class="text-xs font-bold tracking-widest uppercase text-slate-400 mb-3">&#x1F680; More cities, fully hands-off</div>
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <div class="font-extrabold text-navy text-base">Get Found in More Cities + Full Crew</div>
+              <div class="text-slate-500 text-sm mt-1">Site, service-area pages, full GBP management, 12 new ranking pages/year, 1-week content turnaround</div>
+              <div class="text-xs text-slate-400 mt-1 italic">Higher monthly = bigger build discount ($1,000 off vs $500)</div>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <div class="text-2xl font-extrabold text-navy"><sup class="text-base">$</sup>3,000 <span class="text-slate-400 font-normal text-sm">build</span></div>
+              <div class="text-sm text-slate-500">+ $899/mo &mdash; <span class="text-gold font-bold">saves $1,000</span> &mdash; 6-month minimum</div>
+            </div>
+          </div>
+          <div class="mt-4">
+            <a href="sms:+18135659710?body=Hi%2C%20I%27m%20interested%20in%20the%20Get%20Found%20in%20More%20Cities%20%2B%20Full%20Crew%20bundle"
+               class="inline-block border border-slate-200 hover:border-gold text-navy hover:text-gold font-bold px-6 py-2.5 rounded-lg text-sm transition-colors">&#x1F4AC; Text to Claim This Bundle</a>
           </div>
         </div>
 
@@ -554,7 +730,7 @@
             </div>
           </div>
           <div class="mt-4">
-            <a href="sms:+18137736865?body=Hi%2C%20I%27m%20interested%20in%20the%20Every%20City%20Every%20Service%20%2B%20Lead%20Catcher%20bundle"
+            <a href="sms:+18135659710?body=Hi%2C%20I%27m%20interested%20in%20the%20Every%20City%20Every%20Service%20%2B%20Lead%20Catcher%20bundle"
                class="inline-block border border-slate-200 hover:border-gold text-navy hover:text-gold font-bold px-6 py-2.5 rounded-lg text-sm transition-colors">&#x1F4AC; Text to Claim This Bundle</a>
           </div>
         </div>
@@ -573,7 +749,7 @@
             </div>
           </div>
           <div class="mt-4">
-            <a href="sms:+18137736865?body=Hi%2C%20I%27m%20interested%20in%20the%20Every%20City%20Every%20Service%20%2B%20Full%20Crew%20bundle"
+            <a href="sms:+18135659710?body=Hi%2C%20I%27m%20interested%20in%20the%20Every%20City%20Every%20Service%20%2B%20Full%20Crew%20bundle"
                class="inline-block border border-slate-200 hover:border-gold text-navy hover:text-gold font-bold px-6 py-2.5 rounded-lg text-sm transition-colors">&#x1F4AC; Text to Claim This Bundle</a>
           </div>
         </div>
@@ -662,7 +838,7 @@
             <div class="font-bold text-navy">Is this a contract? What am I signing?</div>
             <div class="faq-icon text-gold text-xl font-bold flex-shrink-0 transition-transform">+</div>
           </div>
-          <div class="faq-body hidden mt-3 text-slate-500 text-sm leading-relaxed">No contract. The build fee is one-time — that&rsquo;s yours. The monthly plan is month-to-month and you can cancel anytime by texting me. No 12-month agency lock-in, no cancellation fee. The only thing you sign is a simple one-page service agreement so we both know what&rsquo;s included. <em>Note: bundle packages (where the build is discounted) have a 3- or 6-month minimum — that&rsquo;s what locks the discount. After the minimum, it&rsquo;s month-to-month with no penalty.</em></div>
+          <div class="faq-body hidden mt-3 text-slate-500 text-sm leading-relaxed">No contract. The build fee is one-time — that&rsquo;s yours. The monthly plan is month-to-month and you can cancel anytime by texting me. No 12-month agency lock-in, no cancellation fee. The only thing you sign is a simple service agreement so we both know what&rsquo;s included. <em>Note: bundle packages (where the build is discounted) have a 3- or 6-month minimum — that&rsquo;s what locks the discount. After the minimum, it&rsquo;s month-to-month with no penalty.</em></div>
         </div>
 
         <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
@@ -693,10 +869,10 @@
       <p class="text-slate-400 text-lg mb-10 max-w-lg mx-auto">We'll build a preview of your exact website — your name, your trade, your city. No commitment. If you like it, we talk.</p>
 
       <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-        <a href="sms:+18137736865?body=Hi%2C%20I%27d%20like%20a%20free%20website%20preview%20for%20my%20business"
+        <a href="sms:+18135659710?body=Hi%2C%20I%27d%20like%20a%20free%20website%20preview%20for%20my%20business"
            class="bg-gold hover:bg-gold-light text-navy font-bold px-10 py-4 rounded-xl text-lg transition-colors">&#x1F4AC; Text Us — Free Preview</a>
-        <a href="tel:+18137736865"
-           class="bg-white/10 hover:bg-white/18 text-white font-bold px-10 py-4 rounded-xl text-lg border border-white/20 transition-colors">&#x1F4DE; (813) 773-6865</a>
+        <a href="tel:+18135659710"
+           class="bg-white/10 hover:bg-white/18 text-white font-bold px-10 py-4 rounded-xl text-lg border border-white/20 transition-colors">&#x1F4DE; (813) 565-9710</a>
       </div>
 
       <p class="text-slate-500 text-sm italic mb-2">Or text us your info directly:</p>
@@ -715,12 +891,15 @@
     <div class="max-w-5xl mx-auto">
       <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600 mb-4">
         <span class="font-bold text-slate-500">Florida<span class="text-gold">Trade</span>Sites &middot; Tampa, FL</span>
-        <div class="flex gap-4">
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="get-started.html" class="hover:text-slate-400 transition-colors">Get Started</a>
           <a href="privacy.html" class="hover:text-slate-400 transition-colors">Privacy Policy</a>
-          <span>&copy; 2026 Florida Trade Sites. All rights reserved.</span>
+          <a href="terms.html" class="hover:text-slate-400 transition-colors">Terms of Service</a>
+          <a href="mailto:hello@floridatradesites.com" class="hover:text-slate-400 transition-colors">hello@floridatradesites.com</a>
         </div>
       </div>
-      <p class="text-center text-slate-700 text-xs">60% stat per Invoca consumer research. Google 3-pack call volume per Google / BrightLocal local search studies.</p>
+      <p class="text-center text-slate-600 text-xs mb-2">&copy; 2026 Florida Trade Sites, a service of Harbor Tech AI LLC &middot; Tampa, FL &middot; <a href="tel:+18135659710" class="hover:text-slate-400">(813) 565-9710</a> &middot; <a href="mailto:hello@floridatradesites.com" class="hover:text-slate-400">hello@floridatradesites.com</a>. All rights reserved.</p>
+      <p class="text-center text-slate-700 text-xs">Stats based on industry call analytics and local search studies.</p>
     </div>
   </footer>
 
@@ -728,6 +907,50 @@
     document.getElementById('menu-btn').addEventListener('click', () => {
       document.getElementById('mobile-menu').classList.toggle('hidden');
     });
+
+    // ── Custom trade dropdown ──────────────────────────────────────
+    function ftdToggle(e) {
+      e.stopPropagation();
+      var list    = document.getElementById('d-trade-list');
+      var trigger = document.getElementById('d-trade-trigger');
+      var open    = list.classList.contains('open');
+      ftdClose();
+      if (!open) {
+        var rect = trigger.getBoundingClientRect();
+        list.style.top   = (rect.bottom + 3) + 'px';
+        list.style.left  = rect.left + 'px';
+        list.style.width = rect.width + 'px';
+        list.classList.add('open');
+        trigger.classList.add('open');
+      }
+    }
+    function ftdPick(val, label) {
+      var sel     = document.getElementById('d-trade');
+      var trigger = document.getElementById('d-trade-trigger');
+      if (sel) sel.value = val;
+      if (trigger) {
+        trigger.textContent = label;
+        trigger.classList.toggle('placeholder', !val);
+      }
+      document.querySelectorAll('#d-trade-list .ftd-item').forEach(function(el) {
+        el.classList.toggle('selected', el.getAttribute('onclick') && el.getAttribute('onclick').indexOf("'" + val + "'") !== -1 && val !== '');
+      });
+      ftdClose();
+      debouncedUpdate();
+    }
+    function ftdClose() {
+      var list    = document.getElementById('d-trade-list');
+      var trigger = document.getElementById('d-trade-trigger');
+      if (list)    list.classList.remove('open');
+      if (trigger) trigger.classList.remove('open');
+    }
+    document.addEventListener('click', ftdClose);
+    window.addEventListener('scroll', function(e) {
+      var list = document.getElementById('d-trade-list');
+      if (list && list.contains(e.target)) return;
+      ftdClose();
+    }, true);
+    window.addEventListener('resize', ftdClose);
 
     let debounceTimer;
     let iframeReady = false;
@@ -745,6 +968,21 @@
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(renderPreview, 300);
     }
+
+    // Collapse when focus leaves the form entirely (works for all fields including Trade / Reviews)
+    document.addEventListener('DOMContentLoaded', function() {
+      var formFull = document.getElementById('form-full');
+      if (formFull) formFull.addEventListener('focusout', function(e) {
+        if (formFull.contains(e.relatedTarget)) return;
+        // Don't collapse while the custom trade dropdown list is open
+        var tradeList = document.getElementById('d-trade-list');
+        if (tradeList && tradeList.classList.contains('open')) return;
+        if (tradeList && tradeList.contains(e.relatedTarget)) return;
+        var name = document.getElementById('d-name').value.trim();
+        var trade = document.getElementById('d-trade').value;
+        if (name && trade) collapseDemoForm();
+      });
+    });
 
     function slugify(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, '').slice(0, 22); }
 
@@ -771,11 +1009,67 @@
       document.getElementById('d-name').focus();
     }
 
+    var TRADE_RANGES = {
+      'Plumbing':          ['plumbing job',      '$400',   '$2,500'],
+      'HVAC':              ['HVAC call',          '$1,500', '$8,000'],
+      'Auto Repair':       ['repair job',         '$300',   '$3,000'],
+      'Landscaping':       ['landscaping job',    '$400',   '$2,500'],
+      'Pool Service':      ['pool service call',  '$250',   '$1,500'],
+      'Towing':            ['tow',                '$150',   '$800'],
+      'Electrical':        ['electrical job',     '$400',   '$3,500'],
+      'Window Tinting':    ['tint job',           '$200',   '$1,200'],
+      'Roofing':           ['roofing job',        '$5,000', '$25,000'],
+      'Pressure Washing':  ['pressure wash',      '$200',   '$800'],
+      'Pest Control':      ['pest control job',   '$150',   '$600'],
+      'Cleaning Services': ['cleaning job',       '$150',   '$500'],
+      'Appliance Repair':  ['appliance repair',   '$200',   '$600'],
+      'Locksmith':         ['locksmith call',     '$100',   '$400'],
+      'Gutters':           ['gutter job',         '$400',   '$2,500'],
+      'Painting':          ['painting job',       '$1,000', '$8,000'],
+      'Mobile Mechanic':   ['repair job',         '$200',   '$1,500'],
+      'Mobile Detailing':  ['detail job',         '$150',   '$600'],
+    };
+
+    function updateCalcIntro(trade) {
+      var el = document.getElementById('calc-intro-text');
+      if (!el) return;
+      var t = TRADE_RANGES[trade];
+      if (t) {
+        el.textContent = 'A single missed ' + t[0] + ' is worth ' + t[1] + '–' + t[2] + '. Enter your numbers and see what you’re leaving on the table.';
+      } else {
+        el.textContent = 'A single missed call can be worth $500–$8,000 depending on your trade. Enter your numbers and see what you’re leaving on the table.';
+      }
+    }
+
+    var selectedTier = 'Get Found in More Cities';
+    var TIER_PICK_DESCS = {
+      'Get Found':                 '5-page site, contact form, map embed, click-to-call',
+      'Get Found in More Cities':  'Gallery, service area pages, 3 cities covered',
+      'Every City, Every Service': 'City matrix, careers page, FAQ in Google results',
+    };
+
+    function selectTier(tier) {
+      selectedTier = tier;
+      document.querySelectorAll('.tier-pick-btn').forEach(function(b) {
+        var active = b.dataset.tier === tier;
+        b.className = 'tier-pick-btn py-2.5 text-xs font-bold rounded-lg border transition-colors leading-tight ' +
+          (active ? 'border-gold bg-gold text-navy active-tier' : 'border-slate-200 text-slate-500 hover:border-gold hover:text-gold');
+        var small = b.querySelector('span');
+        if (small) small.className = 'font-normal text-[10px] ' + (active ? 'opacity-70' : 'text-slate-400');
+      });
+      var desc = document.getElementById('tier-pick-desc');
+      if (desc) desc.textContent = TIER_PICK_DESCS[tier] || '';
+      if (iframeReady) sendToFrame({ tier: tier });
+      else if (pendingUpdate) pendingUpdate.tier = tier;
+    }
+
     function renderPreview() {
       const name    = document.getElementById('d-name').value.trim();
       const trade   = document.getElementById('d-trade').value;
       const city    = document.getElementById('d-city').value;
       const reviews = document.getElementById('d-reviews').value || '63';
+      const rating  = document.getElementById('d-rating').value  || '';
+      updateCalcIntro(trade);
 
       if (!name || !trade) {
         document.getElementById('preview-placeholder').style.display = 'flex';
@@ -787,38 +1081,125 @@
       document.getElementById('preview-placeholder').style.display = 'none';
       document.getElementById('site-preview').classList.remove('hidden');
 
-      const payload = { name, cat: trade, city, reviews };
+      const payload = { name, cat: trade, city, reviews, tier: selectedTier };
+      if (rating) payload.rating = rating;
       if (iframeReady) {
         sendToFrame(payload);
       } else {
         pendingUpdate = payload;
       }
 
-      // Collapse form so the preview fills the view
-      collapseDemoForm();
+      // Form collapses via focusout listener — not here, so editing any field doesn't self-collapse
     }
 
     function preloadTrade(trade) {
-      const sel = document.getElementById('d-trade');
-      if (sel) { sel.value = trade; sel.dispatchEvent(new Event('change')); }
+      // Use ftdPick so the custom dropdown label + hidden select both update
+      var labels = {
+        'Plumbing':'Plumbing','HVAC':'HVAC / Air Conditioning','Roofing':'Roofing',
+        'Electrical':'Electrical','Auto Repair':'Auto Repair','Painting':'Painting',
+        'Landscaping':'Landscaping / Lawn Care','Pool Service':'Pool Service',
+        'Pest Control':'Pest Control','Cleaning Services':'Cleaning Services',
+        'Appliance Repair':'Appliance Repair','Pressure Washing':'Pressure Washing',
+        'Locksmith':'Locksmith','Towing':'Towing','Gutters':'Gutters',
+        'Window Tinting':'Window Tinting','Mobile Mechanic':'Mobile Mechanic',
+        'Mobile Detailing':'Mobile Detailing'
+      };
+      ftdPick(trade, labels[trade] || trade);
       document.getElementById('demo').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function updateCalc() {
-      var job      = parseInt(document.getElementById('calc-job').value)    || 3500;
-      var missed   = parseInt(document.getElementById('calc-missed').value) || 3;
-      var perMonth = missed * 4;
-      var lcMonths = Math.floor(job / 399);
-      var fcMonths = Math.floor(job / 899);
-      document.getElementById('calc-result').textContent = '$' + job.toLocaleString();
-      var sub = "At " + missed + " missed calls/week, that&rsquo;s " + perMonth + " a month. One job covers " +
-        "<strong class=\"text-white\">" + lcMonths + " months of Lead Catcher ($399/mo)</strong>";
-      if (fcMonths >= 1) {
-        sub += " or <strong class=\"text-white\">" + fcMonths + " months of Full Crew ($899/mo)</strong>";
+      var job    = Math.min(Math.max(parseInt(document.getElementById('calc-job').value)    || 3500, 100), 50000);
+      var missed = Math.min(Math.max(parseInt(document.getElementById('calc-missed').value) || 3,    1),   100);
+
+      function r100(n) { return Math.round(n / 100) * 100; }
+      function r50(n)  { return Math.round(n / 50)  * 50;  }
+      function fmt(n)  { return '$' + n.toLocaleString(); }
+
+      var monthlyLoss    = r100(job * missed * 4.33);
+      var yearlyLoss     = r100(job * missed * 52);
+      var recoveredRevMo = r50(missed * 4.33 * 0.25 * job);
+      var recoveredRevYr = r100(recoveredRevMo * 12);
+      var lcMonths       = Math.floor(job / 399);
+      var fcMonths       = Math.floor(job / 899);
+      var lcRatio        = Math.min(Math.round(recoveredRevMo / 399 * 10) / 10, 10);
+      var fcRatio        = Math.min(Math.round(recoveredRevMo / 899 * 10) / 10, 10);
+
+      // Headline strip
+      document.getElementById('calc-monthly').textContent    = fmt(monthlyLoss);
+      document.getElementById('calc-yearly-val').textContent = fmt(yearlyLoss);
+
+      // Card A: 1 job
+      document.getElementById('calc-one-val').textContent = fmt(job);
+      var oneLines = '';
+      if (lcMonths >= 1) {
+        oneLines += '<div>&#x2713; <strong class="text-white">' + lcMonths + ' months</strong> of Lead Catcher ($399/mo)</div>';
+      } else {
+        oneLines += '<div>&#x2713; Covers <strong class="text-white">' + Math.round(job / 399 * 100) + '%</strong> of a month of Lead Catcher</div>';
       }
-      sub += ".";
-      document.getElementById('calc-sub').innerHTML = sub;
+      if (fcMonths >= 1) {
+        oneLines += '<div>&#x2713; <strong class="text-white">' + fcMonths + ' months</strong> of Full Crew ($899/mo)</div>';
+      }
+      if (job >= 7500) {
+        oneLines += '<div class="text-gold font-semibold">&#x2713; Covers the full <strong>Every City</strong> build ($7,500) — one job.</div>';
+      } else if (job >= 4000) {
+        oneLines += '<div class="text-gold font-semibold">&#x2713; Covers the full <strong>More Cities</strong> build ($4,000) — one job.</div>';
+      } else if (job >= 2500) {
+        oneLines += '<div class="text-gold font-semibold">&#x2713; Covers the full <strong>Get Found</strong> build ($2,500) — one job.</div>';
+      } else {
+        var jobsFor = Math.ceil(2500 / job);
+        oneLines += jobsFor <= 8
+          ? '<div>&#x2713; <strong class="text-white">' + jobsFor + ' jobs</strong> cover the Get Found build ($2,500)</div>'
+          : '<div>&#x2713; Covers <strong class="text-white">' + Math.round(job / 2500 * 100) + '%</strong> of the Get Found build ($2,500)</div>';
+      }
+      document.getElementById('calc-one-lines').innerHTML = oneLines;
+
+      // Card B: 25% conservative recovery
+      document.getElementById('calc-rec-mo').textContent = '+' + fmt(recoveredRevMo);
+      document.getElementById('calc-rec-yr').textContent = fmt(recoveredRevYr);
+      var allLines = '';
+      if (lcRatio >= 1) {
+        allLines += '<div>Lead Catcher pays itself <strong class="text-white">' + (lcRatio >= 10 ? '10x+' : lcRatio + 'x') + '</strong> over</div>';
+      } else {
+        allLines += '<div>1 extra job/mo covers <strong class="text-white">Lead Catcher</strong></div>';
+      }
+      if (fcRatio >= 1) {
+        allLines += '<div>Full Crew pays itself <strong class="text-white">' + (fcRatio >= 10 ? '10x+' : fcRatio + 'x') + '</strong> over</div>';
+      }
+      document.getElementById('calc-all-lines').innerHTML = allLines;
+
+      // Conditional payback footer — show the highest tier with payback <= 3 months
+      var row = document.getElementById('calc-payback-row');
+      var txt = document.getElementById('calc-payback-text');
+      var buildTiers = [
+        { cost: 7500, name: 'Every City',   minRev: 2500 },
+        { cost: 4000, name: 'More Cities',  minRev: 1334 },
+        { cost: 2500, name: 'Get Found',    minRev:  834 }
+      ];
+      var paybackShown = false;
+      for (var ti = 0; ti < buildTiers.length; ti++) {
+        var bt = buildTiers[ti];
+        if (recoveredRevMo >= bt.minRev) {
+          var mo = Math.ceil(bt.cost / recoveredRevMo);
+          var mult = Math.round(recoveredRevMo / bt.cost * 10) / 10;
+          if (mo <= 1) {
+            txt.innerHTML = 'Your <strong>' + bt.name + '</strong> build ($' + bt.cost.toLocaleString() + ') pays for itself in the first month' + (mult >= 2 ? ' — <strong>' + mult + 'x</strong> over.' : '.');
+          } else {
+            txt.innerHTML = 'Your <strong>' + bt.name + '</strong> build ($' + bt.cost.toLocaleString() + ') pays for itself in <strong>' + mo + ' month' + (mo > 1 ? 's' : '') + '</strong> of recovery. After that, every recovered call is pure margin.';
+          }
+          row.classList.remove('hidden');
+          paybackShown = true;
+          break;
+        }
+      }
+      if (!paybackShown) row.classList.add('hidden');
+
+      // Dynamic CTA text
+      var cta = document.getElementById('calc-cta');
+      if (cta) cta.textContent = 'Stop Losing ' + fmt(monthlyLoss) + '/Month →';
     }
+
+    updateCalc();
 
     function toggleFaq(el) {
       const body = el.querySelector('.faq-body');
@@ -864,5 +1245,6 @@
       });
     })();
   </script>
+
 </body>
 </html>

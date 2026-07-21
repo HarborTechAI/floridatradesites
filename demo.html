@@ -1,4 +1,9 @@
-<title>Demo Preview — HarborTech AI</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website Preview — Florida Trade Sites</title>
 <style>
 /* ─── Tokens ──────────────────────────────────────────────────── */
 :root {
@@ -146,6 +151,36 @@ body.present-active #mobile-sticky { display: flex; }
 }
 .tb-field input:focus, .tb-field select:focus { border-color: var(--copper); }
 .tb-field select option { background: #0D1F3C; color: #fff; }
+/* ─── Custom trade dropdown ─────────────────────────────────── */
+.tb-trade-wrap { position: relative; }
+.tb-trade-trigger {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 4px; color: #fff; padding: 5px 28px 5px 8px; font-size: 13px;
+  width: 100%; cursor: pointer; display: block; user-select: none;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.4;
+}
+.tb-trade-trigger:focus, .tb-trade-trigger.open { border-color: var(--copper); outline: none; }
+.tb-trade-arrow {
+  position: absolute; right: 8px; bottom: 7px;
+  color: rgba(255,255,255,0.5); pointer-events: none; font-size: 9px; line-height: 1;
+}
+.tb-trade-list {
+  display: none; position: fixed;
+  background: #0D1F3C; border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 4px; z-index: 99999; max-height: 400px; overflow-y: scroll;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.55);
+}
+.tb-trade-list.open { display: block; }
+.tb-trade-list::-webkit-scrollbar { width: 6px; }
+.tb-trade-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+.tb-trade-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.35); border-radius: 3px; }
+.tb-trade-list::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.55); }
+.tb-trade-item {
+  padding: 7px 10px; color: rgba(255,255,255,0.85); font-size: 13px;
+  cursor: pointer; transition: background .1s;
+}
+.tb-trade-item:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.tb-trade-item.selected { color: var(--copper); font-weight: 600; }
 .tb-actions { display: flex; gap: 8px; align-items: flex-end; }
 .btn-pricing {
   background: rgba(255,255,255,0.1); color: #fff; padding: 6px 14px;
@@ -713,6 +748,8 @@ footer {
   * { transition: none !important; animation: none !important; }
 }
 </style>
+</head>
+<body>
 
 <!-- Hidden SVG sprite -->
 <svg style="display:none" aria-hidden="true">
@@ -736,54 +773,83 @@ footer {
 <!-- ─── TOOLBAR ────────────────────────────────────────────────── -->
 <!-- Prospect banner (shown in presentation mode) -->
 <div id="prospect-banner">
-  <div class="banner-left"><strong id="banner-biz">Your business</strong> &mdash; <span id="banner-sub">here&rsquo;s what your Google reviews look like with a website behind them.</span> <span id="banner-expiry" style="color:rgba(255,255,255,.35);font-size:11px;margin-left:6px"></span> <span style="color:rgba(255,255,255,.4);font-size:11px">Yusuf Hakim &middot; FloridaTradeSites</span></div>
+  <div class="banner-left"><strong id="banner-biz">Your business</strong> &mdash; <span id="banner-sub">here&rsquo;s what your Google reviews look like with a website behind them.</span> <span id="banner-expiry" style="color:rgba(255,255,255,.35);font-size:11px;margin-left:6px"></span> <span style="color:rgba(255,255,255,.4);font-size:11px">Yusuf &middot; FloridaTradeSites</span></div>
   <div class="banner-right">
-    <a id="banner-sms" href="sms:+18137736865?body=Hi%20Yusuf%2C%20I%20saw%20the%20preview%20for%20my%20business" class="banner-cta">&#x1F4AC; Text Me &rarr;</a>
+    <a id="banner-sms" href="sms:+18135659710?body=Hi%20Yusuf%2C%20I%20saw%20the%20preview%20for%20my%20business" class="banner-cta">&#x1F4AC; Text Me &rarr;</a>
     <button class="banner-dismiss" onclick="document.getElementById('prospect-banner').style.display='none'">&#x2715;</button>
   </div>
 </div>
 
 <!-- Mobile sticky bottom CTA -->
 <div id="mobile-sticky">
-  <div class="sticky-text"><strong>Want this site live?</strong>Text Yusuf &mdash; Tampa, FL</div>
-  <a id="sticky-sms" href="sms:+18137736865?body=Hi%20Yusuf%2C%20I%20saw%20the%20preview%20for%20my%20business" class="sticky-cta">&#x1F4AC; Text Me &rarr;</a>
+  <div class="sticky-text" id="sticky-text"><strong>Want this site live?</strong> Text Yusuf &mdash; Tampa, FL</div>
+  <a id="sticky-sms" href="sms:+18135659710?body=Hi%20Yusuf%2C%20I%20saw%20the%20preview%20for%20my%20business" class="sticky-cta">&#x1F4AC; Text Me &rarr;</a>
 </div>
 
 <!-- Pricing modal follow-up bar (appears after modal is closed without tapping) -->
 <div id="modal-followup">
   <div class="followup-text"><strong>Want this exact site?</strong> Text me — I'll answer today.</div>
-  <a id="followup-sms" href="sms:+18137736865?body=Hi%20Yusuf%2C%20I%27m%20interested%20in%20the%20site" class="sticky-cta">&#x1F4AC; Text Me</a>
+  <a id="followup-sms" href="sms:+18135659710?body=Hi%20Yusuf%2C%20I%27m%20interested%20in%20the%20site" class="sticky-cta">&#x1F4AC; Text Me</a>
   <button class="followup-dismiss" onclick="document.getElementById('modal-followup').classList.remove('show')">&#x2715;</button>
 </div>
 
 <div id="toolbar">
   <div class="tb-inner">
-    <div class="tb-logo">HarborTech <span>AI</span> &nbsp;·&nbsp; <span style="color:rgba(255,255,255,.4);font-weight:400;font-size:11px">LIVE DEMO PREVIEW</span></div>
+    <div class="tb-logo">Florida<span>Trade</span>Sites &nbsp;·&nbsp; <span style="color:rgba(255,255,255,.4);font-weight:400;font-size:11px">LIVE DEMO PREVIEW</span></div>
     <div class="tb-fields">
       <div class="tb-field">
         <label>Business Name</label>
         <input type="text" id="tb-name" value="Caden &amp; Sons Plumbing" placeholder="Business name">
       </div>
-      <div class="tb-field">
+      <div class="tb-field tb-trade-wrap">
         <label>Trade / Service</label>
-        <select id="tb-cat">
-          <option value="Roofing">Roofing</option>
-          <option value="Painting">Painting</option>
-          <option value="Electrical">Electrical / Electrician</option>
-          <option value="Locksmith">Locksmith</option>
+        <!-- hidden native select kept for JS/postMessage compatibility -->
+        <select id="tb-cat" style="display:none">
+          <option value="Plumbing" selected>Plumbing</option>
           <option value="HVAC">HVAC / AC Repair</option>
-          <option value="Towing">Towing</option>
-          <option value="Pest Control">Pest Control</option>
-          <option value="Pool Service">Pool Service</option>
-          <option value="Cleaning Services">Cleaning Services</option>
+          <option value="Roofing">Roofing</option>
+          <option value="Electrical">Electrical / Electrician</option>
+          <option value="Auto Repair">Auto Repair</option>
+          <option value="Painting">Painting</option>
           <option value="Landscaping">Landscaping</option>
+          <option value="Pool Service">Pool Service</option>
+          <option value="Pest Control">Pest Control</option>
+          <option value="Cleaning Services">Cleaning Services</option>
           <option value="Appliance Repair">Appliance Repair</option>
           <option value="Pressure Washing">Pressure Washing</option>
+          <option value="Locksmith">Locksmith</option>
+          <option value="Towing">Towing</option>
           <option value="Gutters">Gutters</option>
-          <option value="Plumbing">Plumbing</option>
-          <option value="Auto Repair">Auto Repair</option>
           <option value="Window Tinting">Window Tinting</option>
+          <option value="Mobile Mechanic">Mobile Mechanic</option>
+          <option value="Mobile Detailing">Mobile Detailing</option>
         </select>
+        <!-- Custom dropdown -->
+        <div class="tb-trade-trigger" id="tb-cat-trigger" tabindex="0"
+             onclick="toggleTradeSel(event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTradeSel(event)}">
+          <span id="tb-cat-label">Plumbing</span>
+        </div>
+        <span class="tb-trade-arrow">&#9660;</span>
+        <div class="tb-trade-list" id="tb-cat-list" onclick="event.stopPropagation()">
+          <div class="tb-trade-item selected" onclick="pickTrade('Plumbing','Plumbing')">Plumbing</div>
+          <div class="tb-trade-item" onclick="pickTrade('HVAC','HVAC / AC Repair')">HVAC / AC Repair</div>
+          <div class="tb-trade-item" onclick="pickTrade('Roofing','Roofing')">Roofing</div>
+          <div class="tb-trade-item" onclick="pickTrade('Electrical','Electrical / Electrician')">Electrical / Electrician</div>
+          <div class="tb-trade-item" onclick="pickTrade('Auto Repair','Auto Repair')">Auto Repair</div>
+          <div class="tb-trade-item" onclick="pickTrade('Painting','Painting')">Painting</div>
+          <div class="tb-trade-item" onclick="pickTrade('Landscaping','Landscaping')">Landscaping</div>
+          <div class="tb-trade-item" onclick="pickTrade('Pool Service','Pool Service')">Pool Service</div>
+          <div class="tb-trade-item" onclick="pickTrade('Pest Control','Pest Control')">Pest Control</div>
+          <div class="tb-trade-item" onclick="pickTrade('Cleaning Services','Cleaning Services')">Cleaning Services</div>
+          <div class="tb-trade-item" onclick="pickTrade('Appliance Repair','Appliance Repair')">Appliance Repair</div>
+          <div class="tb-trade-item" onclick="pickTrade('Pressure Washing','Pressure Washing')">Pressure Washing</div>
+          <div class="tb-trade-item" onclick="pickTrade('Locksmith','Locksmith')">Locksmith</div>
+          <div class="tb-trade-item" onclick="pickTrade('Towing','Towing')">Towing</div>
+          <div class="tb-trade-item" onclick="pickTrade('Gutters','Gutters')">Gutters</div>
+          <div class="tb-trade-item" onclick="pickTrade('Window Tinting','Window Tinting')">Window Tinting</div>
+          <div class="tb-trade-item" onclick="pickTrade('Mobile Mechanic','Mobile Mechanic')">Mobile Mechanic</div>
+          <div class="tb-trade-item" onclick="pickTrade('Mobile Detailing','Mobile Detailing')">Mobile Detailing</div>
+        </div>
       </div>
       <div class="tb-field">
         <label>Phone</label>
@@ -844,18 +910,19 @@ footer {
     <div class="pm-header">
       <div class="pm-eyebrow">FloridaTradeSites — Professional Websites for Florida Trades</div>
       <div class="pm-title">Transparent Pricing. No Surprises.</div>
-      <div class="pm-sub">Professional websites + monthly management. No contracts — cancel anytime.</div>
+      <div class="pm-sub">Professional websites + monthly management. Month-to-month — cancel anytime.</div>
     </div>
 
     <!-- Review count flattery (shown in presentation mode) -->
-    <div id="pm-reviews-hook" style="display:none; background:rgba(200,117,42,.08); border:1px solid rgba(200,117,42,.25); border-radius:4px; padding:10px 14px; margin-bottom:14px; font-size:12px; color:rgba(255,255,255,.75); line-height:1.5;"></div>
+    <div id="pm-reviews-hook" style="display:none; background:rgba(200,117,42,.08); border:1px solid rgba(200,117,42,.25); border-radius:4px; padding:10px 14px; margin-bottom:14px; font-size:12px; color:var(--text); line-height:1.5;"></div>
 
     <!-- RECOMMENDED BUNDLE -->
     <div class="pm-rec" id="pm-rec">
-      <div class="pm-rec-eyebrow">⚡ What most <span id="pm-rec-trade">trade businesses</span> pick</div>
+      <div class="pm-rec-eyebrow">⚡ Recommended for Florida <span id="pm-rec-trade">trade businesses</span></div>
       <div class="pm-rec-name">Get Found in More Cities + Lead Catcher</div>
-      <div class="pm-rec-price">$4,000 <span>+</span> $399<span style="font-size:12px">/mo</span></div>
-      <div class="pm-rec-sub">Service area pages · Missed-call text-back · Chat widget · 4 new ranking pages/year</div>
+      <div id="pm-rec-hook" style="font-size:12px; color:var(--muted); margin:4px 0 8px; line-height:1.5;">Most Florida <span id="pm-hook-trade">trade businesses</span> serve 3–5 cities — this gets you ranking in all of them, and Lead Catcher makes sure you never lose a job to a missed call.</div>
+      <div class="pm-rec-price">$3,500 <span>+</span> $399<span style="font-size:12px">/mo</span></div>
+      <div class="pm-rec-sub">Service area pages · Missed-call text-back · Chat widget · 4 new ranking pages/year · 3-month minimum (saves $500)</div>
       <div class="pm-rec-actions">
         <button class="pm-rec-select" onclick="selectRecommended()">Select This Package</button>
         <button class="pm-rec-toggle" id="pm-rec-toggle" onclick="toggleAllOptions()">See all options ↓</button>
@@ -891,7 +958,7 @@ footer {
           <li>Service area pages (Brandon, Riverview…)</li>
           <li>Photo gallery &amp; before/after</li>
           <li>Reviews showcase section</li>
-          <li>Seasonal content updates</li>
+          <li>Coded so Google understands your services</li>
         </ul>
       </div>
       <div class="pm-card pm-build-card" data-val="7500" onclick="selectBuild(7500)">
@@ -900,10 +967,11 @@ footer {
         <ul class="pm-items">
           <li>Everything in Get Found in More Cities</li>
           <li>Every service page + every city</li>
-          <li>Careers &amp; financing pages</li>
-          <li>Full local SEO foundation</li>
-          <li>Priority build turnaround</li>
+          <li>Before &amp; after gallery</li>
+          <li>Careers / hiring page</li>
+          <li>FAQ page (shows in Google search)</li>
         </ul>
+        <div style="font-size:10px; color:var(--muted); margin-top:10px; line-height:1.4; font-style:italic;">For established multi-crew operations doing $500K+</div>
       </div>
     </div>
     </div><!-- /#pm-build-section -->
@@ -967,7 +1035,7 @@ footer {
         <div class="pm-bar-24" id="pm-bar-24">$13,576 over 24 months</div>
       </div>
     </div>
-    <div class="pm-note">No contracts. Cancel anytime. All ranking pages are published on your domain — yours to keep forever.</div>
+    <div class="pm-note">Month-to-month. Cancel anytime. All ranking pages are published on your domain — yours to keep forever.</div>
   </div>
 </div>
 
@@ -980,8 +1048,11 @@ footer {
       <div class="nav-logo js-name">Caden &amp; Sons Plumbing</div>
       <ul class="nav-links">
         <li><a href="#services">Services</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#service-areas">Areas</a></li>
+        <li id="nav-gallery"><a href="#gallery">Gallery</a></li>
+        <li id="nav-areas"><a href="#service-areas">Areas</a></li>
+        <li id="nav-cities" style="display:none"><a href="#city-matrix">All Cities</a></li>
+        <li id="nav-careers" style="display:none"><a href="#careers">Careers</a></li>
+        <li id="nav-faq" style="display:none"><a href="#faq">FAQ</a></li>
         <li><a href="#testimonials">Reviews</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -992,9 +1063,9 @@ footer {
   <!-- Hero -->
   <section id="hero">
     <div class="hero-content">
-      <div class="hero-eyebrow js-city-label">Serving Tampa Bay</div>
+      <div class="hero-eyebrow js-city-label">Serving Tampa Area</div>
       <h1 class="hero-title">
-        <span id="hero-tagline">Tampa Bay's Most Trusted Plumber</span> —
+        <span id="hero-tagline">Most Trusted Tampa Plumber</span> —
         <strong class="js-name">Caden &amp; Sons Plumbing</strong>
       </h1>
       <p class="hero-sub" id="hero-sub">Licensed &bull; Insured &bull; 24/7 Emergency Service</p>
@@ -1004,7 +1075,7 @@ footer {
       </div>
       <div class="hero-btns">
         <a href="#contact" class="btn-primary">Get a Free Estimate</a>
-        <a href="#" class="btn-secondary js-phone-btn">Call (813) 592-4394</a>
+        <a href="#" class="btn-secondary js-phone-btn js-phone">Call (813) 592-4394</a>
       </div>
     </div>
   </section>
@@ -1043,8 +1114,8 @@ footer {
       <div class="trust-item">
         <div class="trust-icon"><svg><use href="#ic-map"/></svg></div>
         <div>
-          <strong>Serving <span class="js-city">Tampa</span> Bay</strong>
-          <span class="trust-label">Brandon · Riverview · Wesley Chapel</span>
+          <strong>Serving <span class="js-city">Tampa</span> Area</strong>
+          <span class="trust-label">&amp; Surrounding Cities</span>
         </div>
       </div>
     </div>
@@ -1055,7 +1126,7 @@ footer {
     <div class="section-inner">
       <span class="section-eyebrow">What We Do</span>
       <h2 class="section-title">Services You Can Count On</h2>
-      <p class="section-sub" id="services-sub">Fast, honest work from technicians who live and work in <span class="js-city">Tampa</span> Bay.</p>
+      <p class="section-sub" id="services-sub">Fast, honest work from technicians who live and work in the <span class="js-city">Tampa</span> area.</p>
       <div class="services-grid" id="services-grid">
         <!-- Injected by JS -->
       </div>
@@ -1092,7 +1163,7 @@ footer {
   <section class="section" id="testimonials">
     <div class="section-inner">
       <span class="section-eyebrow">Customer Reviews</span>
-      <h2 class="section-title">What Tampa Bay Is Saying</h2>
+      <h2 class="section-title">What Customers Are Saying</h2>
       <p class="section-sub"><span class="js-reviews">102</span> reviews. <span class="js-rating">4.8</span> stars. Here's why.</p>
       <div class="testi-grid" id="testi-grid">
         <!-- Injected by JS -->
@@ -1105,7 +1176,7 @@ footer {
     <div class="section-inner">
       <span class="section-eyebrow">Our Work</span>
       <h2 class="section-title" id="gallery-title">Before &amp; After</h2>
-      <p class="section-sub" id="gallery-sub">Real jobs. Real results. See what we do for customers across Tampa Bay.</p>
+      <p class="section-sub" id="gallery-sub">Real jobs. Real results. See what we do for customers across the area.</p>
       <div class="gallery-grid" id="gallery-grid">
         <!-- Injected by JS -->
       </div>
@@ -1116,7 +1187,7 @@ footer {
   <section class="section" id="service-areas">
     <div class="section-inner">
       <span class="section-eyebrow">Where We Work</span>
-      <h2 class="section-title">Serving All of Tampa Bay</h2>
+      <h2 class="section-title">Serving the <span class="js-city">Tampa</span> Area</h2>
       <p class="section-sub">Local crews, fast response. We cover the entire metro — no extra charge for travel.</p>
       <div class="areas-grid" id="areas-grid">
         <!-- Injected by JS -->
@@ -1124,11 +1195,41 @@ footer {
     </div>
   </section>
 
+  <!-- City × Service Matrix (Every City tier only) -->
+  <section class="section" id="city-matrix" style="display:none">
+    <div class="section-inner">
+      <span class="section-eyebrow">Complete Coverage</span>
+      <h2 class="section-title">Every City. Every Service.</h2>
+      <p class="section-sub">Every combination of city and service has its own dedicated page — built to rank in Google for exactly that search.</p>
+      <div id="city-matrix-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:24px"></div>
+    </div>
+  </section>
+
+  <!-- Careers (Every City tier only) -->
+  <section class="section" id="careers" style="display:none">
+    <div class="section-inner">
+      <span class="section-eyebrow">Join the Team</span>
+      <h2 class="section-title">We're Hiring</h2>
+      <p class="section-sub">Growing fast across the <span class="js-city">Tampa</span> area. If you take pride in your craft, we want to hear from you.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:24px" id="careers-grid"></div>
+    </div>
+  </section>
+
+  <!-- FAQ (Every City tier only) -->
+  <section class="section" id="faq" style="display:none">
+    <div class="section-inner">
+      <span class="section-eyebrow">Common Questions</span>
+      <h2 class="section-title">Questions People Ask on Google</h2>
+      <p class="section-sub">These answers appear directly in search results — your name shows up before anyone clicks a link.</p>
+      <div id="faq-list" style="margin-top:32px;display:flex;flex-direction:column;gap:12px"><!-- injected --></div>
+    </div>
+  </section>
+
   <!-- Emergency CTA -->
   <section id="emergency">
     <span class="emg-label">Emergency Service</span>
     <div class="emg-headline" id="emg-headline">Pipe burst? We're on our way.</div>
-    <div class="emg-sub"><span class="js-name">Caden &amp; Sons Plumbing</span> responds 24/7 across <span class="js-city">Tampa</span> Bay.</div>
+    <div class="emg-sub"><span class="js-name">Caden &amp; Sons Plumbing</span> responds 24/7 across the <span class="js-city">Tampa</span> area.</div>
     <a href="#" class="btn-white js-phone-btn">Call Now — <span class="js-phone-num">(813) 592-4394</span></a>
   </section>
 
@@ -1150,7 +1251,7 @@ footer {
             <div class="ci-icon"><svg><use href="#ic-map"/></svg></div>
             <div>
               <div class="ci-label">Service Area</div>
-              <div class="ci-value"><span class="js-city">Tampa</span>, Brandon, Riverview, Wesley Chapel &amp; surrounding areas</div>
+              <div class="ci-value"><span class="js-city">Tampa</span> and surrounding areas</div>
             </div>
           </div>
           <div class="contact-item">
@@ -1181,6 +1282,10 @@ footer {
           <button type="submit" class="btn-primary" style="align-self:flex-start;padding:12px 28px">Send Request</button>
         </form>
       </div>
+      <!-- Map embed -->
+      <div style="margin-top:40px;border-radius:12px;overflow:hidden;border:1px solid var(--border);height:260px">
+        <iframe id="map-iframe" src="" style="width:100%;height:100%;border:none;display:block" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Service Area Map"></iframe>
+      </div>
     </div>
   </section>
 
@@ -1190,7 +1295,7 @@ footer {
       <div class="footer-top">
         <div class="footer-brand">
           <div class="footer-name js-name">Caden &amp; Sons Plumbing</div>
-          <div class="footer-tagline" id="footer-tagline">Licensed Plumber · Tampa Bay, FL</div>
+          <div class="footer-tagline" id="footer-tagline">Licensed Plumber · Tampa, FL</div>
         </div>
         <div class="footer-links">
           <a href="#services">Services</a>
@@ -1200,7 +1305,7 @@ footer {
         </div>
       </div>
       <div class="footer-bottom">
-        <div class="footer-license" id="footer-license">© 2025 <span class="js-name">Caden &amp; Sons Plumbing</span> · FL Lic. #CFC1234567 · <span class="js-city">Tampa</span>, FL</div>
+        <div class="footer-license" id="footer-license">© 2026 <span class="js-name">Caden &amp; Sons Plumbing</span> · FL Lic. #CFC1234567 · <span class="js-city">Tampa</span>, FL</div>
         <div class="footer-credit">Website by <a href="https://floridatradesites.com">FloridaTradeSites</a></div>
       </div>
     </div>
@@ -1210,10 +1315,10 @@ footer {
 <div id="builder-card">
   <div class="builder-avatar">&#x1F468;</div>
   <div class="builder-info">
-    <div class="builder-name">Yusuf Hakim &mdash; FloridaTradeSites</div>
-    <div class="builder-sub">Tampa, FL &middot; (813) 773-6865 &middot; floridatradesites.com</div>
+    <div class="builder-name">Yusuf &mdash; FloridaTradeSites</div>
+    <div class="builder-sub">Tampa, FL &middot; (813) 565-9710 &middot; floridatradesites.com</div>
   </div>
-  <a id="builder-sms" href="sms:+18137736865?body=Hi%20Yusuf%2C%20I%20saw%20the%20preview%20for%20my%20business" class="builder-cta">&#x1F4AC; Text Me to Get Started</a>
+  <a id="builder-sms" href="sms:+18135659710?body=Hi%20Yusuf%2C%20I%20saw%20the%20preview%20for%20my%20business" class="builder-cta">&#x1F4AC; Text Me to Get Started</a>
 </div>
 
 </div><!-- /#site -->
@@ -1221,7 +1326,7 @@ footer {
 <script>
 const DATA = {
   "Plumbing": {
-    tagline: "Tampa Bay's Most Trusted Plumber",
+    tagline: "Most Trusted {city} Plumber",
     sub: "Licensed &bull; Insured &bull; 24/7 Emergency Service",
     emergency: "Pipe burst? We're on our way.",
     license: "FL Lic. #CFC1234567",
@@ -1241,9 +1346,9 @@ const DATA = {
     ]
   },
   "HVAC": {
-    tagline: "Tampa Bay's Most Trusted HVAC Company",
+    tagline: "Most Trusted {city} HVAC Company",
     sub: "Florida's Heat Doesn't Stop — Neither Do We",
-    emergency: "AC down in the Tampa heat? We're 20 minutes away.",
+    emergency: "AC down? We're 20 minutes away — available 24/7.",
     license: "FL Lic. #CAC1234567",
     footerTag: "Licensed HVAC Contractor",
     services: [
@@ -1261,7 +1366,7 @@ const DATA = {
     ]
   },
   "Auto Repair": {
-    tagline: "Tampa Bay's Most Trusted Auto Shop",
+    tagline: "Most Trusted {city} Auto Shop",
     sub: "Honest Repairs &bull; Fair Prices &bull; We Come to You",
     emergency: "Breakdown? We'll come to you — call now.",
     license: "FL Reg. #MV98765",
@@ -1281,7 +1386,7 @@ const DATA = {
     ]
   },
   "Landscaping": {
-    tagline: "Tampa Bay's Most Trusted Landscaper",
+    tagline: "Most Trusted {city} Landscaper",
     sub: "Your Yard, Done Right — Every Single Week",
     emergency: "Post-storm cleanup? We're available today.",
     license: "FL Cert. #LCO12345",
@@ -1301,7 +1406,7 @@ const DATA = {
     ]
   },
   "Pool Service": {
-    tagline: "Tampa Bay's Most Trusted Pool Company",
+    tagline: "Most Trusted {city} Pool Company",
     sub: "Crystal Clear Water — Every Week, Guaranteed",
     emergency: "Green pool? We'll clear it in 48 hours.",
     license: "FL Cert. #PoolSrv12345",
@@ -1321,7 +1426,7 @@ const DATA = {
     ]
   },
   "Towing": {
-    tagline: "Tampa Bay's Fastest Towing Service",
+    tagline: "Fastest Towing in {city} — We're On Our Way",
     sub: "Dispatching Now &bull; ETA Under 30 Minutes",
     emergency: "Stranded? We're dispatching a truck right now.",
     license: "FL Lic. #Tow98765",
@@ -1341,7 +1446,7 @@ const DATA = {
     ]
   },
   "Painting": {
-    tagline: "Tampa Bay's Most Trusted Painting Contractor",
+    tagline: "Most Trusted {city} Painting Contractor",
     sub: "Interior &bull; Exterior &bull; Commercial",
     emergency: "Need a quick quote? We respond same day.",
     license: "FL Cert. #PC1234567",
@@ -1361,7 +1466,7 @@ const DATA = {
     ]
   },
   "Electrical": {
-    tagline: "Tampa Bay's Most Trusted Electrician",
+    tagline: "Most Trusted {city} Electrician",
     sub: "Licensed &bull; Insured &bull; Code Compliant",
     emergency: "Electrical emergency? We respond within the hour.",
     license: "FL Lic. #EC1234567",
@@ -1381,7 +1486,7 @@ const DATA = {
     ]
   },
   "Pressure Washing": {
-    tagline: "Tampa Bay's Most Trusted Pressure Washing Service",
+    tagline: "Most Trusted {city} Pressure Washing",
     sub: "Driveways &bull; Roofs &bull; Pool Decks &bull; Commercial",
     emergency: "Need a quote today? We're available now.",
     license: "FL Cert. #PW98765",
@@ -1401,7 +1506,7 @@ const DATA = {
     ]
   },
   "Window Tinting": {
-    tagline: "Tampa Bay's Most Trusted Window Tint Shop",
+    tagline: "Most Trusted {city} Window Tint Shop",
     sub: "Automotive &bull; Residential &bull; Commercial",
     emergency: "Same-day appointments available — call now.",
     license: "FL Reg. #WT98765",
@@ -1421,7 +1526,7 @@ const DATA = {
     ]
   },
   "Roofing": {
-    tagline: "Florida's Most Trusted Roofing Contractor",
+    tagline: "Most Trusted {city} Roofing Contractor",
     sub: "Licensed &bull; Insured &bull; Free Inspections",
     emergency: "Storm damage? We'll inspect today.",
     license: "FL Lic. #CCC1234567",
@@ -1539,6 +1644,46 @@ const DATA = {
       { init:"H", name:"Helen R.",loc:"New Port Richey, FL",   stars:5, text:"Cleaned and installed guards. Haven't had to clean them since. Should've done it years ago." },
       { init:"F", name:"Frank G.",loc:"Spring Hill, FL",       stars:5, text:"Gutters were pulling away from the fascia. Repaired and re-pitched everything. No more overflow." }
     ]
+  },
+  "Mobile Mechanic": {
+    tagline: "{city}'s Mobile Mechanic — We Come to You",
+    sub: "No Shop, No Wait &bull; We Fix It In Your Driveway &bull; Same-Day Slots Available",
+    emergency: "Broke down? We'll come to you — call now.",
+    license: "FL Lic. #MV12345",
+    footerTag: "Licensed Mobile Mechanic",
+    services: [
+      { icon: "ic-wrench", name: "Mobile Oil Change",           desc: "Full synthetic or conventional — done in your driveway in 30 minutes." },
+      { icon: "ic-tool",   name: "Brake Repair",                desc: "Pads, rotors, calipers — we bring the parts, you stay home." },
+      { icon: "ic-zap",    name: "Battery & Electrical",        desc: "Dead battery, bad alternator, warning lights — diagnosed on the spot." },
+      { icon: "ic-check",  name: "AC & Engine Diagnostics",     desc: "Full scan tool diagnostics — we tell you exactly what's wrong and fix it." },
+      { icon: "ic-shield", name: "Pre-Purchase Inspection",     desc: "Buying a used car? We inspect it wherever it is before you pay a dime." },
+      { icon: "ic-phone",  name: "Roadside & Emergency",        desc: "Locked out, flat tire, won't start — we're on the way." }
+    ],
+    testimonials: [
+      { init:"T", name:"Tony R.", loc:"Brandon, FL",            stars:5, text:"Saved me from missing work. Oil change and brake job done in my parking lot at 7am. Faster than any shop." },
+      { init:"M", name:"Maria L.", loc:"Riverview, FL",         stars:5, text:"AC stopped blowing cold. He came out same day, found the issue, had the part on his truck. Fixed in an hour." },
+      { init:"K", name:"Kevin S.", loc:"Valrico, FL",           stars:5, text:"Used him for a pre-purchase inspection on a truck I was buying. Found a frame issue the seller didn't mention. Saved me thousands." }
+    ]
+  },
+  "Mobile Detailing": {
+    tagline: "{city}'s Mobile Detailing — Showroom Clean, At Your Door",
+    sub: "We Come to You &bull; Cars &bull; Trucks &bull; Boats &bull; Fleet",
+    emergency: "Event tomorrow? We have same-day slots — call now.",
+    license: "FL Cert. #MD12345",
+    footerTag: "Professional Mobile Detailer",
+    services: [
+      { icon: "ic-leaf",   name: "Full Detail",                 desc: "Interior and exterior — hand wash, clay bar, vacuum, shampoo, wipe-down." },
+      { icon: "ic-drop",   name: "Interior Deep Clean",         desc: "Steam cleaned, shampooed, pet hair removed — smells new again." },
+      { icon: "ic-shield", name: "Paint Correction & Ceramic",  desc: "Swirl removal and ceramic coating — one treatment, years of protection." },
+      { icon: "ic-zap",    name: "Boat & RV Detailing",         desc: "Full oxidation removal, wax, interior wipe — ready for the water." },
+      { icon: "ic-check",  name: "Express Wash & Wax",          desc: "Hand wash, dry, tire shine, quick wax — done in 45 minutes." },
+      { icon: "ic-tool",   name: "Fleet Accounts",              desc: "Weekly service for dealerships, companies, and Uber/Lyft drivers." }
+    ],
+    testimonials: [
+      { init:"D", name:"Derek P.", loc:"Tampa, FL",             stars:5, text:"Full detail on my truck before I sold it. Got $2,000 more than I expected. Best investment I made on that vehicle." },
+      { init:"S", name:"Susan M.", loc:"Clearwater, FL",        stars:5, text:"They came to my office while I worked. Ceramic coated my SUV. Looks incredible, water just rolls off." },
+      { init:"J", name:"Jorge V.", loc:"St. Pete, FL",          stars:5, text:"Detail on my boat before the summer season. They came to the marina, did the whole thing while I had breakfast. Outstanding." }
+    ]
   }
 };
 
@@ -1569,7 +1714,10 @@ const GALLERY = {
   "Pest Control":     { title:"Pest Control — Before & After",    items:["Roach Treatment","Termite Inspection","Ant Control","Rodent Exclusion","Mosquito Spray","Spider Treatment"] },
   "Cleaning Services":{ title:"Cleaning Work — Before & After",   items:["Deep House Clean","Move-Out Clean","Carpet Cleaning","Window Cleaning","Pressure Wash","Post-Construction"] },
   "Appliance Repair": { title:"Appliance Repairs — Before & After",items:["Washer Repair","Dryer Repair","Fridge Fix","Dishwasher","Stove Repair","AC Unit"] },
-  "Gutters":          { title:"Gutter Work — Before & After",     items:["Gutter Install","Gutter Cleaning","Downspout Fix","Gutter Guards","Fascia Repair","Leaf Filter"] }
+  "Gutters":          { title:"Gutter Work — Before & After",     items:["Gutter Install","Gutter Cleaning","Downspout Fix","Gutter Guards","Fascia Repair","Leaf Filter"] },
+  "Painting":         { title:"Painting Work — Before & After",   items:["Interior Repaint","Exterior Paint Job","Cabinet Refinish","Deck Stain","Commercial Paint","Trim & Accent Work"] },
+  "Mobile Mechanic":  { title:"Mobile Mechanic — In Your Driveway",items:["Oil Change","Brake Job","Battery Swap","Engine Repair","AC Fix","Pre-Purchase Inspection"] },
+  "Mobile Detailing": { title:"Detailing Work — Before & After",   items:["Full Interior Detail","Ceramic Coating","Paint Correction","Boat Detail","Express Wash","Fleet Service"] }
 };
 
 const AREA_COLORS = ['#1A4A7A','#C8752A','#2E6B4F','#7A3B6E','#3D6B8A','#8A4A1A'];
@@ -1627,9 +1775,11 @@ const AREAS = [
   { name:'Seffner',        dist:'18 min from Tampa' },
   { name:'Gibsonton',      dist:'22 min from Tampa' },
 ];
-function renderAreas() {
+function renderAreas(tier) {
   const city = val('tb-city') || 'Tampa';
-  const areas = CITY_NEIGHBORS[city] || AREAS;
+  const allAreas = CITY_NEIGHBORS[city] || AREAS;
+  const limit = (tier || (Q.build === 7500 ? 'Every City, Every Service' : 'Get Found in More Cities')) === 'Every City, Every Service' ? allAreas.length : 3;
+  const areas = allAreas.slice(0, limit);
   document.getElementById('areas-grid').innerHTML = areas.map(a => `
     <div class="area-card">
       <div class="area-dot"></div>
@@ -1640,6 +1790,63 @@ function renderAreas() {
     </div>
   `).join('');
 }
+
+function renderCityMatrix() {
+  const city = val('tb-city') || 'Tampa';
+  const cat  = val('tb-cat') || 'Plumbing';
+  const allAreas = CITY_NEIGHBORS[city] || AREAS;
+  const d = DATA[cat];
+  const services = d ? d.services.slice(0,4).map(s => s.name) : ['Repair','Installation','Inspection','Emergency'];
+  const grid = document.getElementById('city-matrix-grid');
+  if (!grid) return;
+  grid.innerHTML = allAreas.slice(0,8).map(a =>
+    services.map(s => `
+      <div style="background:var(--ground);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:10px 14px;font-size:12px;line-height:1.4;">
+        <div style="color:var(--copper);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.04em">${a.name}</div>
+        <div style="color:var(--text);margin-top:2px">${s}</div>
+      </div>`).join('')
+  ).join('');
+}
+
+function renderCareers() {
+  const cat = val('tb-cat') || 'Plumbing';
+  const grid = document.getElementById('careers-grid');
+  if (!grid) return;
+  const roles = [
+    { title: `Lead ${cat} Technician`, type: 'Full-Time', loc: `${val('tb-city') || 'Tampa'} Area` },
+    { title: `${cat} Apprentice`, type: 'Full-Time', loc: `${val('tb-city') || 'Tampa'} Area` },
+    { title: 'Service Coordinator', type: 'Part-Time', loc: 'Office / Remote' },
+  ];
+  grid.innerHTML = roles.map(r => `
+    <div style="background:var(--ground);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:20px;">
+      <div style="font-weight:700;color:var(--text);font-size:15px">${r.title}</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px">${r.type} &nbsp;&middot;&nbsp; ${r.loc}</div>
+      <div style="margin-top:14px;display:inline-block;background:var(--copper);color:#fff;font-size:12px;font-weight:700;padding:6px 14px;border-radius:4px;cursor:pointer">Apply Now</div>
+    </div>`).join('');
+}
+
+function renderFAQ() {
+  const cat = val('tb-cat') || 'Plumbing';
+  const city = val('tb-city') || 'Tampa';
+  const list = document.getElementById('faq-list');
+  if (!list) return;
+  const faqs = [
+    { q: `How much does a ${cat.toLowerCase()} service call cost in ${city}?`, a: `Diagnostic visits start at $89. We give you a written estimate before any work begins — no surprises on the bill.` },
+    { q: `Are you licensed and insured in Florida?`, a: `Yes. We're fully licensed with the state of Florida and carry both liability insurance and workers' compensation on every job.` },
+    { q: `How fast can you get to me in the ${city} area?`, a: `Same-day service is available for most calls. Emergency calls are answered 24/7 — we're typically on-site within 2 hours.` },
+    { q: `Do you offer a warranty on your work?`, a: `All labor comes with a 1-year workmanship warranty. Parts warranties follow the manufacturer's terms, which we explain up front.` },
+    { q: `Do you serve all of ${city} or just certain neighborhoods?`, a: `We cover the full ${city} metro including surrounding cities. No extra travel charges within our service area.` },
+  ];
+  list.innerHTML = faqs.map((f, i) => `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+      <div style="padding:18px 22px;font-weight:700;font-size:15px;color:var(--text);display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="var a=this.nextElementSibling,open=a.style.display==='block';a.style.display=open?'none':'block';this.querySelector('span:last-child').textContent=open?'+':'−'">
+        <span>${f.q}</span>
+        <span style="color:var(--copper);font-size:20px;line-height:1;margin-left:16px">+</span>
+      </div>
+      <div style="display:${i===0?'block':'none'};padding:0 22px 18px;font-size:14px;color:var(--slate);line-height:1.7">${f.a}</div>
+    </div>`).join('');
+}
+
 
 // ── Render services grid ───────────────────────────────────────
 function renderServices(cat) {
@@ -1695,6 +1902,8 @@ const THEMES = {
   'Cleaning Services':{ navy: '#0D2A3F', copper: '#00BCD4', cta: '#00BCD4' },
   'Appliance Repair': { navy: '#1C2535', copper: '#607D8B', cta: '#E67E22' },
   'Gutters':          { navy: '#1A2A3A', copper: '#78909C', cta: '#D35400' },
+  'Mobile Mechanic':  { navy: '#1C1C1E', copper: '#E67E22', cta: '#E67E22' },
+  'Mobile Detailing': { navy: '#0D1A2E', copper: '#3498DB', cta: '#C8752A' },
 };
 const THEME_DEFAULT = { navy: '#0D1F3C', copper: '#C8752A', cta: '#C8752A' };
 
@@ -1726,17 +1935,19 @@ function updateSite() {
   document.querySelectorAll('.js-city-label').forEach(el => el.textContent = `Serving ${city} Area`);
   document.querySelectorAll('.js-phone-num').forEach(el => el.textContent = phone);
   document.querySelectorAll('.js-phone').forEach(el => el.textContent = `Call ${phone}`);
-  document.querySelectorAll('.js-phone-btn').forEach(el => el.setAttribute('href', `tel:${phone.replace(/\D/g,'')}`));
+  document.querySelectorAll('.js-phone-btn, a.js-phone').forEach(el => el.setAttribute('href', `tel:${phone.replace(/\D/g,'')}`));
 
   // Email slug
   const slug = slugify(name);
   document.querySelectorAll('.js-email-slug').forEach(el => el.textContent = slug);
 
   // Category-specific
-  document.getElementById('hero-tagline').textContent = d.tagline;
+  document.getElementById('hero-tagline').textContent = d.tagline.replace(/\{city\}/g, city);
   document.getElementById('hero-sub').innerHTML = d.sub;
   document.getElementById('emg-headline').textContent = d.emergency;
   document.getElementById('trust-license').textContent = d.license;
+  const footerLic = document.getElementById('footer-license');
+  if (footerLic) footerLic.innerHTML = footerLic.innerHTML.replace(/FL Lic\. #\S+|FL Reg\. #\S+|FL Cert\. #\S+/, d.license);
   document.getElementById('footer-tagline').textContent = `${d.footerTag} · ${city}, FL`;
 
   // Page title
@@ -1746,13 +1957,30 @@ function updateSite() {
   renderTestimonials(cat);
   renderGallery(cat);
   renderAreas();
+  // Restore tier-appropriate gallery title after renderGallery overwrites it
+  const isEveryNow = Q.build === 7500;
+  const isMoreNow  = Q.build === 4000;
+  const gTitleEl   = document.getElementById('gallery-title');
+  const gSubEl     = document.getElementById('gallery-sub');
+  if (gTitleEl && (isEveryNow || isMoreNow)) {
+    gTitleEl.textContent = isEveryNow ? 'Before & After' : 'Photo Gallery';
+    if (gSubEl) gSubEl.textContent = isEveryNow
+      ? 'Real jobs. Real results. See what we do for customers across the area.'
+      : 'Trade-specific photos from real jobs in your area.';
+  }
+  // Re-render Every City sections if visible (trade/city may have changed)
+  if (isEveryNow) { renderCityMatrix(); renderCareers(); renderFAQ(); }
+  // Update map to selected city
+  updateMapEmbed(city);
 }
 
 // ── Pricing modal ──────────────────────────────────────────────
 function showPricing() {
-  const cat = document.getElementById('t-cat') ? document.getElementById('t-cat').value : '';
+  const cat = document.getElementById('tb-cat') ? document.getElementById('tb-cat').value : '';
   const tradeEl = document.getElementById('pm-rec-trade');
   if (tradeEl && cat) tradeEl.textContent = cat.toLowerCase() + ' businesses';
+  const hookEl = document.getElementById('pm-hook-trade');
+  if (hookEl && cat) hookEl.textContent = cat.toLowerCase() + ' businesses';
   // collapse back to recommended view each time modal opens
   const allOpts = document.getElementById('pm-all-options');
   const toggle = document.getElementById('pm-rec-toggle');
@@ -1776,6 +2004,9 @@ function showPricing() {
 function selectRecommended() {
   selectBuild(4000);
   selectMonthlyQ(399);
+  // Pre-apply bundle discount to match the $3,500 featured price on the main site
+  const pmChk = document.getElementById('pm-bundle-chk');
+  if (pmChk) { pmChk.checked = true; toggleBundle('pm-bundle-chk'); }
   const allOpts = document.getElementById('pm-all-options');
   const toggle = document.getElementById('pm-rec-toggle');
   if (allOpts) allOpts.style.display = 'block';
@@ -1807,10 +2038,16 @@ function overlayClose(e) {
 // ── Quote state (shared toolbar ↔ modal) ──────────────────────
 const Q = { build: 4000, monthly: 399, bundle: false, existing: false };
 const TIER_BUILDS = { 'Get Found': 2500, 'Get Found in More Cities': 4000, 'Every City, Every Service': 7500, Existing: 0 };
-const TIER_HIDE   = { 'Get Found': ['gallery','service-areas'], 'Get Found in More Cities': [], 'Every City, Every Service': [], Existing: [] };
+const TIER_HIDE   = {
+  'Get Found':                 ['gallery','service-areas','city-matrix','careers','faq'],
+  'Get Found in More Cities':  ['city-matrix','careers','faq'],
+  'Every City, Every Service': [],
+  'Existing':                  ['gallery','service-areas','city-matrix','careers','faq'],
+};
 
 function getDiscountQ() {
   if (Q.build === 4000 && Q.monthly === 399) return 500;
+  if (Q.build === 4000 && Q.monthly === 899) return 1000;
   if (Q.build === 7500 && Q.monthly === 399) return 1000;
   if (Q.build === 7500 && Q.monthly === 899) return 2000;
   return 0;
@@ -1823,10 +2060,38 @@ function setDemoTier(tier) {
   // Toolbar buttons
   document.querySelectorAll('.tb-tier-btn').forEach(b => b.classList.toggle('active', b.dataset.tier === tier));
   // Show/hide sections
-  ['gallery','service-areas'].forEach(id => {
+  ['gallery','service-areas','city-matrix','careers','faq'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = (TIER_HIDE[tier]||[]).includes(id) ? 'none' : '';
   });
+  // Nav links per tier
+  const navGallery = document.getElementById('nav-gallery');
+  const navAreas   = document.getElementById('nav-areas');
+  const navCities  = document.getElementById('nav-cities');
+  const navCareers = document.getElementById('nav-careers');
+  const navFAQ     = document.getElementById('nav-faq');
+  const isEvery    = tier === 'Every City, Every Service';
+  const isMore     = tier === 'Get Found in More Cities';
+  if (navGallery) navGallery.style.display = (isMore || isEvery) ? '' : 'none';
+  if (navAreas)   navAreas.style.display   = (isMore || isEvery) ? '' : 'none';
+  if (navCities)  navCities.style.display  = isEvery ? '' : 'none';
+  if (navCareers) navCareers.style.display = isEvery ? '' : 'none';
+  if (navFAQ)     navFAQ.style.display     = isEvery ? '' : 'none';
+  // Gallery title differs by tier
+  const gTitle = document.getElementById('gallery-title');
+  const gSub   = document.getElementById('gallery-sub');
+  if (gTitle) gTitle.textContent = isEvery ? 'Before & After' : 'Photo Gallery';
+  if (gSub)   gSub.textContent   = isEvery
+    ? 'Real jobs. Real results. See what we do for customers across the area.'
+    : 'Trade-specific photos from real jobs in your area.';
+  // Re-render areas with tier-appropriate city count
+  renderAreas(tier);
+  // Render city matrix for Every City
+  if (isEvery) renderCityMatrix();
+  // Render careers section for Every City
+  if (isEvery) renderCareers();
+  // Render FAQ section for Every City
+  if (isEvery) renderFAQ();
   // Sync existing toggle in modal
   const existChk = document.getElementById('pm-existing-chk');
   const existRow = document.getElementById('pm-existing-row');
@@ -1842,18 +2107,8 @@ function setDemoTier(tier) {
 
 // ── Existing site toggle (from modal checkbox) ─────────────────
 function toggleExistingSite() {
-  Q.existing = document.getElementById('pm-existing-chk').checked;
-  Q.build = Q.existing ? 0 : 4000;
-  const existRow = document.getElementById('pm-existing-row');
-  const buildSec = document.getElementById('pm-build-section');
-  if (existRow) existRow.classList.toggle('active', Q.existing);
-  if (buildSec) buildSec.classList.toggle('dimmed', Q.existing);
-  document.querySelectorAll('.tb-tier-btn').forEach(b =>
-    b.classList.toggle('active', Q.existing ? b.dataset.tier === 'Existing' : b.dataset.tier === 'Get Found in More Cities'));
-  Q.bundle = false;
-  if (!Q.existing) syncModalBuild();
-  syncBundleUI();
-  calcDealPrice();
+  const checked = document.getElementById('pm-existing-chk').checked;
+  setDemoTier(checked ? 'Existing' : 'Get Found in More Cities');
 }
 
 // ── Monthly plan selector ──────────────────────────────────────
@@ -1872,10 +2127,7 @@ function selectBuild(val) {
   Q.existing = false;
   const tier = val === 2500 ? 'Get Found' : val === 4000 ? 'Get Found in More Cities' : 'Every City, Every Service';
   document.querySelectorAll('.tb-tier-btn').forEach(b => b.classList.toggle('active', b.dataset.tier === tier));
-  ['gallery','service-areas'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = (TIER_HIDE[tier]||[]).includes(id) ? 'none' : '';
-  });
+  setDemoTier(tier);
   // Clear existing toggle
   const existChk = document.getElementById('pm-existing-chk');
   const existRow = document.getElementById('pm-existing-row');
@@ -1927,10 +2179,12 @@ function syncBundleUI() {
   if (pmRow)  pmRow.classList.toggle('hidden', !eligible);
   const tbChk = document.getElementById('tb-bundle-chk');
   const pmChk = document.getElementById('pm-bundle-chk');
-  if (!eligible) { if (tbChk) tbChk.checked = false; if (pmChk) pmChk.checked = false; Q.bundle = false; }
+  if (!eligible) Q.bundle = false;
+  if (tbChk) tbChk.checked = Q.bundle;
+  if (pmChk) pmChk.checked = Q.bundle;
   if (eligible) {
     const plan = Q.monthly === 899 ? 'Full Crew' : 'Lead Catcher';
-    const months = Q.build === 7500 ? 6 : 3;
+    const months = (Q.build === 7500 || (Q.build === 4000 && Q.monthly === 899)) ? 6 : 3;
     const txt  = `Apply ${months}-month ${plan} minimum — <strong>$${disc.toLocaleString()} off</strong> the build. Cancel before ${months} months: discount added back to final invoice.`;
     const tbLbl = document.getElementById('tb-bundle-label');
     const pmLbl = document.getElementById('pm-bundle-label');
@@ -1991,6 +2245,32 @@ window.addEventListener('scroll', () => {
 });
 
 // ── City neighbors map ─────────────────────────────────────────
+const CITY_COORDS = {
+  'Tampa':           { lat:27.947, lon:-82.458, z:13 },
+  'Orlando':         { lat:28.538, lon:-81.379, z:13 },
+  'Jacksonville':    { lat:30.332, lon:-81.656, z:13 },
+  'Miami':           { lat:25.775, lon:-80.208, z:13 },
+  'Brandon':         { lat:27.937, lon:-82.285, z:13 },
+  'Riverview':       { lat:27.866, lon:-82.328, z:13 },
+  'Wesley Chapel':   { lat:28.237, lon:-82.329, z:13 },
+  'Clearwater':      { lat:27.966, lon:-82.801, z:13 },
+  'St. Petersburg':  { lat:27.771, lon:-82.680, z:13 },
+  'Lakeland':        { lat:28.039, lon:-81.950, z:13 },
+  'Fort Lauderdale': { lat:26.122, lon:-80.143, z:13 },
+  'Sarasota':        { lat:27.336, lon:-82.531, z:13 },
+  'Cape Coral':      { lat:26.563, lon:-81.950, z:13 },
+  'Gainesville':     { lat:29.652, lon:-82.325, z:13 },
+};
+
+function updateMapEmbed(city) {
+  const iframe = document.getElementById('map-iframe');
+  if (!iframe) return;
+  const c = CITY_COORDS[city] || CITY_COORDS['Tampa'];
+  const d = 0.07;
+  const bbox = `${c.lon-d}%2C${c.lat-d}%2C${c.lon+d}%2C${c.lat+d}`;
+  iframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${c.lat}%2C${c.lon}`;
+}
+
 const CITY_NEIGHBORS = {
   'Tampa':           [{name:'Brandon',dist:'15 min'},{name:'Riverview',dist:'20 min'},{name:'Wesley Chapel',dist:'25 min'},{name:'Lutz',dist:'20 min'},{name:'Plant City',dist:'30 min'},{name:'Valrico',dist:'22 min'},{name:'Gibsonton',dist:'22 min'},{name:'Seffner',dist:'18 min'}],
   'Orlando':         [{name:'Kissimmee',dist:'18 min'},{name:'Sanford',dist:'25 min'},{name:'Apopka',dist:'22 min'},{name:'Oviedo',dist:'20 min'},{name:'Altamonte Springs',dist:'15 min'},{name:'Winter Park',dist:'12 min'},{name:'Clermont',dist:'30 min'},{name:'Windermere',dist:'20 min'}],
@@ -2001,12 +2281,11 @@ const CITY_NEIGHBORS = {
   'Clearwater':      [{name:'St. Petersburg',dist:'20 min'},{name:'Largo',dist:'10 min'},{name:'Dunedin',dist:'10 min'},{name:'Palm Harbor',dist:'15 min'},{name:'Safety Harbor',dist:'12 min'},{name:'Oldsmar',dist:'18 min'},{name:'Tarpon Springs',dist:'20 min'},{name:'Pinellas Park',dist:'18 min'}],
   'Sarasota':        [{name:'Bradenton',dist:'20 min'},{name:'Venice',dist:'25 min'},{name:'North Port',dist:'35 min'},{name:'Osprey',dist:'15 min'},{name:'Nokomis',dist:'15 min'},{name:'Englewood',dist:'40 min'},{name:'Palmetto',dist:'30 min'},{name:'Ellenton',dist:'28 min'}],
   'Cape Coral':      [{name:'Fort Myers',dist:'20 min'},{name:'Lehigh Acres',dist:'25 min'},{name:'North Fort Myers',dist:'15 min'},{name:'Bonita Springs',dist:'35 min'},{name:'Estero',dist:'40 min'},{name:'Marco Island',dist:'55 min'},{name:'Punta Gorda',dist:'40 min'},{name:'Port Charlotte',dist:'45 min'}],
-  'Lakeland':        [{name:'Plant City',dist:'20 min'},{name:'Winter Haven',dist:'20 min'},{name:'Bartow',dist:'15 min'},{name:'Haines City',dist:'25 min'},{name:'Auburndale',dist:'12 min'},{name:'Polk City',dist:'18 min'},{name:'Mulberry',dist:'18 min'},{name:'Eagle Lake',dist:'12 min'}],
+  'Lakeland':        [{name:'Plant City',dist:'20 min'},{name:'Winter Haven',dist:'20 min'},{name:'Bartow',dist:'15 min'},{name:'Haines City',dist:'25 min'},{name:'Auburndale',dist:'12 min'},{name:'Polk City',dist:'18 min'},{name:'Mulberry',dist:'18 min'},{name:'Eagle Lake',dist:'12 min'},{name:'Lake Wales',dist:'25 min'}],
   'Gainesville':     [{name:'Alachua',dist:'15 min'},{name:'Newberry',dist:'20 min'},{name:'Archer',dist:'18 min'},{name:'Hawthorne',dist:'25 min'},{name:'Waldo',dist:'15 min'},{name:'Micanopy',dist:'12 min'},{name:'High Springs',dist:'25 min'},{name:'Cross Creek',dist:'20 min'}],
   'Brandon':         [{name:'Tampa',dist:'15 min'},{name:'Riverview',dist:'12 min'},{name:'Valrico',dist:'8 min'},{name:'Seffner',dist:'10 min'},{name:'Lithia',dist:'20 min'},{name:'Gibsonton',dist:'15 min'},{name:'Plant City',dist:'20 min'},{name:'Wesley Chapel',dist:'25 min'}],
   'Riverview':       [{name:'Tampa',dist:'20 min'},{name:'Brandon',dist:'12 min'},{name:'Gibsonton',dist:'10 min'},{name:'Apollo Beach',dist:'12 min'},{name:'Wimauma',dist:'20 min'},{name:'Ruskin',dist:'15 min'},{name:'Sun City',dist:'18 min'},{name:'Valrico',dist:'15 min'}],
   'Wesley Chapel':   [{name:'Tampa',dist:'25 min'},{name:'Zephyrhills',dist:'15 min'},{name:'Land O Lakes',dist:'10 min'},{name:'Lutz',dist:'12 min'},{name:'New Tampa',dist:'10 min'},{name:'Dade City',dist:'20 min'},{name:'San Antonio',dist:'18 min'},{name:'Odessa',dist:'15 min'}],
-  'Lakeland':        [{name:'Plant City',dist:'20 min'},{name:'Winter Haven',dist:'20 min'},{name:'Bartow',dist:'15 min'},{name:'Haines City',dist:'25 min'},{name:'Auburndale',dist:'12 min'},{name:'Mulberry',dist:'18 min'},{name:'Polk City',dist:'18 min'},{name:'Lake Wales',dist:'25 min'}],
 };
 
 // ── URL param parsing + presentation mode ─────────────────────
@@ -2078,7 +2357,7 @@ const CITY_NEIGHBORS = {
     const smsBody = encodeURIComponent(`Hi Yusuf, I saw the preview for ${bizName} — I'm interested`);
     ['banner-sms','sticky-sms','builder-sms','followup-sms'].forEach(id => {
       const el = document.getElementById(id);
-      if (el) el.href = `sms:+18137736865?body=${smsBody}`;
+      if (el) el.href = `sms:+18135659710?body=${smsBody}`;
     });
   }
 })();
@@ -2114,22 +2393,80 @@ const CITY_NEIGHBORS = {
     if (site) site.style.paddingTop = '0';
     const exitBtn = document.getElementById('exitBtn');
     if (exitBtn) exitBtn.style.display = 'none';
+    // Cold visitor — brand-forward, not person-forward
+    const builderCard = document.getElementById('builder-card');
+    if (builderCard) builderCard.style.display = 'none';
+    const stickyText = document.getElementById('sticky-text');
+    if (stickyText) stickyText.innerHTML = '<strong>Want this site live?</strong> Text FloridaTradeSites &mdash; Tampa, FL';
   }
 })();
+
+// ── Custom trade dropdown ──────────────────────────────────────
+function toggleTradeSel(e) {
+  e.stopPropagation();
+  var list    = document.getElementById('tb-cat-list');
+  var trigger = document.getElementById('tb-cat-trigger');
+  var open    = list.classList.contains('open');
+  closeTradeSelIfOpen();
+  if (!open) {
+    var rect = trigger.getBoundingClientRect();
+    list.style.top   = (rect.bottom + 3) + 'px';
+    list.style.left  = rect.left + 'px';
+    list.style.width = rect.width + 'px';
+    list.classList.add('open');
+    trigger.classList.add('open');
+  }
+}
+function pickTrade(val, label) {
+  var sel = document.getElementById('tb-cat');
+  var lbl = document.getElementById('tb-cat-label');
+  if (sel) sel.value = val;
+  if (lbl) lbl.textContent = label || val;
+  document.querySelectorAll('#tb-cat-list .tb-trade-item').forEach(function(el) {
+    el.classList.toggle('selected', el.getAttribute('onclick').indexOf("'" + val + "'") !== -1);
+  });
+  closeTradeSelIfOpen();
+  updateSite();
+}
+function closeTradeSelIfOpen() {
+  var list    = document.getElementById('tb-cat-list');
+  var trigger = document.getElementById('tb-cat-trigger');
+  if (list)    list.classList.remove('open');
+  if (trigger) trigger.classList.remove('open');
+}
+document.addEventListener('click', closeTradeSelIfOpen);
+window.addEventListener('scroll', function(e) {
+  var list = document.getElementById('tb-cat-list');
+  if (list && list.contains(e.target)) return;
+  closeTradeSelIfOpen();
+}, true);
+window.addEventListener('resize', closeTradeSelIfOpen);
 
 // ── postMessage listener (receive updates from floridatradesites.com) ──
 window.addEventListener('message', function(e) {
   if (!e.data || e.data.type !== 'fts-update') return;
-  const {name, cat, city, reviews} = e.data;
+  const {name, cat, city, reviews, tier} = e.data;
   const n = document.getElementById('tb-name');
   const c = document.getElementById('tb-cat');
   const ci = document.getElementById('tb-city');
   const r = document.getElementById('tb-reviews');
   if (name  !== undefined && n)  { n.value  = name; }
-  if (cat   !== undefined && c)  { c.value  = cat;  }
-  if (city  !== undefined && ci) { ci.value = city; }
-  if (reviews !== undefined && r){ r.value  = reviews; }
+  if (cat   !== undefined && c)  {
+    c.value = cat;
+    // sync custom dropdown label
+    var item = document.querySelector('#tb-cat-list .tb-trade-item[onclick*="' + cat.replace(/'/g,"\\'") + '"]');
+    var lbl  = document.getElementById('tb-cat-label');
+    if (lbl) lbl.textContent = item ? item.textContent : cat;
+    document.querySelectorAll('#tb-cat-list .tb-trade-item').forEach(function(el) {
+      el.classList.toggle('selected', el === item);
+    });
+  }
+  if (city    !== undefined && ci) { ci.value = city; }
+  if (reviews !== undefined && r)  { r.value  = reviews; }
+  const ratingEl = document.getElementById('tb-rating');
+  if (e.data.rating !== undefined && ratingEl) { ratingEl.value = e.data.rating; }
   updateSite();
+  if (tier !== undefined) setDemoTier(tier);
 });
 
 // ── Init ───────────────────────────────────────────────────────
@@ -2140,3 +2477,5 @@ syncModalMonthly();
 syncBundleUI();
 calcDealPrice();
 </script>
+</body>
+</html>
