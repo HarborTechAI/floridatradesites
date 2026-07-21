@@ -823,6 +823,7 @@ footer {
           <option value="Window Tinting">Window Tinting</option>
           <option value="Mobile Mechanic">Mobile Mechanic</option>
           <option value="Mobile Detailing">Mobile Detailing</option>
+          <option value="Movers">Movers</option>
         </select>
         <!-- Custom dropdown -->
         <div class="tb-trade-trigger" id="tb-cat-trigger" tabindex="0"
@@ -849,6 +850,7 @@ footer {
           <div class="tb-trade-item" onclick="pickTrade('Window Tinting','Window Tinting')">Window Tinting</div>
           <div class="tb-trade-item" onclick="pickTrade('Mobile Mechanic','Mobile Mechanic')">Mobile Mechanic</div>
           <div class="tb-trade-item" onclick="pickTrade('Mobile Detailing','Mobile Detailing')">Mobile Detailing</div>
+          <div class="tb-trade-item" onclick="pickTrade('Movers','Movers')">Movers</div>
         </div>
       </div>
       <div class="tb-field">
@@ -1345,6 +1347,26 @@ const DATA = {
       { init:"J", name:"James T.",  loc:"Riverview, FL",     stars:5, text:"Water heater died on a Sunday. Got a new one installed by Monday afternoon. Professional, clean, reasonable price." }
     ]
   },
+  "Movers": {
+    tagline: "{city}'s Most Trusted Movers",
+    sub: "Licensed &bull; Insured &bull; Free In-Home Estimates",
+    emergency: "Moving this week? We have crews open.",
+    license: "FL Mover Reg. #IM1234",
+    footerTag: "Licensed &amp; Insured Movers",
+    services: [
+      { icon: "ic-truck",  name: "Local Moving",             desc: "Apartments, homes, and offices anywhere in the Tampa Bay area." },
+      { icon: "ic-map",    name: "Long-Distance Moving",     desc: "Statewide and out-of-state moves with one crew start to finish." },
+      { icon: "ic-shield", name: "Packing &amp; Unpacking",      desc: "We bring the boxes, wrap, and tape. Nothing arrives broken." },
+      { icon: "ic-tool",   name: "Loading &amp; Unloading",      desc: "Already have a truck or pod? We supply the muscle." },
+      { icon: "ic-star",   name: "Piano &amp; Specialty Items",  desc: "Pianos, safes, gun safes, and antiques moved with the right gear." },
+      { icon: "ic-clock",  name: "Short-Term Storage",       desc: "Climate-controlled storage when your dates do not line up." }
+    ],
+    testimonials: [
+      { init:"D", name:"Danielle P.", loc:"Brandon, FL",       stars:5, text:"Three guys showed up early, wrapped every piece of furniture, and had a three-bedroom house loaded in four hours. Nothing was scratched." },
+      { init:"M", name:"Marcus W.",   loc:"Wesley Chapel, FL", stars:5, text:"Quoted me flat rate, no surprise fees at the end. The last company I used added charges after the truck was loaded. Never again." },
+      { init:"T", name:"Teresa G.",   loc:"Riverview, FL",     stars:5, text:"They moved my mother into assisted living with so much patience and care. Handled her piano and her china without a single issue." }
+    ]
+  },
   "HVAC": {
     tagline: "Most Trusted {city} HVAC Company",
     sub: "Florida's Heat Doesn't Stop — Neither Do We",
@@ -1690,6 +1712,66 @@ const DATA = {
 // ── Helpers ────────────────────────────────────────────────────
 function val(id) { return document.getElementById(id)?.value?.trim() || ''; }
 
+/* The `cat` URL param comes from the scraped lead lists, where the value is the
+   Google search TERM ("HVAC / AC Repair", "Electrician", "Roofing (ES)") rather
+   than one of this page's <option value>s ("HVAC", "Electrical", "Roofing").
+   Assigning a non-matching value to a <select> silently yields value === "",
+   which fell through to the `|| 'Plumbing'` default -- so 46% of prospects were
+   being sent a preview advertising PLUMBING services. Normalise once, here, so
+   every downstream DATA/GALLERY/THEMES lookup gets a canonical key. */
+const CAT_ALIASES = {
+  'hvac / ac repair': 'HVAC',
+  'hvac (es)': 'HVAC',
+  'ac repair': 'HVAC',
+  'air conditioning': 'HVAC',
+  'heating & air': 'HVAC',
+  'electrician': 'Electrical',
+  'electrical / electrician': 'Electrical',
+  'electrical (es)': 'Electrical',
+  'roofing (es)': 'Roofing',
+  'roofer': 'Roofing',
+  'plumbing (es)': 'Plumbing',
+  'plumber': 'Plumbing',
+  'moving': 'Movers',
+  'moving company': 'Movers',
+  'movers (es)': 'Movers',
+  'mobile mechanic (es)': 'Mobile Mechanic'
+};
+
+function canonCat(raw) {
+  if (!raw) return '';
+  const k = String(raw).trim().toLowerCase();
+  if (!k) return '';
+  const sel = document.getElementById('tb-cat');
+  // exact <option> match wins (case-insensitive)
+  if (sel) {
+    for (const o of sel.options) if (o.value.toLowerCase() === k) return o.value;
+  }
+  if (CAT_ALIASES[k]) return CAT_ALIASES[k];
+  // tolerate an unknown "(ES)"/parenthetical suffix, e.g. "Roofing (ES)"
+  const base = k.replace(/\s*\([^)]*\)\s*$/, '').trim();
+  if (base && base !== k) return canonCat(base);
+  return '';
+}
+
+/* Applies a raw category (from a URL param) to the toolbar select + custom
+   dropdown label. Returns the canonical value actually applied, or ''. */
+function setCatParam(raw) {
+  const cat = canonCat(raw ? decodeURIComponent(raw) : '');
+  if (!cat) return '';
+  const sel = document.getElementById('tb-cat');
+  if (sel) sel.value = cat;
+  const label = document.getElementById('tb-cat-label');
+  if (label) {
+    const item = document.querySelector('#tb-cat-list .tb-trade-item[onclick*="\'' + cat + '\'"]');
+    label.textContent = item ? item.textContent : cat;
+    document.querySelectorAll('#tb-cat-list .tb-trade-item').forEach(function (el) {
+      el.classList.toggle('selected', el === item);
+    });
+  }
+  return cat;
+}
+
 function slugify(name) {
   return name.toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,16);
 }
@@ -1701,6 +1783,7 @@ function starsHTML(n) {
 // ── Gallery palettes per category ─────────────────────────────
 const GALLERY = {
   "Plumbing":         { title:"Plumbing Work — Before & After", items:["Burst Pipe Repair","Drain Clearing","Water Heater Install","Repipe Project","Fixture Replacement","Emergency Repair"] },
+  "Movers":           { title:"Moves We've Handled",            items:["Home Move","Apartment Move","Office Relocation","Packing Service","Piano Move","Loading & Unloading"] },
   "HVAC":             { title:"AC & HVAC Work — Before & After", items:["AC Unit Replacement","Duct Cleaning","Coil Cleaning","Thermostat Upgrade","Mini-Split Install","Tune-Up Service"] },
   "Auto Repair":      { title:"Auto Repair — Before & After",    items:["Brake Job","Engine Work","Suspension Repair","Oil Change","Tire Swap","Body Work"] },
   "Landscaping":      { title:"Landscaping Work — Before & After",items:["Lawn Makeover","Tree Trimming","Sod Install","Irrigation Setup","Landscape Design","Storm Cleanup"] },
@@ -1885,6 +1968,7 @@ function renderTestimonials(cat) {
 // ── Per-trade color themes ─────────────────────────────────────
 const THEMES = {
   'Plumbing':         { navy: '#0F2A43', copper: '#2E86DE', cta: '#E67E22' },
+  'Movers':           { navy: '#1F2A38', copper: '#4A90A4', cta: '#E8853A' },
   'HVAC':             { navy: '#0E3A4A', copper: '#20B2AA', cta: '#F39C12' },
   'HVAC / AC Repair': { navy: '#0E3A4A', copper: '#20B2AA', cta: '#F39C12' },
   'Landscaping':      { navy: '#1E2D24', copper: '#4C8C4A', cta: '#D4A03C' },
@@ -2296,7 +2380,7 @@ const CITY_NEIGHBORS = {
   // Auto-fill inputs
   const setVal = (id, key) => { const v = P.get(key); if (v && document.getElementById(id)) document.getElementById(id).value = decodeURIComponent(v); };
   setVal('tb-name',    'name');
-  setVal('tb-cat',     'cat');
+  setCatParam(P.get('cat'));
   setVal('tb-city',    'city');
   setVal('tb-phone',   'phone');
   setVal('tb-reviews', 'reviews');
