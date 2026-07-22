@@ -1,2 +1,9 @@
 http://floridatradesites.com/* https://floridatradesites.com/:splat 301!
 http://www.floridatradesites.com/* https://www.floridatradesites.com/:splat 301!
+
+# Short demo links for SMS: /d/<id> serves d.html, which looks <id> up in
+# demos.json and hands off to demo.html with that lead's query string.
+# Status 200 (rewrite, not redirect) so the short path stays in the address bar.
+# ONE wildcard rule on purpose -- per-lead rules would be 1253 entries and
+# Netlify degrades past roughly 1000.
+/d/*  /d.html  200
