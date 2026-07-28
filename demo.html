@@ -2321,6 +2321,26 @@ function exitPresent() {
   document.getElementById('exitBtn').style.display = 'none';
 }
 
+// ── Fullscreen toggle ───────────────────────────────────────────
+function toggleFullscreen() {
+  const fsBtn = document.getElementById('fsBtn');
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(err => {
+      console.error('Fullscreen request failed:', err);
+    });
+  } else {
+    document.exitFullscreen();
+  }
+}
+document.addEventListener('fullscreenchange', () => {
+  const fsBtn = document.getElementById('fsBtn');
+  if (document.fullscreenElement) {
+    fsBtn.textContent = '✕ Exit Fullscreen';
+  } else {
+    fsBtn.textContent = '⛶ Fullscreen';
+  }
+});
+
 // ── Nav scroll handler ─────────────────────────────────────────
 const nav = document.getElementById('sitenav');
 window.addEventListener('scroll', () => {
