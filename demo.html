@@ -2063,15 +2063,15 @@ function updateSite() {
   // Update map to selected city
   updateMapEmbed(city);
 
-  // Auto-hide toolbar once demo is populated with real data
-  const hasCustomName = val('tb-name') && val('tb-name') !== 'Caden & Sons Plumbing';
-  const hasCustomCat = val('tb-cat') && val('tb-cat') !== 'Plumbing';
-  if (hasCustomName && hasCustomCat && !document.body.classList.contains('toolbar-hidden-once')) {
-    document.body.classList.add('toolbar-hidden-once');
+  // Auto-hide toolbar on mobile once user changes business name or trade
+  if (!window.innerWidth || window.innerWidth <= 768) {
+    const nameInput = document.getElementById('tb-name');
+    const catInput = document.getElementById('tb-cat');
     const toolbar = document.getElementById('toolbar');
-    if (toolbar) {
-      toolbar.style.transition = 'transform 0.3s ease';
-      toolbar.classList.add('hidden');
+    if (toolbar && nameInput && catInput && (nameInput.value !== nameInput.defaultValue || catInput.value !== catInput.defaultValue)) {
+      if (!toolbar.classList.contains('hidden')) {
+        toolbar.classList.add('hidden');
+      }
     }
   }
 }
