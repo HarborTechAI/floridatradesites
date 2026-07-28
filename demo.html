@@ -1809,18 +1809,13 @@ const AREA_COLORS = ['#1A4A7A','#C8752A','#2E6B4F','#7A3B6E','#3D6B8A','#8A4A1A'
 function renderGallery(cat) {
   const g = GALLERY[cat] || GALLERY['Plumbing'];
   document.getElementById('gallery-title').innerHTML = g.title;
-  const colors = [
-    ['#1A3A6A','#2A5A9A'], ['#C8752A','#E8952A'], ['#1A4A3A','#2A6A4A'],
-    ['#4A2A6A','#6A3A8A'], ['#2A4A6A','#3A6A8A'], ['#6A3A1A','#8A4A2A']
-  ];
   document.getElementById('gallery-grid').innerHTML = g.items.map((label, i) => {
-    const [c1, c2] = colors[i % colors.length];
+    const imgUrl = g.images && g.images[i] ? g.images[i] : 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=450&fit=crop';
     return `<div class="gallery-item">
-      <canvas width="400" height="300" data-c1="${c1}" data-c2="${c2}" data-label="${label}" class="gallery-canvas"></canvas>
+      <img src="${imgUrl}" alt="${label}" style="width:100%; height:100%; object-fit:cover; display:block;">
       <div class="gallery-label">${label}</div>
     </div>`;
   }).join('');
-  document.querySelectorAll('.gallery-canvas').forEach(drawGalleryCanvas);
 }
 
 function drawGalleryCanvas(canvas) {
