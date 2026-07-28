@@ -204,6 +204,16 @@ body.present-active #mobile-sticky { display: flex; }
   cursor: pointer; line-height: 1;
 }
 .btn-fullscreen:hover { background: rgba(255,255,255,.18); }
+.btn-close-toolbar {
+  display: none; background: rgba(255,100,100,0.2); color: #fff; padding: 6px 12px;
+  border-radius: 4px; font-size: 12px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase; white-space: nowrap;
+  border: 1px solid rgba(255,100,100,.4); transition: background .2s;
+}
+.btn-close-toolbar:hover { background: rgba(255,100,100,.3); }
+@media (max-width: 768px) {
+  .btn-close-toolbar { display: inline-block; margin-left: auto; }
+}
 
 /* ─── Existing site toggle ────────────────────────────────────── */
 .pm-existing-row {
