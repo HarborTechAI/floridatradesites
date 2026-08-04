@@ -55,10 +55,13 @@
       return r.json();
     })
     .then(function (map) {
-      var q = map[id];
-      if (!q) { fail(); return; }
+      var url = map[id];
+      if (!url) { fail(); return; }
+      // Extract query string from full URL (everything after the ?)
+      var queryString = url.split('?')[1];
+      if (!queryString) { fail(); return; }
       // replace() so Back returns to the SMS/browser, not this interstitial
-      location.replace('/demo.html?' + q);
+      location.replace('/demo.html?' + queryString);
     })
     .catch(function () {
       fail("That preview couldn't load right now.");
